@@ -93,12 +93,36 @@ database is a key-value store of indices and encrypted payloads, but:
 This section describes the meat and potatoes of icecaps' cryptographic
 backing.
 
+### Definitions
+
+- The *capability identifier* is the part of the capability that
+  uniquely identifies it. It is part of the capability URL. It is
+  never stored within icecap.
+- The *master key* is a secret key stored on all of the API endpoints.
+  It is used in combination with capability identifiers to produce
+  indices and capability keys.
+- The *index* is the key under which the database stores the encrypted
+  payload. It is produced from the capability identifier and the
+  master key.
+- The *encrypted payload* is the value stored in the database under
+  the index. It is the encrypted and authenticated version of the
+  payload, under the capability key.
+- The *capability key* is the key used to encrypt the capability
+  payload. It is produced from the capability identifier and the
+  master key.
+- The *payload* is a description of what the capability actually does,
+  when exercised.
+- The *salt* is a not-necessarily-secret (although typically kept
+  secret) parameter to the key derivation function, customizing it
+  into a family of such things.
+
 ### Constants
 
-- Capability identifier (bits): 256
-- Master key size (bits): 256
-- Index size (bits): 256
+- Capability identifier size (bits): 256
+- Master key size size (bits): 256
+- Index size size (bits): 256
 - Capability key size (bits): 256
+- Salt size (bits): 256
 
 ### Assumptions
 
@@ -112,11 +136,11 @@ Because of its security and performance, BLAKE2 is used in single-pass
 mode as a key derivation function. Specifically, this means:
 
 ```
-k = blake2b(digest_size=ENC_KEY_SIZE + INDEX_SIZE,
+k = blake2b(digest_size=CAPABILITY_KEY_SIZE + INDEX_SIZE,
             salt=SALT,
             key=MASTER_KEY,
-            person=INSTANCE_KEY).digest()
-enc_key, index = k[:ENC_KEY_SIZE], k[-INDEX_SIZE:]
+            person=CAPABILITY_IDENTIFIER).digest()
+enc_key, index = k[:CAPABILITY_KEY_SIZE], k[-INDEX_SIZE:]
 ```
 
 Since this document is still a draft, this is subject to change. See
