@@ -10,7 +10,7 @@ other additional authority.
 
 [E]: http://erights.org/
 
-## What does icecap do?
+## What does it do?
 
 It lets you submit a description of a pre-canned request. It returns a
 capability URL, which can be used to exercise or delete the
@@ -31,6 +31,32 @@ of two states; extant or non-extant. This has the interesting side
 effect that whoever has a capability URL that's being used more than
 once, knows that it's going to do (more or less) the same thing that
 it did last time.
+
+# REST API
+
+The only API version right now is `v0`.
+
+## v0
+
+This is version zero in the SemVer sense: absolutely anything and
+everything can change without warning. Once something stable exists,
+it'll be replaced with `v1`.
+
+The following paths are supported:
+
+- `POST /v0/capabilities` creates a new capability.
+- `GET /v0/capabilities/{capability_id}` exercises a capability.
+- `DELETE /v0/capabilities/{capability_id}` deletes a capability.
+
+## Creating capabilities
+
+To create a capability, POST some [EDN][EDN] describing a request.
+
+TODO: describe what a request looks like
+
+[EDN]: https://github.com/edn-format/edn
+
+## Deleting a capability
 
 # Security considerations
 
