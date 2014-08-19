@@ -32,11 +32,9 @@ effect that whoever has a capability URL that's being used more than
 once, knows that it's going to do (more or less) the same thing that
 it did last time.
 
-# REST API
+# REST API v0
 
 The only API version right now is `v0`.
-
-## v0
 
 This is version zero in the SemVer sense: absolutely anything and
 everything can change without warning. Once something stable exists,
@@ -50,13 +48,51 @@ The following paths are supported:
 
 ## Creating capabilities
 
-To create a capability, POST some [EDN][EDN] describing a request.
+To create a capability, POST some [EDN][EDN] describing it. This
+description is called the *payload*. A payload consists of a map with
+the keyword `:requests` as the key, and a request specification as the
+value:
 
-TODO: describe what a request looks like
+```
+{:requests REQUEST_SPECIFICATION}
+```
 
 [EDN]: https://github.com/edn-format/edn
 
+A request specification can be one of these things:
+
+1. A map, describing a single request.
+2. An vector of request specifications.
+3. An set of request specifications.
+
+This means that request specifications can be nested.
+
+A vector, being an *ordered* collection, implies *order* in the
+request specifications. Any preceding request specifications must be
+completed successfully before a request specification can be
+attempted.
+
+A set, being an *unordered* collection, implies no order in the
+request specifications. They may all be attempted with any amount of
+concurrency and in any order, as the implementation sees fit.
+
+### Request maps
+
+A request map contains a keyword `:target`, which maps to a *target*,
+which is the URL target of the request. It additionally contains a
+number of optional arguments.
+
+```
+{:target "https://example.test"}
+```
+
+### Examples
+
+TODO: write examples
+
 ## Deleting a capability
+
+TODO: explain how deleting a capability works
 
 # Security considerations
 
