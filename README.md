@@ -1,36 +1,11 @@
 # icecap
 
-FIXME: description
-
-## Installation
-
-Download from http://example.com/FIXME.
-
-## Usage
-
-FIXME: explanation
-
-    $ java -jar icecap-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+*This product makes security claims that have not been backed up by
+ impartial third party audit. Use it at your own peril!*
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright © 2014 the icecap authors (see AUTHORS)
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
