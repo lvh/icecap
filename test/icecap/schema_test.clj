@@ -14,5 +14,5 @@
          simple-https-request
          #{simple-http-request simple-https-request}))
   (testing "Request specs with unknown/unsupported schemes don't validate"
-    (are [example] (thrown? Throwable (s/validate RequestSpec example))
-         simple-ftp-request)))
+    (are [example reason] (= (s/check RequestSpec example) reason)
+         simple-ftp-request {:target (not ("supported-scheme?" "ftp://example.test"))})))
