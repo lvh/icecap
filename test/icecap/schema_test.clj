@@ -8,11 +8,11 @@
 (def simple-ftp-request {:target "ftp://example.test"})
 
 (deftest RequestSpecTests
-  (testing "Request specs matching the schema pass"
+  (testing "Correct request specs validate"
     (are [example] (s/validate RequestSpec example)
          simple-http-request
          simple-https-request
          #{simple-http-request simple-https-request}))
-  (testing "Request specs with unknown/unsupported schemes don't pass"
+  (testing "Request specs with unknown/unsupported schemes don't validate"
     (are [example] (thrown? Throwable (s/validate RequestSpec example))
          simple-ftp-request)))
