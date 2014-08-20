@@ -13,6 +13,10 @@
          simple-http-request
          simple-https-request
          #{simple-http-request simple-https-request}))
+  (testing "Empty collections don't validate"
+    (are [example] (some? (s/check RequestSpec example))
+         []
+         #{}))
   (testing "Request specs with unknown/unsupported schemes don't validate"
     (are [example reason] (= (s/check RequestSpec example) reason)
          simple-ftp-request {:target (not ("supported-scheme?" "ftp://example.test"))})))

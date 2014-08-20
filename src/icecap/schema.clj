@@ -20,6 +20,15 @@
   {:target (s/both s/Str
                    (s/pred supported-scheme? "supported-scheme?"))})
 
+(defn with-one-or-more
+  "Build a schema for a collection schema with 1+ items.
+
+  Specifically, this checks that both the given schema is matched
+  *and* there is at least one item in it."
+  [schema]
+  (s/both schema
+          (s/pred seq "collection of one or more request specs")))
+
 (def RequestSpec
   "A request specification.
 
@@ -39,7 +48,8 @@
   been far more useful. Using `conditional` allows us to return
   this (useful) error message.
   "
-  (s/conditional
-   map? SimpleRequest
-   vector? [(s/recursive #'RequestSpec)]
-   set? #{(s/recursive #'RequestSpec)}))
+  (let [RequestSpec (s/recursive #'RequestSpec)]
+    (s/conditional
+     map? SimpleRequest
+     vector? (with-one-or-more [RequestSpec])
+     set? (with-one-or-more #{RequestSpec}))))
