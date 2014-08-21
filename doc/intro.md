@@ -125,7 +125,7 @@ database is a key-value store of indices and encrypted payloads, but:
 
 ## How does it actually work?
 
-This section describes the meat and potatoes of icecaps' cryptographic
+This section describes the meat and potatoes of icecap's cryptographic
 backing.
 
 ### Definitions
