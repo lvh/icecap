@@ -209,8 +209,9 @@ details about the components, consider their respective websites:
 
 ### Set up
 
-An `icecap` installation picks a (secret) master key. This key is
-shared amongst all API endpoints.
+An `icecap` installation picks a (secret) master key and a (ideally
+secret, although this isn't a hard requirement) salt. The master key
+and salt are shared amongst all API endpoints.
 
 ### Creating a capability identifier
 
