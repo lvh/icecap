@@ -18,5 +18,9 @@
          []
          #{}))
   (testing "Request specs with unknown/unsupported schemes don't validate"
-    (are [example reason] (= (s/check RequestSpec example) reason)
-         simple-ftp-request {:target (not ("supported-scheme?" "ftp://example.test"))})))
+    ;; Comparing string representations isn't great, but it's the best
+    ;; easily available tool until maybe one day cddr/integrity's
+    ;; humanize function is on Clojars + can humanize these errors :-)
+    (are [example reason] (= (pr-str (s/check RequestSpec example))
+                             (pr-str reason))
+         simple-ftp-request {:target '(not ("supported-scheme?" "ftp://example.test"))})))
