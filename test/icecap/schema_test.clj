@@ -13,10 +13,11 @@
          simple-http-request
          simple-https-request
          #{simple-http-request simple-https-request}))
-  (testing "Empty collections don't validate"
-    (are [example] (some? (s/check RequestSpec example))
-         []
-         #{}))
+  (testing "Empty specs don't validate"
+    (are [example reason] (= (pr-str (s/check RequestSpec example))
+                             (pr-str reason))
+         [] '(not ("collection of one or more request specs" []))
+         #{} '(not ("collection of one or more request specs" #{}))))
   (testing "Request specs with unknown/unsupported schemes don't validate"
     ;; Comparing string representations isn't great, but it's the best
     ;; easily available tool until maybe one day cddr/integrity's
