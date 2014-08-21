@@ -18,6 +18,10 @@
                              (pr-str reason))
          [] '(not ("collection of one or more request specs" []))
          #{} '(not ("collection of one or more request specs" #{}))))
+  (testing "Specs with embedded empty specs don't validate"
+    (are [example reason] (= (pr-str (s/check RequestSpec example))
+                             (pr-str reason))
+      [#{} simple-http-request] ['(not ("collection of one or more request specs" #{})) nil]))
   (testing "Request specs with unknown/unsupported schemes don't validate"
     ;; Comparing string representations isn't great, but it's the best
     ;; easily available tool until maybe one day cddr/integrity's
