@@ -9,9 +9,12 @@ authority to perform some action, but does not give you any *other*
 authority.
 
 For more information about object-capability systems, take a look at
-[E][E], a programming language built around them.
+[E][http://erights.org/], a programming language built around them.
+For people who have heard of capability systems before, but have not
+yet been convinced of their merits, consider reading the paper,
+["Capability Myths Demolished"][CapMyths], by the same authors.
 
-[E]: http://erights.org/
+[CapMyths]: http://www.erights.org/elib/capability/duals/myths.html
 
 ## What does it do?
 
