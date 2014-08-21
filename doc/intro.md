@@ -163,7 +163,8 @@ backing.
 
 Random secret keys are produced by a cryptographically secure
 pseudorandom number generator. Virtually always, this should be
-`/dev/urandom` or `CryptGenRandom`.
+`/dev/urandom`, `CryptGenRandom` or `java.security.SecureRandom`
+(provided that it boils down to one of the previous two).
 
 ### Key derivation
 
