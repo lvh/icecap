@@ -180,7 +180,7 @@ enc_key, index = k[:CAPABILITY_KEY_SIZE], k[-INDEX_SIZE:]
 ```
 
 Since this document is still a draft, this is subject to change. See
-[lvh's WIP blog post][blog-kdf] for more information about relative
+[lvh's blog post][blog-kdf] for more information about relative
 performance of key derivation functions.
 
 While the salt is assumed to be secret, this is not a necessary
