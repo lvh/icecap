@@ -18,13 +18,12 @@ yet been convinced of their merits, consider reading the paper,
 
 ## What does it do?
 
-It lets you submit a description of a pre-canned request. It returns a
-capability URL, which can be used to exercise or delete the
-capability.
+It lets you submit a description of a plan, consisting of a number of
+actions (such as individual HTTP(S) requests). It returns a capability
+URL, which can be used to exercise or delete the capability.
 
-The action performed when a capability is exercised involves making
-one or more pre-canned requests. For now, these requests are limited
-in two ways:
+When the capability is exercised, the plan is executed. For now, the
+actions in the plans are somewhat limited in two ways:
 
 - HTTP(S) only.
 - Fixed; no parametrization.
@@ -32,7 +31,7 @@ in two ways:
 These restrictions can be revisited once a prototype has been
 delivered.
 
-Capabilities and their URLs are immutable: they are only ever in one
+Capabilities and their URLs are immutable. They are only ever in one
 of two states; extant or non-extant. This has the interesting side
 effect that whoever has a capability URL that's being used more than
 once, knows that it's going to do (more or less) the same thing that
@@ -66,7 +65,7 @@ the keyword `:plan` as the key, and the plan as the value:
 
 A plan is one of these things:
 
-1. A map, describing a single request.
+1. A map, describing a single action.
 2. An vector of plans.
 3. An set of plans.
 
@@ -80,10 +79,10 @@ A set, being an *unordered* collection, implies no order in the plans.
 They may all be attempted with any amount of concurrency and in any
 order, as the implementation sees fit.
 
-### Request maps
+### Action maps
 
-A request map contains a keyword `:target`, which maps to a *target*,
-which is the URL target of the request. It additionally contains a
+A action map contains a keyword `:target`, which maps to a *target*,
+which is the URL target of the action. It additionally contains a
 number of optional arguments.
 
 ```
@@ -102,18 +101,18 @@ TODO: explain how deleting a capability works
 
 `icecap` only stores data in encrypted and authenticated form. Both
 the full capability URLs (which are not stored anywhere), and a
-deployment-specific secret key are necessary to decrypt the request
-payloads.
+deployment-specific secret key are necessary to decrypt the encrypted
+payload.
 
 That means that even in the case of a complete compromise of both
-database and API servers, no customer data is compromised. The
-database is a key-value store of indices and encrypted payloads, but:
+database and API servers, no user data is compromised. The database is
+a key-value store of indices and encrypted payloads, but:
 
 - An attacker has no way of knowing which capability maps to which
   index without having *and* the capability URL *and* the master
   secret *and* the entire database, because both the capability URL
   and the master secret are required to even compute the index.
-- An attacker has no way of knowing what the canned request for a
+- An attacker has no way of knowing what the encrypted payload for a
   capability means without having *and* the capability URL *and* the
   master secret *and* the relevant database row, because the
   capability URL and the master secret are required to produce the

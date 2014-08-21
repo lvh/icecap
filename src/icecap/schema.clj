@@ -4,8 +4,11 @@
             [icecap.execute :refer [supported-scheme?]]))
 
 
-(def Request
-  "The schema for the description of a single request."
+(def Action
+  "The schema for the description of a single action.
+
+  An action is any atomic action that can be part of a capability,
+  including HTTP requests or delays."
   {:target (s/both s/Str
                    (s/pred supported-scheme? "supported-scheme?"))})
 
@@ -21,18 +24,18 @@
 (def Plan
   "The schema for a plan.
 
-  Consists of either a single request, a set of plans, or a vector of
+  Consists of either a single action, a set of plans, or a vector of
   plans. (This schema is recursive.)
 
   This uses prismatic/schema's `conditional` with type dispatch,
   rather than the (perhaps more obvious) `either`. If you give it a
-  bogus request, it will only tell you that it didn't satisfy any of
-  the three schemas. It won't tell you that it looked a little like a
-  request, but with an unsupported URL scheme. Using `conditional`
-  allows us to return this improved error message.
+  bogus action, it will only tell you that it didn't satisfy any of
+  the three schemas. It won't tell you that it was an invalid action,
+  let alone what was wrong with it. Using `conditional` allows us to
+  return this improved error message.
   "
   (let [Plan (s/recursive #'Plan)]
     (s/conditional
-     map? Request
+     map? Action
      vector? (with-one-or-more [Plan])
      set? (with-one-or-more #{Plan}))))
