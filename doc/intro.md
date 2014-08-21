@@ -116,11 +116,7 @@ database is a key-value store of indices and encrypted payloads, but:
   capability means without having *and* the capability URL *and* the
   master secret *and* the relevant database row, because the
   capability URL and the master secret are required to produce the
-  encryption key for the row. However, because of the previous point
-  about needing the entire database to do something useful with the
-  computed index, this is equivalent to needing the entire database:
-  an attacker has no way of predicting which database rows will be
-  useful.
+  encryption key for the row.
 - An attacker has no way of deterministically modifying any encrypted
   payload, *even* if they don't care which payload they
   deterministically modify. This is because the payloads are
