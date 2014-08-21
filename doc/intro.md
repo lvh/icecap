@@ -3,10 +3,13 @@
 `icecap` is a system for generating capability URLs.
 
 Capability URLs are unguessable URLs, that, when accessed, cause some
-action to be performed. These are "capabilities" in the [E][E] sense,
-named thusly because merely being in possession of the URL gives you
-the authority to perform some action, but importantly gives you no
-other additional authority.
+action to be performed. These are capabilities in the
+object-capability sense: having the reference (URL) gives you the
+authority to perform some action, but does not give you any *other*
+authority.
+
+For more information about object-capability systems, take a look at
+[E][E], a programming language built around them.
 
 [E]: http://erights.org/
 
