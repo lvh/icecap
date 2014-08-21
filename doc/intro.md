@@ -56,31 +56,29 @@ The following paths are supported:
 
 To create a capability, POST some [EDN][EDN] describing it. This
 description is called the *payload*. A payload consists of a map with
-the keyword `:requests` as the key, and a request specification as the
-value:
+the keyword `:plan` as the key, and the plan as the value:
 
 ```
-{:requests REQUEST_SPECIFICATION}
+{:plan PLAN}
 ```
 
 [EDN]: https://github.com/edn-format/edn
 
-A request specification can be one of these things:
+A plan is one of these things:
 
 1. A map, describing a single request.
-2. An vector of request specifications.
-3. An set of request specifications.
+2. An vector of plans.
+3. An set of plans.
 
-This means that request specifications can be nested.
+This means that plans can be nested.
 
-A vector, being an *ordered* collection, implies *order* in the
-request specifications. Any preceding request specifications must be
-completed successfully before a request specification can be
-attempted.
+A vector, being an *ordered* collection, implies *order* in the plans.
+Any preceding plans must be completed successfully before a plan can
+be attempted.
 
-A set, being an *unordered* collection, implies no order in the
-request specifications. They may all be attempted with any amount of
-concurrency and in any order, as the implementation sees fit.
+A set, being an *unordered* collection, implies no order in the plans.
+They may all be attempted with any amount of concurrency and in any
+order, as the implementation sees fit.
 
 ### Request maps
 

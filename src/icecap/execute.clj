@@ -1,5 +1,6 @@
 (ns icecap.execute
-  "The meat and potatoes of executing (also called exercising) a capability."
+  "Tools for executing plans, doing the actual work expressed by a
+  capability."
   (:refer-clojure :exclude [merge])
   (:require [clojure.core.async :as a :refer [go chan <! >! merge pipe put!]])
   (:import [java.net URI]))
@@ -28,7 +29,7 @@
   (comp supported-schemes get-scheme))
 
 (defn execute-single-request
-  "Execute a single request map.
+  "Execute a single request.
 
   Returns a channel that will eventually produce the result.
   "
@@ -37,27 +38,27 @@
   (a/to-chan [request]))
 
 (defn execute
-  "Executes a request specification.
+  "Executes a plan.
 
-  If the request specification is a single request, executes it with
+  If the plan is a single request, executes it with
   `execute-single-request`. If it is an unordered collection of
   requests, execute all of them in any order. If it is an ordered
   collection of requests, executes them in order. For more details on
-  the structure of request specs, see `icecap.schema`.
+  the structure of plans, see `icecap.schema`.
 
   Returns a channel that will produce all of the individual results,
   and then closes.
   "
-  [request-spec]
+  [plan]
   (let [c (chan)]
-    (condp #(%1 %2) request-spec
-      map? (pipe (execute-single-request request-spec) c)
-      set? (pipe (merge (map execute request-spec)) c)
+    (condp #(%1 %2) plan
+      map? (pipe (execute-single-request plan) c)
+      set? (pipe (merge (map execute plan)) c)
       ;;                       ^- recursion!!!
-      vector? (go (loop [request-specs request-spec]
-                    (>! c (<! (execute (first request-specs))))
+      vector? (go (loop [sub-plans plan]
+                    (>! c (<! (execute (first sub-plans))))
                     ;;           ^- recursion!!!
-                    (let [remaining (rest request-specs)]
+                    (let [remaining (rest sub-plans)]
                       (if (seq remaining)
                         (recur remaining)
                         (a/close! c))))))
