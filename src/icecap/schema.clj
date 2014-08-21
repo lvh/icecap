@@ -1,4 +1,5 @@
 (ns icecap.schema
+  "The schemata in icecap: request specifications and their components."
   (:require [schema.core :as s])
   (:import [java.net URI]))
 
@@ -7,7 +8,7 @@
   #{"http" "https"})
 
 (defn get-scheme
-  "Gets the scheme of a (String) URL."
+  "Gets the scheme of a URL."
   [url]
   (.getScheme (URI. url)))
 
@@ -16,12 +17,12 @@
   (comp supported-schemes get-scheme))
 
 (def SimpleRequest
-  "A simple request."
+  "The schema for a simple request."
   {:target (s/both s/Str
                    (s/pred supported-scheme? "supported-scheme?"))})
 
 (defn with-one-or-more
-  "Build a schema for a collection schema with 1+ items.
+  "Constrain a seq schema to require one or more items.
 
   Specifically, this checks that both the given schema is matched
   *and* there is at least one item in it."
@@ -30,23 +31,17 @@
           (s/pred seq "collection of one or more request specs")))
 
 (def RequestSpec
-  "A request specification.
+  "The schema for a request specification.
 
-  Please note that this uses prismatic/schema's `conditional` with
-  type dispatch, rather than the (perhaps more obvious) `either`. The
-  problem with `either` is that it didn't know which of the schemas
-  *probably* should have validated: if you give it a bogus
-  `SimpleRequest`, it can only tell you that it:
+  Consists either of a `SimpleRequest`, a `RequestSpec` set, or a
+  `RequestSpec` vector.
 
-  - wasn't a valid `SimpleRequest`
-  - wasn't an unordered collection of valid `SimpleRequests`
-  - wasn't an ordered collection of valid `SimpleRequests`
-
-  ... but it fails to tell you that it *was* something that looked
-  like a SimpleRequest but didn't validate because, for example, its
-  target was `ftp`, which is an unsupported URL scheme. That would've
-  been far more useful. Using `conditional` allows us to return
-  this (useful) error message.
+  This uses prismatic/schema's `conditional` with type dispatch,
+  rather than the (perhaps more obvious) `either`. If you give it a
+  bogus `SimpleRequest`, it will only tell you that it didn't satisfy
+  any of the three schemas. It won't tell you that it looked a little
+  like a `SimpleRequest`, but had unsupported URL scheme. Using
+  `conditional` allows us to return this improved error message.
   "
   (let [RequestSpec (s/recursive #'RequestSpec)]
     (s/conditional
