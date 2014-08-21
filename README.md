@@ -1,5 +1,7 @@
 # icecap
 
+[![Build Status](https://travis-ci.org/lvh/icecap.svg)](https://travis-ci.org/lvh/icecap)
+
 *This product makes security claims that have not been backed up by
  impartial third party audit. Use it at your own peril!*
 
