@@ -34,7 +34,7 @@
   "The schema for a request specification.
 
   Consists either of a `SimpleRequest`, a `RequestSpec` set, or a
-  `RequestSpec` vector.
+  `RequestSpec` vector. (So, this schema is recursive.)
 
   This uses prismatic/schema's `conditional` with type dispatch,
   rather than the (perhaps more obvious) `either`. If you give it a
