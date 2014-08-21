@@ -1,20 +1,8 @@
 (ns icecap.schema
   "The schemata in icecap: request specifications and their components."
-  (:require [schema.core :as s])
-  (:import [java.net URI]))
+  (:require [schema.core :as s]
+            [icecap.execute :refer [supported-scheme?]]))
 
-(def supported-schemes
-  "The currently supported schemes."
-  #{"http" "https"})
-
-(defn get-scheme
-  "Gets the scheme of a URL."
-  [url]
-  (.getScheme (URI. url)))
-
-(def supported-scheme?
-  "Does the given URL have a supported scheme?"
-  (comp supported-schemes get-scheme))
 
 (def SimpleRequest
   "The schema for a simple request."
