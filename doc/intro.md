@@ -221,12 +221,19 @@ size.
 Derive key material from the master using the key derivation function,
 producing the index and the capability key.
 
-The identifier is base64 encoded with a URL-safe alphabet. After the
-URL has been handed to the creator of the capability, it is discarded.
+The identifier is encoded in base64url (base64 with a URL-safe
+alphabet), as described by [RFC 4648, section 5][RFC4648]. Since the
+length is known ahead of time, padding is removed, as suggested by the
+RFC.
+
+[RFC4648]: http://www.ietf.org/rfc/rfc4648.txt
+
+After the URL has been handed to the creator of the capability, it is
+discarded.
 
 ### Exercising a capability
 
-When the URL is called, the base64-encoded capability identifier is
+When the URL is called, the (encoded) capability identifier is
 extracted and decoded. As when creating the capability, the identifier
 is used to produce the index and capability key. The capability is
 looked up, decrypted and executed.
