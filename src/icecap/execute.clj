@@ -17,7 +17,7 @@
 
 (def ^:private supported-schemes
   "The currently supported schemes."
-  (hash-set (keys handlers)))
+  (into #{} (keys handlers)))
 
 (defn get-scheme
   "Gets the scheme of a URL."
