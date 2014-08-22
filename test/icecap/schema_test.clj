@@ -8,17 +8,17 @@
 (def simple-ftp-step {:target "ftp://example.test"})
 
 (deftest PlanTests
-  (testing "Correct plans validate"
+  (testing "correct plans validate"
     (are [example] (s/validate Plan example)
          simple-http-step
          simple-https-step
          #{simple-http-step simple-https-step}))
-  (testing "Empty plans don't validate"
+  (testing "empty plans don't validate"
     (are [example reason] (= (pr-str (s/check Plan example))
                              (pr-str reason))
          [] '(not ("collection of one or more plans" []))
          #{} '(not ("collection of one or more plans" #{}))))
-  (testing "Plans with empty in them don't validate"
+  (testing "plans with empty steps in them don't validate"
     (are [example reason] (= (pr-str (s/check Plan example))
                              (pr-str reason))
       [#{} simple-http-step] ['(not ("collection of one or more plans" #{})) nil]))
