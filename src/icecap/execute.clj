@@ -6,9 +6,9 @@
   (:import [java.net URI]))
 
 (defn ^:private http-handler
-  "An action handler that performs HTTP and HTTPS requests."
-  [action]
-  action)
+  "An step handler that performs HTTP and HTTPS requests."
+  [step]
+  step)
 
 (def ^:private handlers
   "The default set of handlers."
@@ -28,20 +28,20 @@
   "Does the given URL have a supported scheme?"
   (comp supported-schemes get-scheme))
 
-(defn execute-single-action
-  "Execute a single action.
+(defn execute-single-step
+  "Execute a single step.
 
   Returns a channel that will eventually produce the result.
   "
-  [action]
+  [step]
   ;; let's pretend this does something useful
-  (a/to-chan [action]))
+  (a/to-chan [step]))
 
 (defn execute
   "Executes a plan.
 
-  If the plan is a single action, executes it with
-  `execute-single-action`. If it is an unordered collection of plans,
+  If the plan is a single step, executes it with
+  `execute-single-step`. If it is an unordered collection of plans,
   execute all of them in any order. If it is an ordered collection of
   plans, executes them in order. For more details on the structure of
   plans, see `icecap.schema`.
@@ -52,7 +52,7 @@
   [plan]
   (let [c (chan)]
     (condp #(%1 %2) plan
-      map? (pipe (execute-single-action plan) c)
+      map? (pipe (execute-single-step plan) c)
       set? (pipe (merge (map execute plan)) c)
       ;;                       ^- recursion!!!
       vector? (go (loop [sub-plans plan]

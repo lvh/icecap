@@ -19,11 +19,11 @@ yet been convinced of their merits, consider reading the paper,
 ## What does it do?
 
 It lets you submit a description of a plan, consisting of a number of
-actions (such as individual HTTP(S) requests). It returns a capability
+steps (such as individual HTTP(S) requests). It returns a capability
 URL, which can be used to exercise or delete the capability.
 
 When the capability is exercised, the plan is executed. For now, the
-actions in the plans are somewhat limited in two ways:
+steps in the plans are somewhat limited in two ways:
 
 - HTTP(S) only.
 - Fixed; no parametrization.
@@ -65,7 +65,7 @@ the keyword `:plan` as the key, and the plan as the value:
 
 A plan is one of these things:
 
-1. A map, describing a single action.
+1. A map, describing a single step.
 2. An vector of plans.
 3. An set of plans.
 
@@ -79,11 +79,11 @@ A set, being an *unordered* collection, implies no order in the plans.
 They may all be attempted with any amount of concurrency and in any
 order, as the implementation sees fit.
 
-### Action maps
+### Step maps
 
-A action map contains a keyword `:target`, which maps to a *target*,
-which is the URL target of the action. It additionally contains a
-number of optional arguments.
+A step map contains a keyword `:target`, which maps to a *target*,
+which is the URL target of the step. It additionally contains a number
+of optional arguments.
 
 ```
 {:target "https://example.test"}
