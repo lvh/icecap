@@ -28,8 +28,8 @@
   "Does the given URL have a supported scheme?"
   (comp supported-schemes get-scheme))
 
-(defn execute-single-step
-  "Execute a single step.
+(defn ^:private execute-step
+  "Execute a step.
 
   Returns a channel that will eventually produce the result.
   "
@@ -40,11 +40,11 @@
 (defn execute
   "Executes a plan.
 
-  If the plan is a single step, executes it with
-  `execute-single-step`. If it is an unordered collection of plans,
-  execute all of them in any order. If it is an ordered collection of
-  plans, executes them in order. For more details on the structure of
-  plans, see `icecap.schema`.
+  If the plan is a single step, executes it with `execute-step`. If it
+  is an unordered collection of plans, execute all of them in any
+  order. If it is an ordered collection of plans, executes them in
+  order. For more details on the structure of plans, see
+  `icecap.schema`.
 
   Returns a channel that will produce all of the individual results,
   and then closes.
@@ -52,7 +52,7 @@
   [plan]
   (let [c (chan)]
     (condp #(%1 %2) plan
-      map? (pipe (execute-single-step plan) c)
+      map? (pipe (execute-step plan) c)
       set? (pipe (merge (map execute plan)) c)
       ;;                       ^- recursion!!!
       vector? (go (loop [sub-plans plan]
