@@ -22,7 +22,7 @@
     (are [example reason] (= (pr-str (s/check Plan example))
                              (pr-str reason))
       [#{} simple-http-step] ['(not ("collection of one or more plans" #{})) nil]))
-  (testing "plans with unknown/unsupported schemes don't validate"))
-(are [example reason] (= (pr-str (s/check Plan example))
-                         (pr-str reason))
-     simple-ftp-step {:target '(not ("supported-scheme?" "ftp://example.test"))})
+  (testing "plans with unknown/unsupported schemes don't validate"
+    (are [example reason] (= (pr-str (s/check Plan example))
+                             (pr-str reason))
+         simple-ftp-step {:target '(not ("supported-scheme?" "ftp://example.test"))})))
