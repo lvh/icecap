@@ -3,7 +3,6 @@
   (:require [schema.core :as s]
             [icecap.execute :refer [supported-scheme?]]))
 
-
 (def Step
   "The schema for the description of a single step.
 
