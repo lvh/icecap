@@ -37,7 +37,7 @@
   ;; let's pretend this does something useful
   (a/to-chan [step]))
 
-(defn execute
+(defn execute-plan
   "Executes a plan.
 
   If the plan is a single step, executes it with `execute-step`. If it
@@ -53,10 +53,10 @@
   (let [c (chan)]
     (condp #(%1 %2) plan
       map? (pipe (execute-step plan) c)
-      set? (pipe (merge (map execute plan)) c)
+      set? (pipe (merge (map execute-plan plan)) c)
       ;;                       ^- recursion!!!
       vector? (go (loop [sub-plans plan]
-                    (>! c (<! (execute (first sub-plans))))
+                    (>! c (<! (execute-plan (first sub-plans))))
                     ;;           ^- recursion!!!
                     (let [remaining (rest sub-plans)]
                       (if (seq remaining)
