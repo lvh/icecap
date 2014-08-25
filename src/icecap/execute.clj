@@ -5,19 +5,9 @@
   (:require [clojure.core.async :as a :refer [go chan <! >! merge pipe put!]])
   (:import [java.net URI]))
 
-(defn ^:private http-handler
-  "An step handler that performs HTTP and HTTPS requests."
-  [step]
-  step)
-
-(def ^:private handlers
-  "The default set of handlers."
-  {"http" http-handler
-   "https" http-handler})
-
 (def ^:private supported-schemes
   "The currently supported schemes."
-  (into #{} (keys handlers)))
+  #{"http" "https"})
 
 (defn get-scheme
   "Gets the scheme of a URL."
