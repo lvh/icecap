@@ -11,9 +11,7 @@
 
   An step is a small, atomic part of a capability. It includes things
   like HTTP requests or delays."
-  (s/conditional ;; HACK: this implementation is quite unfortunate,
-   ;; but I can't figure out how to make it any better; see also:
-   ;; https://github.com/Prismatic/schema/issues/140
+  (s/conditional
    #(= (:type %) :http) (get-schema {:type :http})
    #(= (:type %) :delay) (get-schema {:type :delay})))
 
