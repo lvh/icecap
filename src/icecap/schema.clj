@@ -1,6 +1,8 @@
 (ns icecap.schema
   "The schemata for icecap plans."
   (:require [schema.core :as s]
+            [icecap.handlers.http]
+            [icecap.handlers.delay]
             [icecap.handlers.core :refer [get-schema]]
             [icecap.execute :refer [supported-scheme?]]))
 
@@ -12,8 +14,8 @@
   (s/conditional ;; HACK: this implementation is quite unfortunate,
    ;; but I can't figure out how to make it any better; see also:
    ;; https://github.com/Prismatic/schema/issues/140
-   #(= (:type %) :http) (get-schema :http)
-   #(= (:type %) :delay) (get-schema :delay)))
+   #(= (:type %) :http) (get-schema {:type :http})
+   #(= (:type %) :delay) (get-schema {:type :delay})))
 
 (defn with-one-or-more
   "Constrain a seq schema to require one or more items.
