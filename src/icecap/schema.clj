@@ -3,17 +3,17 @@
   (:require [schema.core :as s]
             [icecap.handlers.http]
             [icecap.handlers.delay]
-            [icecap.handlers.core :refer [get-schema]]
-            [icecap.execute :refer [supported-scheme?]]))
+            [icecap.handlers.core :refer [get-schema]]))
 
 (def Step
   "The schema for the description of a single step.
 
   An step is a small, atomic part of a capability. It includes things
   like HTTP requests or delays."
-  (s/conditional
-   #(= (:type %) :http) (get-schema {:type :http})
-   #(= (:type %) :delay) (get-schema {:type :delay})))
+  (apply s/conditional
+         (flatten (for [type (keys (methods get-schema))]
+                    [#(= (:type %) type)
+                     (get-schema {:type type})]))))
 
 (defn with-one-or-more
   "Constrain a seq schema to require one or more items.
