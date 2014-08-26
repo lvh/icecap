@@ -3,33 +3,31 @@
 `icecap` is a system for generating capability URLs.
 
 Capability URLs are unguessable URLs, that, when accessed, cause some
-action to be performed. These are capabilities in the
-object-capability sense: having the reference (URL) gives you the
+action to be performed. Having the reference (URL) gives you the
 authority to perform some action, but does not give you any *other*
 authority.
 
-For more information about object-capability systems, take a look at
-[E][http://erights.org/], a programming language built around them.
-For people who have heard of capability systems before, but have not
-yet been convinced of their merits, consider reading the paper,
-["Capability Myths Demolished"][CapMyths], by the same authors.
+These are capabilities in the object-capability sense, a programming
+paradigm based on this notion of limited capabilities to increase the
+security of computer programs. For more information about
+object-capability systems, take a look at [E][E], a programming
+language built around them. For people who have heard of capability
+systems before, but have not yet been convinced of their merits,
+consider the paper ["Capability Myths Demolished"][CapMyths], by the
+same authors.
 
+[E]: http://erights.org/
 [CapMyths]: http://www.erights.org/elib/capability/duals/myths.html
 
 ## What does it do?
 
-It lets you submit a description of a plan, consisting of a number of
-steps (such as individual HTTP(S) requests). It returns a capability
-URL, which can be used to exercise or delete the capability.
+It lets create a capability, which means that you submit a description
+of what the capability does, called a plan. It returns a capability
+URL, which can be used to exercise or revoke the capability.
 
-When the capability is exercised, the plan is executed. For now, the
-steps in the plans are somewhat limited in two ways:
+When the capability is exercised, the plan is executed.
 
-- HTTP(S) only.
-- Fixed; no parametrization.
-
-These restrictions can be revisited once a prototype has been
-delivered.
+When the capability is revoked, future attempts to exercise it fail.
 
 Capabilities and their URLs are immutable. They are only ever in one
 of two states; extant or non-extant. This has the interesting side
@@ -41,35 +39,34 @@ it did last time.
 
 The only API version right now is `v0`.
 
-This is version zero in the SemVer sense: absolutely anything and
-everything can change without warning. Once something stable exists,
-it'll be replaced with `v1`.
+API versions work like SemVer major version numbers: absolutely
+anything and everything can change without warning in `v0`. Once the
+API is stable, it will be called `v1`. Future backwards incompatible
+changes cause version bumps.
 
 The following paths are supported:
 
 - `POST /v0/capabilities` creates a new capability.
 - `GET /v0/capabilities/{capability_id}` exercises a capability.
-- `DELETE /v0/capabilities/{capability_id}` deletes a capability.
+- `DELETE /v0/capabilities/{capability_id}` revokes a capability.
 
 ## Creating capabilities
 
-To create a capability, POST some [EDN][EDN] describing it. This
-description is called the *payload*. A payload consists of a map with
-the keyword `:plan` as the key, and the plan as the value:
-
-```
-{:plan PLAN}
-```
+To create a capability, POST some [EDN][EDN] describing it.
 
 [EDN]: https://github.com/edn-format/edn
+
+Currently, this description only consists of a *plan*, which describes
+the actions to be taken when the capability is exercised.
 
 A plan is one of these things:
 
 1. A map, describing a single step.
-2. An vector of plans.
-3. An set of plans.
+2. An vector of one or more plans.
+3. An set of one or more plans.
 
-This means that plans can be nested.
+This means that plans can be nested, and that eventually it's single
+steps (maps) all the way down.
 
 A vector, being an *ordered* collection, implies *order* in the plans.
 Any preceding plans must be completed successfully before a plan can
@@ -81,13 +78,10 @@ order, as the implementation sees fit.
 
 ### Step maps
 
-A step map contains a keyword `:target`, which maps to a *target*,
-which is the URL target of the step. It additionally contains a number
-of optional arguments.
+The exact schema of a step map depends on the kind of step being
+defined.
 
-```
-{:target "https://example.test"}
-```
+TODO: find a decent way to link to the actual schemas in the code
 
 ### Examples
 
@@ -99,29 +93,21 @@ TODO: explain how deleting a capability works
 
 # Security considerations
 
-`icecap` only stores data in encrypted and authenticated form. Both
-the full capability URLs (which are not stored anywhere), and a
-deployment-specific secret key are necessary to decrypt the encrypted
-payload.
+`icecap` only stores encrypted blobs. In order to decrypt a blob, you
+need both the matching capability URL (which is never stored within
+icecap) and an icecap installation-wide secret (stored on the API
+servers). Furthermore, the blobs are stored at indices which can also
+only be computed from the capability URL and the installation-wide
+secret.
 
-That means that even in the case of a complete compromise of both
-database and API servers, no user data is compromised. The database is
-a key-value store of indices and encrypted payloads, but:
+That means that even in the case of a complete compromise of database
+and API servers, no user data is compromised. Without the capability
+URL, an attacker can not compute the index into the database nor the
+encryption key used to encrypt the blob at that index.
 
-- An attacker has no way of knowing which capability maps to which
-  index without having *and* the capability URL *and* the master
-  secret *and* the entire database, because both the capability URL
-  and the master secret are required to even compute the index.
-- An attacker has no way of knowing what the encrypted payload for a
-  capability means without having *and* the capability URL *and* the
-  master secret *and* the relevant database row, because the
-  capability URL and the master secret are required to produce the
-  encryption key for the row.
-- An attacker has no way of deterministically modifying any encrypted
-  payload, *even* if they don't care which payload they
-  deterministically modify. This is because the payloads are
-  authenticated and encrypted in a provably secure scheme (see below
-  for details).
+An attacker can not deterministically modify a blob, even if they
+don't care *which* blob, because all blobs are securely authenticated
+and encrypted.
 
 ## How does it actually work?
 
@@ -130,26 +116,24 @@ backing.
 
 ### Definitions
 
-- The *capability identifier* is the part of the capability that
-  uniquely identifies it. It is part of the capability URL. It is
-  never stored within icecap.
+- The *capability identifier* is the unique identifier of the
+  capability. It is randomly selected when the capability is created.
+  It is returned as part of the capability URL, but is never stored by
+  icecap.
 - The *master key* is a secret key stored on all of the API endpoints.
-  It is used in combination with capability identifiers to produce
-  indices and capability keys.
-- The *index* is the key under which the database stores the encrypted
-  payload. It is produced from the capability identifier and the
-  master key.
-- The *encrypted payload* is the value stored in the database under
-  the index. It is the encrypted and authenticated version of the
-  payload, under the capability key.
-- The *capability key* is the key used to encrypt the capability
-  payload. It is produced from the capability identifier and the
-  master key.
-- The *payload* is a description of what the capability actually does,
-  when exercised.
+  It is used in combination with a capability identifier to produce
+  the index and capability key.
+- The *index* is the location in the database where the blob is
+  stored. It is produced from the capability identifier and the master
+  key.
+- The *blob* the ciphertext of the plan. The database stores it at the
+  index.
+- The *capability key* is the key used to encrypt the plan. It is
+  produced from the capability identifier and the master key.
+- The *plan* is a description of what the capability actually does
+  when it is exercised.
 - The *salt* is a not-necessarily-secret (although typically kept
-  secret) parameter to the key derivation function, customizing it
-  into a family of such things.
+  secret) parameter to the key derivation function.
 
 ### Constants
 
@@ -233,10 +217,10 @@ discarded.
 
 ### Exercising a capability
 
-When the URL is called, the (encoded) capability identifier is
-extracted and decoded. As when creating the capability, the identifier
-is used to produce the index and capability key. The capability is
-looked up, decrypted and executed.
+When the URL is called, the (base64url-encoded) capability identifier
+is extracted and decoded. As when creating the capability, the
+identifier is used to produce the index and capability key. The
+capability is looked up, decrypted and executed.
 
 # Reliability considerations
 
@@ -265,10 +249,14 @@ the following things must happen:
    point in adding a similar feature for reads, when working on the
    assumption that the caller would always rather exercise the
    capability than discover that it has been revoked.)
+ - Middle ground #2: for a cluster of *N*, reads happen with low
+   consistency *R*, deletes happen with consistency *N - R + 1*. The
+   reads don't use "consistency" to determine that state of the data
+   (since it's immutable), but merely to assert if it still exists.
+   This means both reads and deletes will always be consistent, and
+   allows for configurable trade-off between read and delete
+   performance.
 
 Presumably the last one is the most desirable one, but this can be
 revisited at a later date when a non-distributed prototype has been
 produced and perhaps the problem is better understood.
-
-As a consequence, I'm recommending that we start with a simple,
-centralized and readily available backend, such as SQL or Redis.
