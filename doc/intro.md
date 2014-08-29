@@ -44,10 +44,7 @@ When the capability is exercised, the plan is executed.
 When the capability is revoked, future attempts to exercise it fail.
 
 Capabilities and their URLs are immutable. They are only ever in one
-of two states; extant or non-extant. This has the interesting side
-effect that whoever has a capability URL that's being used more than
-once, knows that it's going to do (more or less) the same thing that
-it did last time.
+of two states; extant or non-extant.
 
 # REST API v0
 
