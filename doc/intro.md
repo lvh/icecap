@@ -3,9 +3,9 @@
 `icecap` is a system for generating capability URLs.
 
 Capability URLs are unguessable URLs that cause some action to be
-performed when they are accessed. Having that reference (the URL)
-gives you the authority to perform some action, but does not give you
-any *other* authority.
+performed when they are accessed. Having that the URL gives you the
+authority to perform some action, but does not give you any *other*
+authority.
 
 This makes it easy to build computer systems that follow the principle
 of least authority. Simply put, that means that a component should
