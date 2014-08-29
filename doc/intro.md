@@ -1,50 +1,58 @@
 # Introduction to icecap
 
-`icecap` is a system for generating capability URLs.
+`icecap` is a capability system based on URLs.
 
-Capability URLs are unguessable URLs that cause some action to be
-performed when they are accessed. Having that URL gives you the
-authority to perform some action, but does not give you any *other*
-authority.
+## What are capabilities, and why do I want them?
 
-This makes it easy to build computer systems that follow the principle
-of least authority. Simply put: a component should only have the
-rights to do what it *needs* to do. That sounds obvious, but it is
-rarely applied in practice. Applications are often trusted with
-credentials, such as API keys, with capabilities far beyond what the
+A capability ("cap") gives you the authority to perform some action,
+without giving you any *other* authority. In `icecap`, caps are
+represented by URLs.
+
+This makes it easy to build systems that follow the principle of least
+authority. Simply put: a component (such as a piece of software)
+should only have the rights to do what it *needs* to do. That sounds
+obvious, but is rarely applied in practice. Applications are often
+trusted with credentials with capabilities far beyond what the
 application actually needs. This makes those applications an
 interesting target for attacks.
 
+For example, applications are often given API keys that provide access
+to an entire service, when in reality they only use one particular
+feature in a very specific way. If your application writes some output
+to cloud storage, there is no reason why it should have credentials
+that allow it to spin up servers.
+
 Typically, those credentials are also provided to the application in
 an insecure fashion. Secure configuration and secret management is not
-a problem that icecap aims to solve: capability URLs are still
-privileged credentials, just less so. For secure secrets management,
-see [Barbican](https://wiki.openstack.org/wiki/Barbican).
+a problem `icecap` aims to solve: capability URLs are still privileged
+credentials, just less so. For secure secrets management, see
+[Barbican](https://wiki.openstack.org/wiki/Barbican).
 
 These are capabilities in the object-capability sense, a programming
 paradigm based on this notion of limited capabilities to increase the
-security of computer programs. For more information about
-object-capability systems, take a look at [E][E], a programming
-language built around them. For people who have heard of capability
-systems before, but have not yet been convinced of their merits,
-consider the paper ["Capability Myths Demolished"][CapMyths], by the
-same authors.
+security of computer programs. For more information about object
+capability systems, take a look at [E][E], a programming language
+built around them. For people who have heard of capability systems
+before, but have not yet been convinced of their merits, consider the
+paper ["Capability Myths Demolished"][CapMyths], by the same authors.
 
 [E]: http://erights.org/
 [CapMyths]: http://www.erights.org/elib/capability/duals/myths.html
 
 ## What does it do?
 
-It lets create a capability, which means that you submit a description
-of what the capability does, called a plan. It returns a capability
-URL, which can be used to exercise or revoke the capability.
+When you submit a plan of what you would like the cap to do, it
+returns a URL. That URL can then be used to exercise or revoke the
+cap.
 
-When the capability is exercised, the plan is executed.
+You're then free to pass that URL around to whoever needs its
+functionality, without having to give them the credentials that the
+capability actually uses internally.
 
-When the capability is revoked, future attempts to exercise it fail.
+Once the cap is revoked, future attempts to exercise it fail.
 
-Capabilities and their URLs are immutable. They are only ever in one
-of two states; extant or non-extant.
+Caps are immutable. They are only ever in one of two states: they
+either exist, or they don't.
 
 # REST API v0
 
@@ -55,20 +63,26 @@ anything and everything can change without warning in `v0`. Once the
 API is stable, it will be called `v1`. Future backwards incompatible
 changes cause version bumps.
 
-The following paths are supported:
+The only real API is:
 
-- `POST /v0/capabilities` creates a new capability.
-- `GET /v0/capabilities/{capability_id}` exercises a capability.
-- `DELETE /v0/capabilities/{capability_id}` revokes a capability.
+- `POST /v0/capabilities` creates a new cap.
+
+Additionally, there are APIs for exercising and revoking caps:
+
+- `GET /v0/capabilities/{cap}` exercises a cap.
+- `DELETE /v0/capabilities/{cap}` revokes a cap.
+
+However, you should use the URLs returned when creating capabilities,
+rather than producing these URLs manually.
 
 ## Creating capabilities
 
-To create a capability, POST some [EDN][EDN] describing it.
+To create a cap, POST some [EDN][EDN] describing it.
 
 [EDN]: https://github.com/edn-format/edn
 
 Currently, this description only consists of a *plan*, which describes
-the actions to be taken when the capability is exercised.
+the actions to be taken when the cap is exercised.
 
 A plan is one of these things:
 
@@ -98,22 +112,21 @@ TODO: find a decent way to link to the actual schemas in the code
 
 TODO: write examples
 
-## Deleting a capability
+## Deleting a cap
 
-TODO: explain how deleting a capability works
+TODO: explain how deleting a cap works
 
 # Security considerations
 
 `icecap` only stores encrypted blobs. In order to decrypt a blob, you
-need both the matching capability URL (which is never stored within
-icecap) and an icecap installation-wide secret (stored on the API
-servers). Furthermore, the blobs are stored at indices which can also
-only be computed from the capability URL and the installation-wide
-secret.
+need both the cap (which is never stored within icecap) and an icecap
+installation-wide secret (stored on the API servers). Furthermore, the
+blobs are stored at indices which can also only be computed from the
+cap and the installation-wide secret.
 
 That means that even in the case of a complete compromise of database
-and API servers, no user data is compromised. Without the capability
-URL, an attacker can not compute the index into the database nor the
+and API servers, no user data is compromised. Without the cap, an
+attacker can not compute the index into the database nor the
 encryption key used to encrypt the blob at that index.
 
 An attacker can not deterministically modify a blob, even if they
@@ -127,32 +140,24 @@ backing.
 
 ### Definitions
 
-- The *capability identifier* is the unique identifier of the
-  capability. It is randomly selected when the capability is created.
-  It is returned as part of the capability URL, but is never stored by
-  icecap.
+- The *cap* is a unique identifier, randomly selected when the cap is
+  created. It is never stored by icecap.
 - The *master key* is a secret key stored on all of the API endpoints.
-  It is used in combination with a capability identifier to produce
-  the index and capability key.
+  It combined with the cap to produce the index and cap key.
 - The *index* is the location in the database where the blob is
-  stored. It is produced from the capability identifier and the master
-  key.
+  stored. It is produced from the cap and the master key.
 - The *blob* the ciphertext of the plan. The database stores it at the
   index.
-- The *capability key* is the key used to encrypt the plan. It is
-  produced from the capability identifier and the master key.
-- The *plan* is a description of what the capability actually does
-  when it is exercised.
+- The *cap key* is the key used to encrypt the plan. It is produced
+  from the cap and the master key.
+- The *plan* is a description of what the cap actually does when it is
+  exercised.
 - The *salt* is a not-necessarily-secret (although typically kept
   secret) parameter to the key derivation function.
 
 ### Constants
 
-- Capability identifier size (bits): 256
-- Master key size size (bits): 256
-- Index size size (bits): 256
-- Capability key size (bits): 256
-- Salt size (bits): 256
+- Cap size (bits): 256
 
 ### Assumptions
 
@@ -208,23 +213,22 @@ An `icecap` installation picks a (secret) master key and a (ideally
 secret, although this isn't a hard requirement) salt. The master key
 and salt are shared amongst all API endpoints.
 
-### Creating a capability identifier
+### Creating a cap
 
-First, randomly select a capability identifier of the appropriate
-size.
+First, randomly select a cap of the appropriate size. (Caps are
+sufficiently long that randomly choosing one results in a negligible
+probability of collision.)
 
-Derive key material from the master using the key derivation function,
-producing the index and the capability key.
+From the cap, produce the index and the cap key using the key
+derivation function.
 
-The identifier is encoded in base64url (base64 with a URL-safe
-alphabet), as described by [RFC 4648, section 5][RFC4648]. Since the
-length is known ahead of time, padding is removed, as suggested by the
-RFC.
+The cap is encoded in base64url (base64 with a URL-safe alphabet), as
+described by [RFC 4648, section 5][RFC4648]. Since the length is known
+ahead of time, padding is removed, as suggested by the RFC.
 
 [RFC4648]: http://www.ietf.org/rfc/rfc4648.txt
 
-After the URL has been handed to the creator of the capability, it is
-discarded.
+After the URL has been returned, it is discarded.
 
 ### Exercising a capability
 
@@ -236,8 +240,9 @@ capability is looked up, decrypted and executed.
 # Reliability considerations
 
 In order to maximize flexibility and reliability, icecap actively
-avoids demanding a lot from its backend: it only desires simple
-key-value storage, where both are opaque binary blobs.
+avoids demanding a lot from its storage back-end: it only desires
+simple key-value storage, where both keys and values are opaque binary
+blobs.
 
 ## Read consistencies in distributed databases
 
