@@ -3,16 +3,16 @@
 `icecap` is a system for generating capability URLs.
 
 Capability URLs are unguessable URLs that cause some action to be
-performed when they are accessed. Having that the URL gives you the
+performed when they are accessed. Having that URL gives you the
 authority to perform some action, but does not give you any *other*
 authority.
 
 This makes it easy to build computer systems that follow the principle
-of least authority. Simply put, that means that a component should
-only have the rights to do what it *needs* to do. That sounds obvious,
-but it is rarely applied in practice. Applications are often trusted
-with credentials, such as API keys, with capabilities far beyond what
-the application actually needs. This makes those applications an
+of least authority. Simply put: a component should only have the
+rights to do what it *needs* to do. That sounds obvious, but it is
+rarely applied in practice. Applications are often trusted with
+credentials, such as API keys, with capabilities far beyond what the
+application actually needs. This makes those applications an
 interesting target for attacks.
 
 Typically, those credentials are also provided to the application in
