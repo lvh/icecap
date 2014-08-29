@@ -15,6 +15,12 @@ with credentials, such as API keys, with capabilities far beyond what
 the application actually needs. This makes those applications an
 interesting target for attacks.
 
+Typically, those credentials are also provided to the application in
+an insecure fashion. Secure configuration and secret management is not
+a problem that icecap aims to solve: capability URLs are still
+privileged credentials, just less so. For secure secrets management,
+see [Barbican](https://wiki.openstack.org/wiki/Barbican).
+
 These are capabilities in the object-capability sense, a programming
 paradigm based on this notion of limited capabilities to increase the
 security of computer programs. For more information about
