@@ -1,4 +1,5 @@
-(ns icecap.store.core)
+(ns icecap.store.core
+  "An abstract API for blob storage.")
 
 (defprotocol Store
   "A blob store."

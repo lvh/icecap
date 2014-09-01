@@ -1,4 +1,5 @@
 (ns icecap.store.mem
+  "An in-memory store."
   (:require [icecap.store.core :refer :all]))
 
 (defn mem-store
