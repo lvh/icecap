@@ -12,7 +12,7 @@
                  ;; Schemata
                  [prismatic/schema "0.2.6"]
                  [schema-contrib "0.1.3"]
-                 [cddr/integrity "0.2.0-SNAPSHOT"]
+                 [cddr/integrity "0.2.0-20140823.193326-1" :exclusions [org.clojure/clojure]]
 
                  ;; REST API
                  ;; http-kit already required as part of handlers
