@@ -4,10 +4,21 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
+
+                 ;; Handlers
                  [org.clojure/core.async "0.1.338.0-5c5012-alpha"]
+                 [http-kit "2.1.16"]
+
+                 ;; Schemata
                  [prismatic/schema "0.2.6"]
                  [schema-contrib "0.1.3"]
-                 [cddr/integrity "0.2.0-SNAPSHOT"]]
+                 [cddr/integrity "0.2.0-SNAPSHOT"]
+
+                 ;; REST API
+                 ;; http-kit already required as part of handlers
+                 [ring/ring-defaults "0.1.1"]
+                 [ring-middleware-format "0.4.0"]
+                 [compojure "1.1.8"]]
   :main ^:skip-aot icecap.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
