@@ -33,7 +33,7 @@
   redirecting to HTTPS) are disabled. Additionally, the server will
   automatically reload code.
   "
-  [components & {dev-mode :dev-mode :or {dev-mode false}}]
+  [components & {:keys [dev-mode] :or {dev-mode false}}]
   (let [defaults (if dev-mode api-defaults secure-api-defaults)
         site (-> routes
                  (wrap-defaults defaults)
