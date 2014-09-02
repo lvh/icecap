@@ -3,9 +3,9 @@
             [clojure.test :refer :all]
             [schema.core :as s]))
 
-(def simple-http-step {:target "http://example.test"})
-(def simple-https-step {:target "https://example.test"})
-(def simple-ftp-step {:target "ftp://example.test"})
+(def simple-http-step {:type :http :url "http://example.test"})
+(def simple-https-step {:type :http :url "https://example.test"})
+(def simple-ftp-step {:type :ftp :loc "ftp://example.test"})
 
 (deftest PlanTests
   (testing "correct plans validate"
