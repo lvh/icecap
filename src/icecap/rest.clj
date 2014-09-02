@@ -1,6 +1,7 @@
 (ns icecap.rest
   "The REST API for icecap."
   (:require [compojure.core :refer [defroutes context GET POST DELETE]]
+            [icecap.codec :refer [safebase64-decode]]
             [prone.middleware :refer [wrap-exceptions]]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults secure-api-defaults]]
             [ring.middleware.format :refer [wrap-restful-format]]
@@ -9,9 +10,10 @@
 (defroutes routes
   (context "/v0/caps" []
            (POST "/" [] "POST")
-           (context "/:cap-id" [cap-id]
-                    (GET "/" [] "GET")
-                    (DELETE "/" [] "DELETE"))))
+           (context "/:enc-cap-id" [enc-cap-id]
+                    (let [cap-id (safebase64-decode enc-cap-id)]
+                      (GET "/" [] "GET")
+                      (DELETE "/" [] "DELETE")))))
 
 (defn ^:private wrap-components
   "Adds some components to each request map."
