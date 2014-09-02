@@ -61,15 +61,15 @@
   "A totally bogus KDF that consistently returns all-NUL keys.
 
   Clearly only suitable for development."
+  []
   (reify KDF
     (derive [_ _ _ _]
       {:index (nul-byte-array index-bytes)
        :cap-key (nul-byte-array cap-key-bytes)})))
 
-(def ^:private personal
-  "A personalization parameter."
-  (.getBytes "icecap blob storage"))
-
+;; (def ^:private personal
+;;   "A personalization parameter."
+;;   (.getBytes "icecap blob storage"))
 ;; (defn blake2b-kdf
 ;;   "Create a key derivation function based on BLAKE2b."
 ;;   (reify KDF
@@ -90,7 +90,8 @@
   "An encryption scheme that doesn't actually do anything.
 
   Clearly only suitable for development."
-  (reify KDF
+  []
+  (reify EncryptionScheme
     (encrypt [_ _ plaintext] plaintext)
     (decrypt [_ _ ciphertext] ciphertext)))
 
