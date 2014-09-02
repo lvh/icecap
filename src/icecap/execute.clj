@@ -2,21 +2,7 @@
   "Tools for executing plans, doing the actual work expressed by a
   capability."
   (:refer-clojure :exclude [merge])
-  (:require [clojure.core.async :as a :refer [go chan <! >! merge pipe put!]])
-  (:import [java.net URI]))
-
-(def ^:private supported-schemes
-  "The currently supported schemes."
-  #{"http" "https"})
-
-(defn get-scheme
-  "Gets the scheme of a URL."
-  [url]
-  (.getScheme (URI. url)))
-
-(def supported-scheme?
-  "Does the given URL have a supported scheme?"
-  (comp supported-schemes get-scheme))
+  (:require [clojure.core.async :as a :refer [go chan <! >! merge pipe put!]]))
 
 (defn ^:private execute-step
   "Execute a step.
