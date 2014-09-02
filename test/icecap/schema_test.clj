@@ -22,7 +22,7 @@
     (are [example reason] (= (pr-str (s/check Plan example))
                              (pr-str reason))
       [#{} simple-http-step] ['(not ("collection of one or more plans" #{})) nil]))
-  (testing "plans with unknown/unsupported schemes don't validate"
+  (testing "plans with unsupported steps don't validate"
     (are [example reason] (= (pr-str (s/check Plan example))
                              (pr-str reason))
-         simple-ftp-step {:target '(not ("supported-scheme?" "ftp://example.test"))})))
+         simple-ftp-step '(not ("supported-step-type" a-clojure.lang.PersistentHashMap)))))
