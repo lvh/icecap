@@ -1,4 +1,6 @@
-(ns icecap.handlers.core)
+(ns icecap.handlers.core
+  "The core handler API."
+  (:require [schema.core :as s]))
 
 (defmulti get-schema :type)
 (defmulti execute :type)
@@ -10,7 +12,7 @@
   implicitly added.
   "
   [type schema & forms]
-  (let [full-schema (assoc schema :type type)]
+  (let [full-schema (assoc schema :type (s/eq type))]
     `(do
        (defmethod get-schema ~type
          [~'step]
