@@ -16,9 +16,10 @@
 
                  ;; REST API
                  ;; http-kit already required as part of handlers
+                 [compojure "1.1.8"]
                  [ring/ring-defaults "0.1.1"]
                  [ring-middleware-format "0.4.0"]
-                 [compojure "1.1.8"]]
+                 [prone "0.4.0"]]
   :main ^:skip-aot icecap.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})

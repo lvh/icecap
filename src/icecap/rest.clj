@@ -1,6 +1,7 @@
 (ns icecap.rest
   "The REST API for icecap."
   (:require [compojure.core :refer [defroutes context GET POST DELETE]]
+            [prone.middleware :refer [wrap-exceptions]]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults secure-api-defaults]]
             [ring.middleware.format :refer [wrap-restful-format]]
             [ring.middleware.reload :refer [wrap-reload]]))
@@ -37,5 +38,7 @@
                  (wrap-restful-format :formats [:edn])
                  (wrap-components components))]
     (if dev-mode
-      (wrap-reload site)
+      (-> site
+          (wrap-reload)
+          (wrap-exceptions))
       site)))
