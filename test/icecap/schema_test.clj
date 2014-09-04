@@ -4,7 +4,7 @@
             [clojure.test :refer :all]
             [schema.core :as s]))
 
-(deftest PlanTests
+(deftest plan-tests
   (testing "correct plans validate"
     (are [example] (s/validate Plan example)
          simple-http-step
