@@ -14,6 +14,8 @@
                  [schema-contrib "0.1.3"]
                  [cddr/integrity "0.2.0-20140823.193326-1" :exclusions [org.clojure/clojure]]
 
+                 ;; Crypto
+                 [crypto-random "1.2.0"]
                  ;; REST API
                  ;; http-kit already required as part of handlers
                  [compojure "1.1.8"]
