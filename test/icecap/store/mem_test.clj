@@ -1,5 +1,5 @@
 (ns icecap.store.mem-test
-  (:require [icecap.store.core :refer :all]
+  (:require [icecap.store.api :refer :all]
             [icecap.store.mem :refer :all]
             [clojure.test :refer :all]
             [clojure.core.async :as a :refer [<!!]]))

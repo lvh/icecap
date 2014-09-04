@@ -1,7 +1,7 @@
 (ns icecap.store.mem
   "An in-memory store."
   (:require [clojure.core.async :as a]
-            [icecap.store.core :refer :all]))
+            [icecap.store.api :refer :all]))
 
 (defn mem-store
   "Create an in-memory store."
