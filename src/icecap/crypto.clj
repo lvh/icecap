@@ -17,9 +17,17 @@
   "The size of the master key, in bits."
   256)
 
+(def master-key-bytes
+  "See master-key-bits."
+  (/ master-key-bits 8))
+
 (def salt-bits
   "The size of the salt, in bits."
   256)
+
+(def salt-bytes
+  "See salt-bits."
+  (/ salt-bits 8))
 
 (def index-bits
   "The size of the index, in bits.
