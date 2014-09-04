@@ -53,6 +53,18 @@
   "See cap-key-bits."
   (/ cap-key-bits 8))
 
+(defn ^:private nul-byte-array
+  [n]
+  (byte-array (repeat n 0)))
+
+(def hardcoded-master-key-fixme
+  "See #15."
+  (nul-byte-array master-key-bytes))
+
+(def hardcoded-salt-fixme
+  "See #15."
+  (nul-byte-array salt-bytes))
+
 (defprotocol KDF
   "A key derivation function.
 
@@ -60,10 +72,6 @@
   generic KDF interface.
   "
   (derive [kdf cap master-key salt]))
-
-(defn ^:private nul-byte-array
-  [n]
-  (byte-array (repeat n 0)))
 
 (defn bogus-kdf
   "A totally bogus KDF that consistently returns all-NUL keys.
