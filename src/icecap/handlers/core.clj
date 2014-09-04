@@ -1,11 +1,38 @@
 (ns icecap.handlers.core
-  "The core handler API."
-  (:require [schema.core :as s]))
+  "The core handler API and behavior."
+  (:require [schema.core :as s]
+            [clojure.core.async :as async :refer [go chan <! >!]]))
 
 (defmulti get-schema :type)
-(defmulti execute (fn [x] (cond (set? x) ::unordered-plans
-                               (vec? x) ::ordered-plans
-                               :else (:type x))))
+(defmulti execute
+  "Executes a plan.
+
+  If the plan is a single step, executes it with the appropriate step
+  handler (see `defstep`). If it is an unordered collection of plans,
+  execute all of them in any order. If it is an ordered collection of
+  plans, executes them in order.
+
+  For more details on the structure of plans, see `icecap.schema`.
+
+  Returns a channel that will produce all of the individual results,
+  and then closes.
+  "
+  (fn [x] (cond (set? x) ::unordered-plans
+               (vector? x) ::ordered-plans
+               :else (:type x))))
+
+(defmethod execute ::unordered-plans
+  [plans]
+  (async/merge (map execute plans)))
+
+(defmethod execute ::ordered-plans
+  [plans]
+  (let [out (chan)]
+    (go (reduce (fn [_ plan]
+                  (let [results (async/into [] (execute plan))]
+                    (async/onto-chan out results)))
+                plans))
+    out))
 
 (defmacro defstep
   "Define a step implementation.
