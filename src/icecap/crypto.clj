@@ -11,7 +11,19 @@
   ;; (:require [caesium.crypto.generichash :refer [blake2b]]
   ;;           [caesium.crypto.secretbox :as secretbox])
   ;; (:import java.util Arrays)
-  )
+  (:require [crypto.random :as csprng]))
+
+(def cap-bits
+  "The size of a cap, in bits."
+  256)
+
+(def cap-bytes
+  "See cap-bits."
+  (/ cap-bits 8))
+
+(def make-cap
+  "Makes a new capability identifier."
+  (partial csprng/bytes cap-bytes))
 
 (def master-key-bits
   "The size of the master key, in bits."
