@@ -11,6 +11,7 @@
   ;; (:require [caesium.crypto.generichash :refer [blake2b]]
   ;;           [caesium.crypto.secretbox :as secretbox])
   ;; (:import java.util Arrays)
+  (:refer-clojure :exclude [derive])
   (:require [crypto.random :as csprng]))
 
 (def cap-bits
