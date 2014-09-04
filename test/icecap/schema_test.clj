@@ -1,11 +1,8 @@
 (ns icecap.schema-test
   (:require [icecap.schema :refer :all]
+            [icecap.test-data :refer :all]
             [clojure.test :refer :all]
             [schema.core :as s]))
-
-(def simple-http-step {:type :http :url "http://example.test"})
-(def simple-https-step {:type :http :url "https://example.test"})
-(def simple-ftp-step {:type :ftp :loc "ftp://example.test"})
 
 (deftest PlanTests
   (testing "correct plans validate"
