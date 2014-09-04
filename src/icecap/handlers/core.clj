@@ -3,7 +3,9 @@
   (:require [schema.core :as s]))
 
 (defmulti get-schema :type)
-(defmulti execute :type)
+(defmulti execute (fn [x] (cond (set? x) ::unordered-plans
+                               (vec? x) ::ordered-plans
+                               :else (:type x))))
 
 (defmacro defstep
   "Define a step implementation.
