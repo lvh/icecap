@@ -1,19 +1,47 @@
 (ns icecap.rest
   "The REST API for icecap."
-  (:require [compojure.core :refer [defroutes context GET POST DELETE]]
+  (:require [clojure.core.async :refer [<!!]]
+            [compojure.core :refer [defroutes context GET POST DELETE]]
             [icecap.codec :refer [safebase64-decode]]
+            [icecap.crypto :as crypto]
+            [icecap.store.api :refer [create! retrieve delete!]]
+            [taoensso.nippy :as nippy]
+            [prone.debug :refer [debug]]
             [prone.middleware :refer [wrap-exceptions]]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults secure-api-defaults]]
             [ring.middleware.format :refer [wrap-restful-format]]
             [ring.middleware.reload :refer [wrap-reload]]))
 
+(defn create-cap
+  [cap & {store :store kdf :kdf scheme :scheme}]
+  (let [cap (crypto/make-cap)
+        {index :index key :key} (crypto/hardcoded-derive kdf cap)
+        encoded-plan (nippy/freeze)
+        encrypted-plan (crypto/encrypt scheme key encoded-plan)
+        ]))
+
+(defn get-cap
+  [cap & {store :store kdf :kdf scheme :scheme}]
+  (let [{index :index key :key} (crypto/hardcoded-derive kdf cap)
+        blob (<!! (retrieve store index))
+        encoded-plan (crypto/decrypt scheme key blob)
+        plan (nippy/thaw encoded-plan)
+        sub-results nil] ;; (execute plan)
+    ;; FIXME: maybe it would be better to write this with ->>?
+    (into [] sub-results)))
+
+(defn delete-cap
+  [cap & {store :store}]
+  (delete! store cap))
+
 (defroutes routes
   (context "/v0/caps" []
-           (POST "/" [] "POST")
-           (context "/:enc-cap-id" [enc-cap-id]
-                    (let [cap-id (safebase64-decode enc-cap-id)]
-                      (GET "/" [] "GET")
-                      (DELETE "/" [] "DELETE")))))
+           (POST "/" request (debug))
+           (context "/:encoded-cap" [encoded-cap :as {store :store kdf :kdf scheme :scheme}]
+                    (GET "/" [] (<!! (get-cap (safebase64-decode encoded-cap)
+                                              :store store :kdf kdf :scheme scheme)))
+                    (DELETE "/" [] (<!! (delete-cap (safebase64-decode encoded-cap)
+                                                    :store store))))))
 
 (defn ^:private wrap-components
   "Adds some components to each request map."
