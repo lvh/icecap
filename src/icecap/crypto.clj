@@ -86,6 +86,10 @@
   "
   (derive [kdf cap master-key salt]))
 
+(defn hardcoded-derive
+  [kdf cap]
+  (derive kdf cap hardcoded-master-key-fixme hardcoded-salt-fixme))
+
 (defn bogus-kdf
   "A totally bogus KDF that consistently returns all-NUL keys.
 
