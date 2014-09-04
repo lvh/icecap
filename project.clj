@@ -16,6 +16,10 @@
 
                  ;; Crypto
                  [crypto-random "1.2.0"]
+
+                 ;; Serialization
+                 [com.taoensso/nippy "2.7.0-RC1" :exclusions [org.clojure/clojure]]
+
                  ;; REST API
                  ;; http-kit already required as part of handlers
                  [compojure "1.1.8"]
