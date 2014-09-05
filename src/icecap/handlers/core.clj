@@ -28,10 +28,12 @@
 (defmethod execute ::ordered-plans
   [plans]
   (let [out (chan)]
-    (go (reduce (fn [_ plan]
-                  (let [results (async/into [] (execute plan))]
-                    (async/onto-chan out results)))
-                plans))
+    (go (loop [plans plans]
+          (let [results (<! (async/into [] (execute (first plans))))]
+            (<! (async/onto-chan out results false)))
+          (if (seq (rest plans))
+            (recur (rest plans))
+            (async/close! out))))
     out))
 
 (defmacro defstep
