@@ -54,3 +54,7 @@
        (defmethod execute ~type
          [~'step]
          ~@forms))))
+
+(defstep :succeed
+  {(s/optional :name) s/Str}
+  (async/to-chan [step]))
