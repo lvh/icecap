@@ -58,6 +58,16 @@ Once the cap is revoked, future attempts to exercise it fail.
 Caps are immutable. They are only ever in one of two states: they
 either exist, or they don't.
 
+This is slightly different from some other capability systems you may
+have used, where revocation is typically achieved by composition with
+an intermediary revoking object. Because icecap embraces immutable
+capabilities, you can't mutate that intermediary object. As a result,
+revocation has to be a first class feature. This turns out to be an
+uninteresting difference in practice: in both systems you compose
+capabilities in order to achieve confinement; the only difference is
+if you revoke a capability directly (icecap) or indirectly (other
+capability systems).
+
 ## License
 
 Copyright © 2014 the icecap authors (see AUTHORS)
