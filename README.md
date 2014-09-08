@@ -107,6 +107,29 @@ both systems you compose capabilities in order to achieve confinement;
 the only difference is if you revoke a capability directly (icecap) or
 indirectly (other capability systems).
 
+Because capabilities are URLs, they can be freely shared. This is a
+material difference from most object-capability systems, where
+capabilities themselves can only be shared through invocations, which
+only travel over existing capabilities. For example, consider the
+following classic Granovetter diagram, from
+["Capability Myths Demolished"][CapMyths]:
+
+![http://www.erights.org/elib/capability/duals/images/granovetter.gif][Gramovetter diagram]
+
+In order for Alice to share her reference to Carol with Bob through
+the "foo" message (the arrow), Alice must of course first have a
+reference to Bob in the first place. Within the confines of an object
+capability system, the only way that can happen is through a
+capability. In icecap, by contrast, capabilities are typically
+communicated through some unspecified side channel, such as a
+configuration file.
+
+This means that icecap does not (and can not) solve the confinement
+problem: if you give someone a capability, you can't limit their
+ability to share that capability. (Technically, you can't do that in
+an object capability system either: instead, you limit the people that
+someone you give a capability to can communicate with.)
+
 ## License
 
 Copyright © 2014 the icecap authors (see AUTHORS)
