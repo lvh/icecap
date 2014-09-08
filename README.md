@@ -7,19 +7,21 @@
 
 `icecap` is a capability system based on URLs.
 
-## What are capabilities, and why do I want them?
+## What are capabilities?
 
 A capability ("cap") gives you the authority to perform some action,
 without giving you any *other* authority. In `icecap`, caps are
 represented by URLs.
 
-This makes it easy to build systems that follow the principle of least
-authority. Simply put: a component (such as a piece of software)
-should only have the rights to do what it *needs* to do. That sounds
-obvious, but is rarely applied in practice. Applications are often
-trusted with credentials with capabilities far beyond what the
-application actually needs. This makes those applications an
-interesting target for attacks.
+## Why would I want capabilities?
+
+Capabilities make it easy to build systems that follow the principle
+of least authority. Simply put: a component (such as a piece of
+software) should only have the rights to do what it *needs* to do.
+That sounds obvious, but this principle is rarely applied in practice.
+Applications are often trusted with credentials with capabilities far
+beyond what the application actually needs. This makes those
+applications an interesting target for attacks.
 
 For example, applications are often given API keys that provide access
 to an entire service, when in reality they only use one particular
