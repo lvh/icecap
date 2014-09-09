@@ -3,7 +3,7 @@
   :url "https://github.com/lvh/icecap"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.6.0"]
+  :dependencies [[org.clojure/clojure "1.7.0-alpha1"]
 
                  ;; Logging
                  [com.taoensso/timbre "3.3.0" :exclusions [org.clojure/clojure]]
