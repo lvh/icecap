@@ -1,10 +1,12 @@
 (ns icecap.rest
   "The REST API for icecap."
-  (:require [clojure.core.async :refer [<!!]]
+  (:require [clojure.core.async :refer [<!! <! go] :as async]
             [compojure.core :refer [defroutes context GET POST DELETE]]
-            [icecap.codec :refer [safebase64-decode]]
+            [icecap.codec :refer [safebase64-encode safebase64-decode]]
             [icecap.crypto :as crypto]
+            [icecap.handlers.core :refer [execute]]
             [icecap.store.api :refer [create! retrieve delete!]]
+            [taoensso.timbre :refer [info spy]]
             [taoensso.nippy :as nippy]
             [prone.debug :refer [debug]]
             [prone.middleware :refer [wrap-exceptions]]
@@ -13,34 +15,42 @@
             [ring.middleware.reload :refer [wrap-reload]]))
 
 (defn create-cap
-  [cap & {store :store kdf :kdf scheme :scheme}]
+  [plan & {store :store kdf :kdf scheme :scheme}]
+  (info plan)
   (let [cap (crypto/make-cap)
         {index :index key :key} (crypto/hardcoded-derive kdf cap)
-        encoded-plan (nippy/freeze)
-        encrypted-plan (crypto/encrypt scheme key encoded-plan)
-        ]))
+        encoded-plan (nippy/freeze plan)
+        blob (crypto/encrypt scheme key encoded-plan)
+        ch (create! store index blob)]
+    (async/into {:cap cap} ch)))
 
 (defn get-cap
   [cap & {store :store kdf :kdf scheme :scheme}]
-  (let [{index :index key :key} (crypto/hardcoded-derive kdf cap)
-        blob (<!! (retrieve store index))
-        encoded-plan (crypto/decrypt scheme key blob)
-        plan (nippy/thaw encoded-plan)
-        sub-results nil] ;; (execute plan)
-    ;; FIXME: maybe it would be better to write this with ->>?
-    (into [] sub-results)))
+  (go (let [{index :index key :key} (crypto/hardcoded-derive kdf cap)
+            blob (<! (retrieve store index))
+            encoded-plan (crypto/decrypt scheme key blob)
+            plan (spy (nippy/thaw encoded-plan))
+            sub-results (execute plan)]
+      (async/into {} sub-results))))
 
 (defn delete-cap
   [cap & {store :store}]
-  (delete! store cap))
+  (async/into {} (delete! store cap)))
 
 (defroutes routes
-  (context "/v0/caps" []
-           (POST "/" request (debug))
-           (context "/:encoded-cap" [encoded-cap :as {store :store kdf :kdf scheme :scheme}]
-                    (GET "/" [] (<!! (get-cap (safebase64-decode encoded-cap)
-                                              :store store :kdf kdf :scheme scheme)))
-                    (DELETE "/" [] (<!! (delete-cap (safebase64-decode encoded-cap)
+  (context "/v0/caps" {store :store kdf :kdf scheme :scheme}
+           (POST "/" {plan :body-params :as request}
+                 (let [{cap :cap} (<!! (create-cap plan :store store :kdf kdf :scheme scheme))
+                       encoded-cap (safebase64-encode cap)
+                       url (str "http://" (:server-name request) ":" (:port request)
+                                (:uri request) "/" encoded-cap)]
+                   {:body {:cap encoded-cap :url url}}))
+           (context "/:encoded-cap" [encoded-cap]
+                    (GET "/" []
+                         (<!! (get-cap (safebase64-decode encoded-cap)
+                                       :store store :kdf kdf :scheme scheme)))
+                    (DELETE "/" []
+                            (<!! (delete-cap (safebase64-decode encoded-cap)
                                                     :store store))))))
 
 (defn ^:private wrap-components
