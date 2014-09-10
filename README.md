@@ -114,7 +114,7 @@ only travel over existing capabilities. For example, consider the
 following classic Granovetter diagram, from
 ["Capability Myths Demolished"][CapMyths]:
 
-![http://www.erights.org/elib/capability/duals/images/granovetter.gif][Gramovetter diagram]
+![Gramovetter diagram](http://www.erights.org/elib/capability/duals/images/granovetter.gif)
 
 In order for Alice to share her reference to Carol with Bob through
 the "foo" message (the arrow), Alice must of course first have a
