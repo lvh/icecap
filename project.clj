@@ -28,9 +28,9 @@
                  ;; http-kit already required as part of handlers
                  [compojure "1.1.8"]
                  [ring/ring-defaults "0.1.1"]
-                 [ring-middleware-format "0.4.0"]
-                 [prone "0.4.0"]
-                 [peridot "0.3.0"]]
+                 [ring-middleware-format "0.4.0"]]
   :main ^:skip-aot icecap.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all}
+             :dev {:dependencies [[prone "0.4.0"]
+                                  [peridot "0.3.0"]]}})
