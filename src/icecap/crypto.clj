@@ -8,9 +8,9 @@
   location of the blob in the database) and the cap key (the key used
   to encrypt the blob).
   - An authenticated encryption scheme."
-  ;; (:require [caesium.crypto.generichash :refer [blake2b]]
-  ;;           [caesium.crypto.secretbox :as secretbox])
-  ;; (:import java.util Arrays)
+  (:require [caesium.crypto.generichash :refer [blake2b]]
+            [caesium.crypto.secretbox :as secretbox])
+  (:import java.util Arrays)
   (:refer-clojure :exclude [derive])
   (:require [crypto.random :as csprng]))
 
@@ -100,19 +100,20 @@
       {:index (nul-byte-array index-bytes)
        :cap-key (nul-byte-array cap-key-bytes)})))
 
-;; (def ^:private personal
-;;   "A personalization parameter."
-;;   (.getBytes "icecap blob storage"))
-;; (defn blake2b-kdf
-;;   "Create a key derivation function based on BLAKE2b."
-;;   (reify KDF
-;;     (derive [_ cap mccaster-key salt]
-;;       (let [output (blake2b cap :salt salt :key master-key :personal personal)
-;;             index-start-byte (inc cap-key-bytes)
-;;             index-end-byte (+ index-start-byte index-bytes)
-;;             index (Arrays/copyOfRange output index-start-byte index-end-byte)
-;;             cap-key (Arrays/copyOf output cap-key-bytes)]
-;;         {:index index :cap-key cap-key}))))
+(def ^:private personal
+  "A personalization parameter."
+  (.getBytes "icecap blob storage"))
+
+(defn blake2b-kdf
+  "Create a key derivation function based on BLAKE2b."
+  (reify KDF
+    (derive [_ cap mccaster-key salt]
+      (let [output (blake2b cap :salt salt :key master-key :personal personal)
+            index-start-byte (inc cap-key-bytes)
+            index-end-byte (+ index-start-byte index-bytes)
+            index (Arrays/copyOfRange output index-start-byte index-end-byte)
+            cap-key (Arrays/copyOf output cap-key-bytes)]
+        {:index index :cap-key cap-key}))))
 
 (defprotocol EncryptionScheme
   "An authenticated encryption scheme."
@@ -128,13 +129,13 @@
     (encrypt [_ _ plaintext] plaintext)
     (decrypt [_ _ ciphertext] ciphertext)))
 
-;; (defn secretbox-scheme
-;;   "An encryption scheme based on NaCl's `secretbox`.
+(defn secretbox-scheme
+  "An encryption scheme based on NaCl's `secretbox`.
 
-;;   Please note that this uses a fixed nonce, and that's *perfectly
-;;   fine*. This is the only message ever encrypted with that key!"
-;;   (reify EncryptionScheme
-;;     (encrypt [_ key plaintext]
-;;       (secretbox/encrypt key (secretbox/int->nonce 1) plaintext))
-;;     (decrypt [_ key ciphertext]
-;;       (secretbox/decrypt key (secretbox/int->nonce 1) ciphertext))))
+  Please note that this uses a fixed nonce, and that's *perfectly
+  fine*. This is the only message ever encrypted with that key!"
+  (reify EncryptionScheme
+    (encrypt [_ key plaintext]
+      (secretbox/encrypt key (secretbox/int->nonce 1) plaintext))
+    (decrypt [_ key ciphertext]
+      (secretbox/decrypt key (secretbox/int->nonce 1) ciphertext))))

@@ -19,6 +19,7 @@
 
                  ;; Crypto
                  [crypto-random "1.2.0"]
+                 [caesium "0.1.2"]
 
                  ;; Serialization
                  [com.taoensso/nippy "2.7.0-RC1" :exclusions [org.clojure/clojure]]
