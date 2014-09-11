@@ -33,4 +33,5 @@
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
              :dev {:dependencies [[prone "0.4.0"]
-                                  [peridot "0.3.0"]]}})
+                                  [peridot "0.3.0"]
+                                  [org.clojure/test.check "0.5.9"]]}})
