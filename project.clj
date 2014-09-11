@@ -23,6 +23,9 @@
                  ;; Serialization
                  [com.taoensso/nippy "2.7.0-RC1" :exclusions [org.clojure/clojure]]
 
+                 ;; Stores
+                 [com.novemberain/welle "3.0.0"]
+
                  ;; REST API
                  ;; http-kit already required as part of handlers
                  [compojure "1.1.8"]
