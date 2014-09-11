@@ -8,11 +8,11 @@
   location of the blob in the database) and the cap key (the key used
   to encrypt the blob).
   - An authenticated encryption scheme."
-  (:require [caesium.crypto.generichash :refer [blake2b]]
-            [caesium.crypto.secretbox :as secretbox])
-  (:import java.util Arrays)
   (:refer-clojure :exclude [derive])
-  (:require [crypto.random :as csprng]))
+  (:require [caesium.crypto.generichash :refer [blake2b]]
+            [caesium.crypto.secretbox :as secretbox]
+            [crypto.random :as csprng])
+  (:import [java.util Arrays]))
 
 (def cap-bits
   "The size of a cap, in bits."
@@ -106,8 +106,9 @@
 
 (defn blake2b-kdf
   "Create a key derivation function based on BLAKE2b."
+  []
   (reify KDF
-    (derive [_ cap mccaster-key salt]
+    (derive [_ cap master-key salt]
       (let [output (blake2b cap :salt salt :key master-key :personal personal)
             index-start-byte (inc cap-key-bytes)
             index-end-byte (+ index-start-byte index-bytes)
@@ -134,6 +135,7 @@
 
   Please note that this uses a fixed nonce, and that's *perfectly
   fine*. This is the only message ever encrypted with that key!"
+  []
   (reify EncryptionScheme
     (encrypt [_ key plaintext]
       (secretbox/encrypt key (secretbox/int->nonce 1) plaintext))
