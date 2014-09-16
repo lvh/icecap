@@ -10,9 +10,8 @@
 
   An step is a small, atomic part of a capability. It includes things
   like HTTP requests or delays."
-  (let [preds-and-schemas (for [type (keys (methods get-schema))]
-                            [#(= (:type %) type)
-                             (get-schema {:type type})])]
+  (let [preds-and-schemas (for [[type schema-fn] (methods get-schema)]
+                            [#(= (:type %) type) (schema-fn type)])]
     (apply s/conditional
            (concat (flatten preds-and-schemas)
                    [:else (s/pred (constantly false) "supported-step-type")]))))

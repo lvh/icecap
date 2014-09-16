@@ -3,7 +3,7 @@
   (:require [schema.core :as s]
             [clojure.core.async :as async :refer [go chan <! >!]]))
 
-(defmulti get-schema :type)
+(defmulti get-schema identity)
 (defmulti execute
   "Executes a plan.
 
@@ -51,7 +51,7 @@
   (let [full-schema (assoc schema :type (s/eq type))]
     `(do
        (defmethod get-schema ~type
-         [step#]
+         [type#]
          ~full-schema)
        (defmethod execute ~type
          ~@fn-tail))))
