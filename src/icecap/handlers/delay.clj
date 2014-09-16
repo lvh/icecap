@@ -5,6 +5,7 @@
 
 (defstep :delay
   {:amount (between 0 60)}
+  [step]
   (let [amount (:amount step)
         delay (timeout (:amount step))]
     delay))
