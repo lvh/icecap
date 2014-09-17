@@ -1,15 +1,11 @@
 (ns icecap.crypto-test
   (:refer-clojure :exclude [derive])
   (:require [icecap.crypto :refer :all]
+            [icecap.test-props :refer [n-bytes]]
             [caesium.crypto.util :refer [array-eq]]
             [clojure.test :refer :all]
-            [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop]
             [clojure.test.check.clojure-test :refer [defspec]]))
-
-(defn n-bytes
-  [n]
-  (gen/fmap byte-array (gen/vector gen/byte n)))
 
 (defn scheme-roundtrip-prop
   [scheme key-length]
