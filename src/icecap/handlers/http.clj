@@ -5,4 +5,5 @@
 
 (defstep :http
   {:url URI}
+  [step]
   (to-chan step))

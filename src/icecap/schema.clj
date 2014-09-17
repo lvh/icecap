@@ -10,12 +10,14 @@
 
   An step is a small, atomic part of a capability. It includes things
   like HTTP requests or delays."
-  (let [preds-and-schemas (for [type (keys (methods get-schema))]
-                            [#(= (:type %) type)
-                             (get-schema {:type type})])]
+  (let [all-methods (methods get-schema)
+        all-types (keys all-methods)
+        preds-and-schemas (for [[type schema-fn] all-methods]
+                            [#(= (:type %) type) (schema-fn type)])]
     (apply s/conditional
            (concat (flatten preds-and-schemas)
-                   [:else (s/pred (constantly false) "supported-step-type")]))))
+                   [:else {:type (apply s/enum all-types)
+                           s/Any s/Any}]))))
 
 (defn with-one-or-more
   "Constrain a seq schema to require one or more items.
