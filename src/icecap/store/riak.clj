@@ -34,6 +34,7 @@
      :dw w
 
      :notfound-ok false
+     :basic-quorum true
 
      :allow-mult false
      :last-write-wins true}))
