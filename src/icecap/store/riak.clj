@@ -26,8 +26,9 @@
   Additionally, we know that we're never going to see key collisions,
   because the keys are long random strings.
   "
-  [& {n :n r :r :or {:n 3 :r 1}}]
-  (let [w (- n r)]
+  [& {n :n :or {:n 3}}]
+  (let [r 1
+        w (- n r)]
     {:n-val n
      :r r
      :w w
