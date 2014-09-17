@@ -26,13 +26,13 @@
   "Makes a new capability identifier."
   (partial csprng/bytes cap-bytes))
 
-(def master-key-bits
-  "The size of the master key, in bits."
+(def seed-key-bits
+  "The size of the seed key, in bits."
   256)
 
-(def master-key-bytes
-  "See master-key-bits."
-  (/ master-key-bits 8))
+(def seed-key-bytes
+  "See seed-key-bits."
+  (/ seed-key-bits 8))
 
 (def salt-bits
   "The size of the salt, in bits."
@@ -70,9 +70,9 @@
   [n]
   (byte-array (repeat n 0)))
 
-(def hardcoded-master-key-fixme
+(def hardcoded-seed-key-fixme
   "See #15."
-  (nul-byte-array master-key-bytes))
+  (nul-byte-array seed-key-bytes))
 
 (def hardcoded-salt-fixme
   "See #15."
@@ -84,11 +84,11 @@
   This is a key derivation function specifically for icecap, and not a
   generic KDF interface.
   "
-  (derive [kdf cap master-key salt]))
+  (derive [kdf cap seed-key salt]))
 
 (defn hardcoded-derive
   [kdf cap]
-  (derive kdf cap hardcoded-master-key-fixme hardcoded-salt-fixme))
+  (derive kdf cap hardcoded-seed-key-fixme hardcoded-salt-fixme))
 
 (defn bogus-kdf
   "A totally bogus KDF that consistently returns all-NUL keys.
@@ -108,8 +108,8 @@
   "Create a key derivation function based on BLAKE2b."
   []
   (reify KDF
-    (derive [_ cap master-key salt]
-      (let [output (blake2b cap :salt salt :key master-key :personal personal)
+    (derive [_ cap seed-key salt]
+      (let [output (blake2b cap :salt salt :key seed-key :personal personal)
             index-start-byte (inc cap-key-bytes)
             index-end-byte (+ index-start-byte index-bytes)
             index (Arrays/copyOfRange output index-start-byte index-end-byte)

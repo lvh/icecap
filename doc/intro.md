@@ -88,14 +88,14 @@ backing.
 
 - The *cap* is a unique identifier, randomly selected when the cap is
   created. It is never stored by icecap.
-- The *master key* is a secret key stored on all of the API endpoints.
+- The *seed key* is a secret key stored on all of the API endpoints.
   It combined with the cap to produce the index and cap key.
 - The *index* is the location in the database where the blob is
-  stored. It is produced from the cap and the master key.
+  stored. It is produced from the cap and the seed key.
 - The *blob* the ciphertext of the plan. The database stores it at the
   index.
 - The *cap key* is the key used to encrypt the plan. It is produced
-  from the cap and the master key.
+  from the cap and the seed key.
 - The *plan* is a description of what the cap actually does when it is
   exercised.
 - The *salt* is a not-necessarily-secret (although typically kept
@@ -120,7 +120,7 @@ mode as a key derivation function. Specifically, this means:
 ```
 k = blake2b(digest_size=CAPABILITY_KEY_SIZE + INDEX_SIZE,
             salt=SALT,
-            key=MASTER_KEY,
+            key=SEED_KEY,
             person=CAPABILITY_IDENTIFIER).digest()
 enc_key, index = k[:CAPABILITY_KEY_SIZE], k[-INDEX_SIZE:]
 ```
@@ -155,9 +155,9 @@ details about the components, consider their respective websites:
 
 ### Set up
 
-An `icecap` installation picks a (secret) master key and a (ideally
-secret, although this isn't a hard requirement) salt. The master key
-and salt are shared amongst all API endpoints.
+An `icecap` installation picks a (secret) seed key and a (ideally
+secret, although this isn't a hard requirement) salt. The seed key and
+salt are shared amongst all API endpoints.
 
 ### Creating a cap
 
