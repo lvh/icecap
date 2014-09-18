@@ -32,9 +32,22 @@
                  [compojure "1.1.9"]
                  [ring/ring-defaults "0.1.1"]
                  [ring-middleware-format "0.4.0"]]
+
+
   :main ^:skip-aot icecap.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
              :dev {:dependencies [[prone "0.6.0"]
                                   [peridot "0.3.0"]
-                                  [org.clojure/test.check "0.5.9"]]}})
+                                  [org.clojure/test.check "0.5.9"]]
+                   :aliases ^:replace {"omni" ["do"
+                                               ["clean"]
+                                               ["with-profile" "production" "deps" ":tree"]
+                                               ["ancient"]
+                                               ["kibit"]
+                                               ["bikeshed"]
+                                               ["eastwood"]]}
+                   :plugins [[jonase/eastwood "0.1.4"]
+                             [lein-ancient "0.5.5"]
+                             [lein-bikeshed "0.1.8"]
+                             [lein-kibit "0.0.8"]]}})
