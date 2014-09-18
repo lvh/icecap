@@ -5,6 +5,7 @@
             [caesium.crypto.util :refer [array-eq]]
             [clojure.test :refer :all]
             [clojure.test.check.properties :as prop]
+            [clojure.test.check.generators :as gen]
             [clojure.test.check.clojure-test :refer [defspec]]))
 
 (defn scheme-roundtrip-prop
