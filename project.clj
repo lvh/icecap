@@ -40,7 +40,7 @@
              :dev {:dependencies [[prone "0.6.0"]
                                   [peridot "0.3.0"]
                                   [org.clojure/test.check "0.5.9"]]
-                   :aliases ^:replace {"omni" ["do"
+                   :aliases ^:replace {"lint" ["do"
                                                ["clean"]
                                                ["with-profile" "production" "deps" ":tree"]
                                                ["ancient"]
