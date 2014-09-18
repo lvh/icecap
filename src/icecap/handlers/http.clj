@@ -1,7 +1,7 @@
 (ns icecap.handlers.http
-  (:require [schema-contrib.core :refer [URI]]
+  (:require [clojure.core.async :refer [to-chan]]
             [icecap.handlers.core :refer [defstep]]
-            [clojure.core.async :refer [to-chan]]))
+            [schema-contrib.core :refer [URI]]))
 
 (defstep :http
   {:url URI}

@@ -1,6 +1,6 @@
 (ns icecap.core
-  (:require [icecap.rest :as rest]
-            [icecap.crypto :refer [bogus-kdf bogus-scheme]]
+  (:require [icecap.crypto :refer [bogus-kdf bogus-scheme]]
+            [icecap.rest :as rest]
             [icecap.store.mem :refer [mem-store]]
             [org.httpkit.server :refer [run-server]]
             [taoensso.timbre :refer [info]])

@@ -1,6 +1,6 @@
 (ns icecap.store.riak
-  (:require [icecap.store.api :refer [Store]]
-            [clojurewerkz.welle.kv :as kv]))
+  (:require [clojurewerkz.welle.kv :as kv]
+            [icecap.store.api :refer [Store]]))
 
 (defn riak-store
   "Creates a Riak-backed store."

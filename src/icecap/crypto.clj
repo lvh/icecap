@@ -8,11 +8,11 @@
   location of the blob in the database) and the cap key (the key used
   to encrypt the blob).
   - An authenticated encryption scheme."
-  (:refer-clojure :exclude [derive])
   (:require [caesium.crypto.generichash :refer [blake2b]]
             [caesium.crypto.secretbox :as secretbox]
             [crypto.random :as csprng])
-  (:import [java.util Arrays]))
+  (:import (java.util Arrays))
+  (:refer-clojure :exclude [derive]))
 
 (def cap-bits
   "The size of a cap, in bits."

@@ -1,6 +1,6 @@
 (ns icecap.codec
   (:require [clojure.string :as s]
-            [ring.util.codec :refer [base64-encode base64-decode]]))
+            [ring.util.codec :refer [base64-decode base64-encode]]))
 
 (defn safebase64-decode
   "Decode urlsafe base64."
