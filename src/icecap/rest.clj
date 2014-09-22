@@ -10,7 +10,9 @@
             [taoensso.nippy :as nippy]
             [prone.debug :refer [debug]]
             [prone.middleware :refer [wrap-exceptions]]
-            [ring.middleware.defaults :refer [wrap-defaults api-defaults secure-api-defaults]]
+            [ring.middleware.defaults :refer [wrap-defaults
+                                              api-defaults
+                                              secure-api-defaults]]
             [ring.middleware.format :refer [wrap-restful-format]]
             [ring.middleware.reload :refer [wrap-reload]]))
 
