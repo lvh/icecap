@@ -12,7 +12,9 @@
         (swap! store assoc index blob)
         (a/to-chan []))
       (retrieve [_ index]
-        (a/to-chan [(@store index)]))
+        (let [v (@store index)
+              vs (if (nil? v) [] [v])]
+          (a/to-chan vs)))
       (delete! [_ index]
         (swap! store dissoc index)
         (a/to-chan [])))))
