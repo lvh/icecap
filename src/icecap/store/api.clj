@@ -12,9 +12,9 @@
     "Get the blob at `index`.
 
      Returns a core.async chan that returns the stored blob, then
-     closes.")
+     closes. If the blob does not exist, just closes the channel.")
   (delete! [store index]
     "Delete the blob at `index`.
 
     Returns a core.async chan that will close when the blob has been
-    deleted."))
+    deleted, even if there wasn't a blob at `index`."))
