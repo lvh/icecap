@@ -42,9 +42,13 @@
 (defroutes routes
   (context "/v0/caps" {store :store kdf :kdf scheme :scheme}
            (POST "/" {plan :body-params :as request}
-                 (let [{cap :cap} (<!! (create-cap plan :store store :kdf kdf :scheme scheme))
+                 (let [{cap :cap} (<!! (create-cap plan
+                                                   :store store
+                                                   :kdf kdf
+                                                   :scheme scheme))
                        encoded-cap (safebase64-encode cap)
-                       url (str "http://" (:server-name request) ":" (:port request)
+                       url (str "http://"
+                                (:server-name request) ":" (:port request)
                                 (:uri request) "/" encoded-cap)]
                    {:body {:cap encoded-cap :url url}}))
            (context "/:encoded-cap" [encoded-cap]
