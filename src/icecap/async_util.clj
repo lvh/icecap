@@ -1,7 +1,7 @@
 (ns icecap.async-util
   (:require [clojure.core.async :as a]))
 
-(defmacro ^:private throwing-op
+(defmacro throwing-op
   "Like `op`, except throws exceptions from the chan."
   [op c]
   `(let [v# (~op ~c)]
