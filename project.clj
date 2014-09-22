@@ -5,8 +5,11 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0-alpha2"]
 
-                 ;; Logging
-                 [com.taoensso/timbre "3.3.1" :exclusions [org.clojure/clojure]]
+                 ;; Stores
+                 [com.novemberain/welle "3.0.0"]
+
+                 ;; Serialization
+                 [com.taoensso/nippy "2.7.0-RC1" :exclusions [org.clojure/clojure]]
 
                  ;; Handlers
                  [org.clojure/core.async "0.1.338.0-5c5012-alpha"]
@@ -21,17 +24,26 @@
                  [crypto-random "1.2.0"]
                  [caesium "0.1.2"]
 
-                 ;; Serialization
-                 [com.taoensso/nippy "2.7.0-RC1" :exclusions [org.clojure/clojure]]
-
-                 ;; Stores
-                 [com.novemberain/welle "3.0.0"]
+                 ;; Logging
+                 [com.taoensso/timbre "3.3.1" :exclusions [org.clojure/clojure]]
 
                  ;; REST API
                  ;; http-kit already required as part of handlers
                  [compojure "1.1.9"]
-                 [ring/ring-defaults "0.1.1"]
-                 [ring-middleware-format "0.4.0"]]
+                 [ring/ring-defaults "0.1.2"]
+                 [ring-middleware-format "0.4.0"]
+
+                 ;; Explicit transitive deps
+                 [com.fasterxml.jackson.core/jackson-annotations "2.4.2"]
+                 [com.fasterxml.jackson.core/jackson-core "2.4.2"]
+                 [com.fasterxml.jackson.core/jackson-databind "2.4.2"]
+                 [commons-codec "1.9"]
+                 [clj-time "0.8.0"]
+                 [joda-time "2.4"]
+                 [org.clojure/tools.macro "0.1.5"]
+                 [org.clojure/tools.reader "0.8.9"]
+                 [potemkin "0.3.9"]
+                 [com.taoensso/encore "1.9.2"]]
   :main ^:skip-aot icecap.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
