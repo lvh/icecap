@@ -43,7 +43,8 @@
                  [org.clojure/tools.macro "0.1.5"]
                  [org.clojure/tools.reader "0.8.9"]
                  [potemkin "0.3.9"]
-                 [com.taoensso/encore "1.9.2"]]
+                 [com.taoensso/encore "1.9.2"]
+                 [instaparse "1.3.4"]]
   :main ^:skip-aot icecap.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
