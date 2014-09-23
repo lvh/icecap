@@ -10,7 +10,7 @@
 
 (defn connect
   [f]
-  (let [conn (wc/connect "http://localhost:8098/riak" "icecap-test")
+  (let [conn (wc/connect "http://localhost:8098/riak")
         store (riak-store conn "test-bucket")]
     (try
       (wb/update conn "test-bucket" (bucket-props))
