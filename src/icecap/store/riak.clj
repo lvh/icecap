@@ -1,18 +1,25 @@
 (ns icecap.store.riak
   (:require [clojure.core.async :as a :refer [thread]]
             [clojurewerkz.welle.kv :as kv]
+            [icecap.codec :refer [safebase64-encode]]
             [icecap.store.api :refer [Store]]))
+
+(defmacro ^:private riak-op
+  "Runs `body` in a thread, and encodes the index as urlsafe base64."
+  [& body]
+  `(let [~'index (safebase64-encode ~'index)]
+     (thread ~@body)))
 
 (defn riak-store
   "Creates a Riak-backed store."
   [conn bucket]
   (reify Store
     (create! [_ index blob]
-      (thread (kv/store conn bucket index blob)))
+      (riak-op (kv/store conn bucket index blob)))
     (retrieve [_ index]
-      (thread (kv/fetch-one conn bucket index)))
+      (riak-op (kv/fetch-one conn bucket index)))
     (delete! [_ index]
-      (thread (kv/delete conn bucket index)))))
+      (riak-op (kv/delete conn bucket index)))))
 
 (defn bucket-props
   "Creates some bucket props suitable for an icecap bucket.
