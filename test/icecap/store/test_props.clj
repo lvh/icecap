@@ -7,7 +7,7 @@
             [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop]))
 
-(defn store-roundtrip-prop
+(defn roundtrip-prop
   [store]
   (prop/for-all [index (n-bytes index-bytes)
                  blob gen/bytes]
@@ -15,7 +15,7 @@
                     (array-eq (<!! (retrieve store index))
                               blob))))
 
-(defn store-delete-prop
+(defn delete-prop
   [store]
   (prop/for-all [index (n-bytes index-bytes)
                  blob gen/bytes]
