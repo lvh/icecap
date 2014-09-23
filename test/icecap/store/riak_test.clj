@@ -18,6 +18,8 @@
       (finally
         (wc/shutdown conn)))))
 
+(use-fixtures :once connect)
+
 (defspec ^:riak riak-store-roundtrip
   (roundtrip-prop riak-test-store))
 
