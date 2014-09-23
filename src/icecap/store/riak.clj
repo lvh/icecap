@@ -4,14 +4,14 @@
 
 (defn riak-store
   "Creates a Riak-backed store."
-  [client bucket]
+  [conn bucket]
   (reify Store
     (create! [_ index blob]
-      (kv/store client bucket index blob))
+      (kv/store conn bucket index blob))
     (retrieve [_ index]
-      (kv/fetch-one client bucket index))
+      (kv/fetch-one conn bucket index))
     (delete! [_ index]
-      (kv/delete client bucket))))
+      (kv/delete conn bucket))))
 
 (defn bucket-props
   "Creates some bucket props suitable for an icecap bucket.
