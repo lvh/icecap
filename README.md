@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/lvh/icecap.png?label=ready&title=Ready)](https://waffle.io/lvh/icecap)
 # icecap
 
 [![Build Status](https://travis-ci.org/lvh/icecap.svg)](https://travis-ci.org/lvh/icecap)
