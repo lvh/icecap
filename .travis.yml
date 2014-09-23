@@ -3,6 +3,8 @@ lein: lein2
 jdk:
   - oraclejdk7
   - oraclejdk8
+services:
+  - riak
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get -y install build-essential libtool autotools-dev automake checkinstall check git yasm
@@ -16,5 +18,5 @@ install:
   - sudo ldconfig
   - cd ..
 script:
-  - lein test
+  - lein test :all
   - lein lint

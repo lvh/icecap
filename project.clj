@@ -45,6 +45,9 @@
                  [potemkin "0.3.9"]
                  [com.taoensso/encore "1.9.2"]
                  [instaparse "1.3.4"]]
+  :test-selectors {:default (complement #{:riak})
+                   :riak :riak
+                   :all (constantly true)}
   :main ^:skip-aot icecap.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
