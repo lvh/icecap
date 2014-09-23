@@ -19,7 +19,8 @@
   (testing "plans with empty steps in them don't validate"
     (are [example reason] (= (pr-str (s/check Plan example))
                              (pr-str reason))
-      [#{} simple-http-step] ['(not ("collection of one or more plans" #{})) nil]))
+         [#{} simple-http-step] ['(not ("collection of one or more plans" #{}))
+                                 nil]))
   (testing "plans with unsupported steps don't validate, with useful error"
     (let [supported-types (into #{} (keys (methods get-schema)))]
       (are [example] (let [e (:type (s/check Plan example))
