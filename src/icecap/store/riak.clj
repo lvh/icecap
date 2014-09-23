@@ -12,7 +12,7 @@
     (retrieve [_ index]
       (thread (kv/fetch-one conn bucket index)))
     (delete! [_ index]
-      (thread (kv/delete conn bucket)))))
+      (thread (kv/delete conn bucket index)))))
 
 (defn bucket-props
   "Creates some bucket props suitable for an icecap bucket.
@@ -27,7 +27,7 @@
   Additionally, we know that we're never going to see key collisions,
   because the keys are long random strings.
   "
-  [& {n :n :or {:n 3}}]
+  [& {n :n :or {n 3}}]
   (let [r 1
         w (- n r)]
     {:n-val n
