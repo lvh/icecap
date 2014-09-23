@@ -1,5 +1,6 @@
 (ns icecap.store.riak
-  (:require [clojurewerkz.welle.kv :as kv]
+  (:require [clojure.core.async :as a :refer [thread]]
+            [clojurewerkz.welle.kv :as kv]
             [icecap.store.api :refer [Store]]))
 
 (defn riak-store
@@ -7,11 +8,11 @@
   [conn bucket]
   (reify Store
     (create! [_ index blob]
-      (kv/store conn bucket index blob))
+      (thread (kv/store conn bucket index blob)))
     (retrieve [_ index]
-      (kv/fetch-one conn bucket index))
+      (thread (kv/fetch-one conn bucket index)))
     (delete! [_ index]
-      (kv/delete conn bucket))))
+      (thread (kv/delete conn bucket)))))
 
 (defn bucket-props
   "Creates some bucket props suitable for an icecap bucket.
