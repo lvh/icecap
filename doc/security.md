@@ -39,7 +39,8 @@ backing.
 
 ### Constants
 
-- Cap size (bits): 256
+All cryptographically relevant constants, such as the sizes of
+parameters and keys, are defined in `icecap/crypto.clj`.
 
 ### Assumptions
 
