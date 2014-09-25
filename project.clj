@@ -46,8 +46,7 @@
                  [com.taoensso/encore "1.9.3"]
                  [instaparse "1.3.4"]]
   :test-selectors {:default (complement #{:riak})
-                   :riak :riak
-                   :all (constantly true)}
+                   :riak :riak}
   :main ^:skip-aot icecap.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
