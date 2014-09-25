@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [derive])
   (:require [icecap.crypto :refer :all]
             [icecap.test-props :refer [n-bytes]]
-            [caesium.crypto.util :refer [array-eq]]
+            [caesium.util :refer [array-eq]]
             [clojure.test :refer :all]
             [clojure.test.check.properties :as prop]
             [clojure.test.check.generators :as gen]

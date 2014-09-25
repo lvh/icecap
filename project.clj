@@ -22,7 +22,7 @@
 
                  ;; Crypto
                  [crypto-random "1.2.0"]
-                 [caesium "0.1.2"]
+                 [caesium "0.3.0"]
 
                  ;; Logging
                  [com.taoensso/timbre "3.3.1" :exclusions [org.clojure/clojure]]

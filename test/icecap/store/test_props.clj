@@ -1,5 +1,5 @@
 (ns icecap.store.test-props
-  (:require [caesium.crypto.util :refer [array-eq]]
+  (:require [caesium.util :refer [array-eq]]
             [icecap.store.api :refer [create! delete! retrieve]]
             [icecap.crypto :refer [index-bytes]]
             [icecap.test-props :refer [n-bytes]]
