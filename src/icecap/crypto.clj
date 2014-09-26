@@ -145,8 +145,9 @@
   Please note that this uses a fixed nonce, and that's *perfectly
   fine*. This is the only message ever encrypted with that key!"
   []
-  (reify EncryptionScheme
-    (encrypt [_ key plaintext]
-      (secretbox/encrypt key (secretbox/int->nonce 1) plaintext))
-    (decrypt [_ key ciphertext]
-      (secretbox/decrypt key (secretbox/int->nonce 1) ciphertext))))
+  (let [nonce (secretbox/int->nonce 1)]
+    (reify EncryptionScheme
+      (encrypt [_ key plaintext]
+        (secretbox/encrypt key nonce plaintext))
+      (decrypt [_ key ciphertext]
+        (secretbox/decrypt key nonce ciphertext)))))
