@@ -7,7 +7,9 @@
   - A key derivation function. Used to generate the index (the
   location of the blob in the database) and the cap key (the key used
   to encrypt the blob).
-  - An authenticated encryption scheme."
+  - An authenticated encryption scheme.
+
+  This namespace defines those components."
   (:require [caesium.crypto.generichash :refer [blake2b]]
             [caesium.crypto.secretbox :as secretbox]
             [crypto.random :as csprng])
