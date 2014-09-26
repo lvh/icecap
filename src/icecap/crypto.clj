@@ -79,25 +79,13 @@
   [n]
   (byte-array (repeat n 0)))
 
-(def hardcoded-seed-key-fixme
-  "See #15."
-  (nul-byte-array seed-key-bytes))
-
-(def hardcoded-salt-fixme
-  "See #15."
-  (nul-byte-array salt-bytes))
-
 (defprotocol KDF
   "A key derivation function.
 
   This is a key derivation function specifically for icecap, and not a
   generic KDF interface.
   "
-  (derive [kdf cap seed-key salt]))
-
-(defn hardcoded-derive
-  [kdf cap]
-  (derive kdf cap hardcoded-seed-key-fixme hardcoded-salt-fixme))
+  (derive [kdf cap]))
 
 (defn bogus-kdf
   "A totally bogus KDF that consistently returns all-NUL keys.
@@ -105,7 +93,7 @@
   Clearly only suitable for development."
   []
   (reify KDF
-    (derive [_ _ _ _]
+    (derive [_ _]
       {:index (nul-byte-array index-bytes)
        :cap-key (nul-byte-array cap-key-bytes)})))
 
@@ -115,9 +103,9 @@
 
 (defn blake2b-kdf
   "Create a key derivation function based on BLAKE2b."
-  []
+  [seed-key salt]
   (reify KDF
-    (derive [_ cap seed-key salt]
+    (derive [_ cap]
       (let [output (blake2b cap :salt salt :key seed-key :personal personal)
             index-start-byte (inc cap-key-bytes)
             index-end-byte (+ index-start-byte index-bytes)

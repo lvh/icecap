@@ -20,7 +20,7 @@
   [plan & {store :store kdf :kdf scheme :scheme}]
   (info plan)
   (let [cap (crypto/make-cap)
-        {index :index key :key} (crypto/hardcoded-derive kdf cap)
+        {index :index key :key} (crypto/derive kdf cap)
         encoded-plan (nippy/freeze plan)
         blob (crypto/encrypt scheme key encoded-plan)
         ch (create! store index blob)]
@@ -28,7 +28,7 @@
 
 (defn get-cap
   [cap & {store :store kdf :kdf scheme :scheme}]
-  (go (let [{index :index key :key} (crypto/hardcoded-derive kdf cap)
+  (go (let [{index :index key :key} (crypto/derive kdf cap)
             blob (<! (retrieve store index))
             encoded-plan (crypto/decrypt scheme key blob)
             plan (spy (nippy/thaw encoded-plan))
