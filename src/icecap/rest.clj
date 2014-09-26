@@ -17,6 +17,7 @@
             [ring.middleware.reload :refer [wrap-reload]]))
 
 (defn create-cap
+  "Creates a capability."
   [plan & {store :store kdf :kdf scheme :scheme}]
   (info plan)
   (let [cap (crypto/make-cap)
@@ -27,6 +28,7 @@
     (async/into {:cap cap} ch)))
 
 (defn get-cap
+  "Gets a capability."
   [cap & {store :store kdf :kdf scheme :scheme}]
   (go (let [{index :index key :key} (crypto/derive kdf cap)
             blob (<! (retrieve store index))
@@ -36,6 +38,7 @@
       (async/into {} sub-results))))
 
 (defn delete-cap
+  "Deletes a capability."
   [cap & {store :store}]
   (async/into {} (delete! store cap)))
 
