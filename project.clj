@@ -45,7 +45,7 @@
                  [potemkin "0.3.9"]
                  [com.taoensso/encore "1.9.3"]
                  [instaparse "1.3.4"]]
-  :test-selectors {:default (complement #{:riak})
+  :test-selectors {:default (complement (comp (partial some #{:riak}) keys))
                    :riak :riak}
   :main ^:skip-aot icecap.core
   :target-path "target/%s"
