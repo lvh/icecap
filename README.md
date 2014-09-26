@@ -6,8 +6,7 @@
   impartial third party audit. Use it at your own peril!**
 
 `icecap` is a capability system based on URLs. You may want to read
-the [introduction][intro] or go to the [documentation][docs] home
-page.
+the [introduction][intro] or go to the [documentation][docs].
 
 [intro]: https://github.com/lvh/icecap/wiki/Introduction
 [docs]: https://github.com/lvh/icecap/wiki
