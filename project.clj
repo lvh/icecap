@@ -21,7 +21,6 @@
                  [cddr/integrity "0.2.0-20140823.193326-1" :exclusions [org.clojure/clojure]]
 
                  ;; Crypto
-                 [crypto-random "1.2.0"]
                  [caesium "0.3.0"]
 
                  ;; Logging

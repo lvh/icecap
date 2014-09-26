@@ -12,7 +12,7 @@
   This namespace defines those components."
   (:require [caesium.crypto.generichash :refer [blake2b]]
             [caesium.crypto.secretbox :as secretbox]
-            [crypto.random :as csprng])
+            [caesium.randombytes :refer [randombytes]])
   (:import (java.util Arrays))
   (:refer-clojure :exclude [derive]))
 
@@ -25,8 +25,15 @@
   (/ cap-bits 8))
 
 (def make-cap
-  "Makes a new capability identifier."
-  (partial csprng/bytes cap-bytes))
+  "Makes a new capability identifier.
+
+  This uses the `randombytes` function from caesium (libsodium), which
+  does the right thing depending on your platform. Consult the
+  [libsodium documentation][randombytes] for more information.
+
+  [randombytes]: http://doc.libsodium.org/generating_random_data/README.html
+  "
+  (partial randombytes cap-bytes))
 
 (def seed-key-bits
   "The size of the seed key, in bits."
