@@ -8,7 +8,6 @@
             [icecap.store.api :refer [create! retrieve delete!]]
             [taoensso.timbre :refer [info spy]]
             [taoensso.nippy :as nippy]
-            [prone.debug :refer [debug]]
             [prone.middleware :refer [wrap-exceptions]]
             [ring.middleware.defaults :refer [wrap-defaults
                                               api-defaults
