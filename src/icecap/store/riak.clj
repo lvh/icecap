@@ -17,7 +17,9 @@
     (create! [_ index blob]
       (riak-op (kv/store conn bucket index blob)))
     (retrieve [_ index]
-      (riak-op (:result (kv/fetch-one conn bucket index))))
+      (riak-op (-> (kv/fetch-one conn bucket index)
+                   :result
+                   :value)))
     (delete! [_ index]
       (riak-op (kv/delete conn bucket index)))))
 
