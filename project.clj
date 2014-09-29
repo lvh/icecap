@@ -31,6 +31,7 @@
                  [compojure "1.1.9"]
                  [ring/ring-defaults "0.1.2"]
                  [ring-middleware-format "0.4.0"]
+                 [prone "0.6.0"]
 
                  ;; Explicit transitive deps
                  [com.fasterxml.jackson.core/jackson-annotations "2.4.2"]
@@ -49,8 +50,7 @@
   :main ^:skip-aot icecap.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
-             :dev {:dependencies [[prone "0.6.0"]
-                                  [peridot "0.3.0"]
+             :dev {:dependencies [[peridot "0.3.0"]
                                   [org.clojure/test.check "0.5.9"]]
                    :aliases ^:replace {"lint" ["do"
                                                ["clean"]
