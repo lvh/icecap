@@ -1,0 +1,41 @@
+blockdiag {
+        Cap [shape=ellipse];
+
+        group {
+                label="Key generation";
+                color="#FFFFB3";
+
+                KDF;
+                Config [label="Seed key & salt", shape=ellipse];
+
+                Index [style=dashed,shape=ellipse];
+                CKey [style=dashed,label="Cap key", shape=ellipse];
+
+                Config -> KDF [folded];
+                KDF -> CKey, Index;
+        }
+
+        Cap -> KDF [folded];
+
+        group {
+                label="Store";
+                color="#B3E5FF";
+                orientation=portrait;
+
+                Store [label="Store", shape=flowchart.database];
+                Blob [shape=mail];
+                E [label="Encryption"];
+
+                Store <-> Blob <-> E;
+        }
+
+        E <-> Plan [folded];
+
+        CKey -> E;
+        Index -> Store;
+
+        Plan [shape=ellipse];
+        Services [shape=cloud];
+        Plan -> Execute <-> Services;
+
+}

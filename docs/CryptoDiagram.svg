@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg viewBox="0 0 640 440" xmlns="http://www.w3.org/2000/svg" xmlns:inkspace="http://www.inkscape.org/namespaces/inkscape" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs id="defs_block">
+    <filter height="1.504" id="filter_blur" inkspace:collect="always" width="1.1575" x="-0.07875" y="-0.252">
+      <feGaussianBlur id="feGaussianBlur3780" inkspace:collect="always" stdDeviation="4.2" />
+    </filter>
+  </defs>
+  <title>blockdiag</title>
+  <desc>blockdiag {
+        Cap [shape=ellipse];
+
+        group {
+                label="Key generation";
+                color="#FFFFB3";
+
+                KDF;
+                Config [label="Seed key &amp; salt", shape=ellipse];
+
+                Index [style=dashed,shape=ellipse];
+                CKey [style=dashed,label="Cap key", shape=ellipse];
+
+                Config -&gt; KDF [folded];
+                KDF -&gt; CKey, Index;
+        }
+
+        Cap -&gt; KDF [folded];
+
+        group {
+                label="Store";
+                color="#B3E5FF";
+                orientation=portrait;
+
+                Store [label="Store", shape=flowchart.database];
+                Blob [shape=mail];
+                E [label="Encryption"];
+
+                Store &lt;-&gt; Blob &lt;-&gt; E;
+        }
+
+        E &lt;-&gt; Plan [folded];
+
+        CKey -&gt; E;
+        Index -&gt; Store;
+
+        Plan [shape=ellipse];
+        Services [shape=cloud];
+        Plan -&gt; Execute &lt;-&gt; Services;
+
+}
+</desc>
+  <rect fill="rgb(255,255,179)" height="220" style="filter:url(#filter_blur)" width="336" x="56" y="110" />
+  <rect fill="rgb(179,229,255)" height="220" style="filter:url(#filter_blur)" width="144" x="440" y="110" />
+  <ellipse cx="131" cy="66" fill="rgb(0,0,0)" rx="64" ry="20" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="67" y="126" />
+  <ellipse cx="131" cy="306" fill="rgb(0,0,0)" rx="64" ry="20" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <ellipse cx="323" cy="146" fill="rgb(0,0,0)" rx="64" ry="20" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <ellipse cx="323" cy="226" fill="rgb(0,0,0)" rx="64" ry="20" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 451 134 A64,8 0 0 1 579 134 L 579 158 A64,8 0 0 1 451 158 L 451 134" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="451" y="206" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="451" y="286" />
+  <ellipse cx="131" cy="386" fill="rgb(0,0,0)" rx="64" ry="20" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <path d="M 471 382 A20,8 0 0 1 491 374 A20,6 0 0 1 541 374 A20,8 0 0 1 561 382 A20,8 0 0 1 561 398 A20,20 0 0 1 531 398 A20,20 0 0 1 501 398 A20,20 0 0 1 471 398 A20,8 0 0 1 471 382" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="259" y="366" />
+  <ellipse cx="128" cy="60" fill="rgb(255,255,255)" rx="64" ry="20" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="21" x="128" y="67">Cap</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="64" y="120" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="23" x="128" y="145">KDF</text>
+  <ellipse cx="128" cy="300" fill="rgb(255,255,255)" rx="64" ry="20" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="85" x="128" y="306">Seed key &amp; salt</text>
+  <ellipse cx="320" cy="140" fill="rgb(255,255,255)" rx="64" ry="20" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="29" x="320" y="145">Index</text>
+  <ellipse cx="320" cy="220" fill="rgb(255,255,255)" rx="64" ry="20" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="44" x="320" y="227">Cap key</text>
+  <path d="M 448 128 A64,8 0 0 1 576 128 L 576 152 A64,8 0 0 1 448 152 L 448 128" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <path d="M 576 128 A64,8 0 0 1 448 128" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="30" x="512" y="149">Store</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="448" y="200" />
+  <path d="M 448 200 L 512 216" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 512 216 L 576 200" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="25" x="512" y="234">Blob</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="448" y="280" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="59" x="512" y="306">Encryption</text>
+  <ellipse cx="128" cy="380" fill="rgb(255,255,255)" rx="64" ry="20" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="23" x="128" y="385">Plan</text>
+  <path d="M 468 376 A20,8 0 0 1 488 368 A20,6 0 0 1 538 368 A20,8 0 0 1 558 376 A20,8 0 0 1 558 392 A20,20 0 0 1 528 392 A20,20 0 0 1 498 392 A20,20 0 0 1 468 392 A20,8 0 0 1 468 376" fill="rgb(255,255,255)" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="45" x="513" y="385">Services</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="256" y="360" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="43" x="320" y="385">Execute</text>
+  <path d="M 128 80 L 128 112" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="128,119 124,112 132,112 128,119" stroke="rgb(0,0,0)" />
+  <path d="M 192 380 L 248 380" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="255,380 248,376 248,384 255,380" stroke="rgb(0,0,0)" />
+  <path d="M 392 380 L 440 380" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="385,380 392,376 392,384 385,380" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="447,380 440,376 440,384 447,380" stroke="rgb(0,0,0)" />
+  <path d="M 192 140 L 224 140" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 224 140 L 224 220" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 224 220 L 248 220" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="255,220 248,216 248,224 255,220" stroke="rgb(0,0,0)" />
+  <path d="M 192 140 L 248 140" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="255,140 248,136 248,144 255,140" stroke="rgb(0,0,0)" />
+  <path d="M 128 280 L 128 168" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="128,161 124,168 132,168 128,161" stroke="rgb(0,0,0)" />
+  <path d="M 384 140 L 440 140" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="447,140 440,136 440,144 447,140" stroke="rgb(0,0,0)" />
+  <path d="M 384 220 L 416 220" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 416 220 L 416 300" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 416 300 L 440 300" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="447,300 440,296 440,304 447,300" stroke="rgb(0,0,0)" />
+  <path d="M 512 168 L 512 192" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="512,161 508,168 516,168 512,161" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="512,199 508,192 516,192 512,199" stroke="rgb(0,0,0)" />
+  <path d="M 512 248 L 512 272" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="512,241 508,248 516,248 512,241" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="512,279 508,272 516,272 512,279" stroke="rgb(0,0,0)" />
+  <path d="M 512 328 L 512 340" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 128 340 L 512 340" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 128 340 L 128 352" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="512,321 508,328 516,328 512,321" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="128,359 124,352 132,352 128,359" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="82" x="224" y="116">Key generation</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="30" x="512" y="115">Store</text>
+</svg>

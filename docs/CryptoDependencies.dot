@@ -1,0 +1,25 @@
+digraph {
+        bgcolor="transparent";
+
+        Cap [style="filled", fillcolor="#FFB3B3"];
+        subgraph {
+                SeedKey [label="Seed key", style="filled", fillcolor="#FFFFB3"];
+                Salt [style="filled", fillcolor="#FFFFB3"];
+        }
+        CapKey [label="Cap key", style="dashed,filled", fillcolor="#FFFFB3"];
+        Index [style="dashed,filled", fillcolor="#FFFFB3"];
+        Blob [style="filled", fillcolor="#B3E5FF"]
+        Plan [style="dashed"];
+
+        Cap -> CapKey;
+        SeedKey -> CapKey;
+        Salt -> CapKey;
+
+        Cap -> Index;
+        SeedKey -> Index;
+        Salt -> Index;
+
+        Index -> Blob;
+        Blob -> Plan;
+        CapKey -> Plan;
+}
