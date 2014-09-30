@@ -6,6 +6,7 @@ jdk:
 services:
   - riak
 install:
+  - apt-get update -qq
   - ./utils/get-libsodium.sh
 script:
   - lein test :all
