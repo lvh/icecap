@@ -9,7 +9,7 @@ digraph {
         CapKey [label="Cap key", style="dashed,filled", fillcolor="#FFFFB3"];
         Index [style="dashed,filled", fillcolor="#FFFFB3"];
         Blob [style="filled", fillcolor="#B3E5FF"]
-        Plan [style="dashed"];
+        Plan [style="dashed,filled", fillcolor="#FFFFB3"];
 
         Cap -> CapKey;
         SeedKey -> CapKey;

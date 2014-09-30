@@ -65,7 +65,7 @@
 </g>
 <!-- Plan -->
 <g id="node7" class="node"><title>Plan</title>
-<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="117" cy="-18" rx="27" ry="18"/>
+<ellipse fill="#ffffb3" stroke="black" stroke-dasharray="5,2" cx="117" cy="-18" rx="27" ry="18"/>
 <text text-anchor="middle" x="117" y="-13.8" font-family="Times,serif" font-size="14.00">Plan</text>
 </g>
 <!-- CapKey&#45;&gt;Plan -->
