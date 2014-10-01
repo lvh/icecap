@@ -7,7 +7,7 @@ sudo apt-get -qq -y install \
 
 git clone https://github.com/jedisct1/libsodium.git
 cd libsodium
-git checkout tags/0.7.0
+git checkout tags/1.0.0
 ./autogen.sh
 ./configure && make check
 
