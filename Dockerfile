@@ -12,7 +12,9 @@ COPY . /usr/src/icecap
 WORKDIR /usr/src/icecap
 
 RUN ./utils/get-lein.sh
-RUN ./utils/get-libsodium.sh
+
+RUN wget https://b25518159d104e8997f8-d5f47ab458856b6ee0c2780ddf5e291c.ssl.cf5.rackcdn.com/libsodium-1.0.0_amd64.deb
+RUN dpkg -i libsodium-1.0.0_amd64.deb
 
 ENV LEIN_ROOT 1
 RUN lein uberjar
