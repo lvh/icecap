@@ -28,7 +28,7 @@
 
                  ;; REST API
                  ;; http-kit already required as part of handlers
-                 [compojure "1.1.9"]
+                 [compojure "1.2.0"]
                  [ring/ring-defaults "0.1.2"]
                  [ring-middleware-format "0.4.0"]
                  [prone "0.6.0"]
@@ -43,7 +43,7 @@
                  [org.clojure/tools.macro "0.1.5"]
                  [org.clojure/tools.reader "0.8.9"]
                  [potemkin "0.3.9"]
-                 [com.taoensso/encore "1.9.3"]
+                 [com.taoensso/encore "1.10.2"]
                  [instaparse "1.3.4"]]
   :test-selectors {:default (complement (some-fn :riak))
                    :riak :riak}
