@@ -12,7 +12,7 @@
                  [com.taoensso/nippy "2.7.0-RC1" :exclusions [org.clojure/clojure]]
 
                  ;; Handlers
-                 [org.clojure/core.async "0.1.338.0-5c5012-alpha"]
+                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [http-kit "2.1.19"]
 
                  ;; Schemata
