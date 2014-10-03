@@ -34,16 +34,16 @@
                  [prone "0.6.0"]
 
                  ;; Explicit transitive deps
-                 [com.fasterxml.jackson.core/jackson-annotations "2.4.2"]
-                 [com.fasterxml.jackson.core/jackson-core "2.4.2"]
-                 [com.fasterxml.jackson.core/jackson-databind "2.4.2"]
+                 [com.fasterxml.jackson.core/jackson-annotations "2.4.3"]
+                 [com.fasterxml.jackson.core/jackson-core "2.4.3"]
+                 [com.fasterxml.jackson.core/jackson-databind "2.4.3"]
                  [commons-codec "1.9"]
                  [clj-time "0.8.0"]
-                 [joda-time "2.4"]
+                 [joda-time "2.5"]
                  [org.clojure/tools.macro "0.1.5"]
                  [org.clojure/tools.reader "0.8.9"]
                  [potemkin "0.3.9"]
-                 [com.taoensso/encore "1.10.2"]
+                 [com.taoensso/encore "1.11.0"]
                  [instaparse "1.3.4"]]
   :test-selectors {:default (complement (some-fn :riak))
                    :riak :riak}
