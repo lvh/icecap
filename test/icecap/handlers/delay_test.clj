@@ -36,10 +36,8 @@
         timeout (fn [^long ms]
                   (let [c (chan)]
                     (add-waiter ms false (fn []
-                                           (prn "CLOSING C")
                                            (close! c)))
                     c))]
-    (prn advance add-waiter)
     [advance {#'clojure.core.async/timeout timeout}]))
 
 (deftest delay-schema-tests
@@ -60,9 +58,7 @@
                   (fn []
                     (let [c (execute step)]
                       (assert (still-open?) "before adding callback")
-                      (take! c (fn [_]
-                                 (prn "took: " _)
-                                 (reset! state false)))
+                      (take! c (fn [_] (reset! state false)))
                       (assert (still-open?) "after adding callback")
                       (advance 5)
                       (assert (still-open?) "before trigger")
