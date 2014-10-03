@@ -1,7 +1,7 @@
 (ns icecap.handlers.delay-test
   (:require [schema.core :as s]
             [icecap.handlers.core :refer [execute get-schema]]
-            [clojure.core.async :refer [go take! put! <!! <! chan close! timeout]]
+            [clojure.core.async :refer [take! chan close!]]
             [icecap.handlers.delay :refer :all]
             [clojure.test :refer :all])
   (:import (java.lang Thread)))
