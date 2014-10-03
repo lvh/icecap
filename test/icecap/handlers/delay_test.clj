@@ -3,7 +3,8 @@
             [icecap.handlers.core :refer [execute get-schema]]
             [clojure.core.async :refer [go take! put! <!! <! chan close! timeout]]
             [icecap.handlers.delay :refer :all]
-            [clojure.test :refer :all]))
+            [clojure.test :refer :all])
+  (:import (java.lang Thread)))
 
 (defn fake-clock
   "Creates a fake clock, allowing you to add waiter functions (which
@@ -63,5 +64,7 @@
                       (advance 5)
                       (assert (still-open?) "before trigger")
                       (advance 10)
-                      (<!! c) ;; wait until definitely closed
-                      (assert (not (still-open?)) "past trigger")))))))))
+                      (while (still-open?)
+                        ;; The fn attached with take! will fire
+                        ;; asynchronously, outside of our control.
+                        (Thread/sleep 50))))))))))
