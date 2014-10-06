@@ -19,14 +19,14 @@
                    [:else {:type (apply s/enum all-types)
                            s/Any s/Any}]))))
 
-(defn with-one-or-more
-  "Constrain a seq schema to require one or more items.
+(defn with-two-or-more
+  "Constrain a seq schema to require two or more items.
 
   Specifically, this checks that both the given schema is matched
-  *and* there is at least one item in it."
+  *and* there are at least two items in it."
   [schema]
   (s/both schema
-          (s/pred seq "collection of one or more plans")))
+          (s/pred #(>= (count %) 2) "collection of two or more plans")))
 
 (def Plan
   "The schema for a plan.
@@ -44,5 +44,5 @@
   (let [Plan (s/recursive #'Plan)]
     (s/conditional
      map? Step
-     vector? (with-one-or-more [Plan])
-     set? (with-one-or-more #{Plan}))))
+     vector? (with-two-or-more [Plan])
+     set? (with-two-or-more #{Plan}))))
