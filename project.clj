@@ -43,8 +43,7 @@
                  [org.clojure/tools.macro "0.1.5"]
                  [org.clojure/tools.reader "0.8.9"]
                  [potemkin "0.3.11"]
-                 [com.taoensso/encore "1.11.0"]
-                 [instaparse "1.3.4"]]
+                 [com.taoensso/encore "1.11.0"]]
   :test-selectors {:default (complement (some-fn :riak))
                    :riak :riak}
   :main ^:skip-aot icecap.core
