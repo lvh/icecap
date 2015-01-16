@@ -18,7 +18,8 @@
 
                  ;; Schemata
                  [prismatic/schema "0.3.3"]
-                 [schema-contrib "0.1.5"]
+                 [schema-contrib "0.1.5"
+                  :exclusions [instaparse]]
                  [cddr/integrity "0.2.0-20140823.193326-1"
                   :exclusions [org.clojure/clojure]]
                  [org.clojure/core.typed "0.2.77"]
