@@ -3,7 +3,7 @@
   :url "https://github.com/lvh/icecap"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.7.0-alpha4"]
+  :dependencies [[org.clojure/clojure "1.7.0-alpha5"]
 
                  ;; Stores
                  [com.novemberain/welle "3.0.0"]
@@ -19,6 +19,7 @@
                  [prismatic/schema "0.3.3"]
                  [schema-contrib "0.1.5"]
                  [cddr/integrity "0.2.0-20140823.193326-1" :exclusions [org.clojure/clojure]]
+                 [org.clojure/core.typed "0.2.77"]
 
                  ;; Crypto
                  [caesium "0.3.0"]
