@@ -9,7 +9,8 @@
                  [com.novemberain/welle "3.0.0"]
 
                  ;; Serialization
-                 [com.taoensso/nippy "2.7.1" :exclusions [org.clojure/clojure]]
+                 [com.taoensso/nippy "2.7.1"
+                  :exclusions [org.clojure/clojure]]
 
                  ;; Handlers
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
@@ -18,7 +19,8 @@
                  ;; Schemata
                  [prismatic/schema "0.3.3"]
                  [schema-contrib "0.1.5"]
-                 [cddr/integrity "0.2.0-20140823.193326-1" :exclusions [org.clojure/clojure]]
+                 [cddr/integrity "0.2.0-20140823.193326-1"
+                  :exclusions [org.clojure/clojure]]
                  [org.clojure/core.typed "0.2.77"]
 
                  ;; Crypto
