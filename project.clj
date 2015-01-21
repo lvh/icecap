@@ -42,7 +42,7 @@
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
              :dev {:dependencies [[peridot "0.3.0"]
-                                  [org.clojure/test.check "0.6.2"]]
+                                  [org.clojure/test.check "0.7.0"]]
                    :aliases ^:replace {"lint" ["do"
                                                ["clean"]
                                                ["with-profile" "production" "deps" ":tree"]
