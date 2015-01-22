@@ -41,14 +41,16 @@
   :main ^:skip-aot icecap.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
-                   :aliases ^:replace {"lint" ["do"
-                                               ["clean"]
-                                               ["with-profile" "production" "deps" ":tree"]
-                                               ["ancient"]
-                                               ["kibit"]
-                                               ["bikeshed"]
-                                               ["eastwood"]]}
              :dev {:dependencies [[org.clojure/test.check "0.7.0"]]
+                   :aliases ^:replace {"lint"
+                                       ["do"
+                                        ["clean"]
+                                        ["with-profile" "production"
+                                         "deps" ":tree"]
+                                        ["ancient"]
+                                        ["kibit"]
+                                        ["bikeshed"]
+                                        ["eastwood"]]}
                    :plugins [[jonase/eastwood "0.1.4"]
                              [lein-ancient "0.6.1"]
                              [lein-bikeshed "0.1.8"]
