@@ -62,7 +62,7 @@
                                        :store store :kdf kdf :scheme scheme)))
                     (DELETE "/" []
                             (<!! (delete-cap (safebase64-decode encoded-cap)
-                                                    :store store))))))
+                                             :store store))))))
 
 (defn ^:private wrap-components
   "Adds some components to each request map."
