@@ -6,6 +6,8 @@
             [icecap.crypto :as crypto]
             [icecap.handlers.core :refer [execute]]
             [icecap.store.api :refer [create! retrieve delete!]]
+            [icecap.handlers.http]
+            [icecap.handlers.delay]
             [taoensso.timbre :refer [info spy]]
             [taoensso.nippy :as nippy]
             [prone.middleware :refer [wrap-exceptions]]
