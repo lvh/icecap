@@ -31,12 +31,12 @@
 (defn get-cap
   "Gets a capability."
   [cap & {store :store kdf :kdf scheme :scheme}]
-  (go (let [{index :index key :key} (crypto/derive kdf cap)
-            blob (<! (retrieve store index))
-            encoded-plan (crypto/decrypt scheme key blob)
-            plan (spy (nippy/thaw encoded-plan))
-            sub-results (execute plan)]
-      (async/into {} sub-results))))
+  (<!! (go (let [{index :index key :key} (crypto/derive kdf cap)
+                 blob (<! (retrieve store index))
+                 encoded-plan (crypto/decrypt scheme key blob)
+                 plan (spy (nippy/thaw encoded-plan))
+                 sub-results (execute plan)]
+             (async/into {} sub-results)))))
 
 (defn delete-cap
   "Deletes a capability."
