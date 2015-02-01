@@ -29,8 +29,8 @@
                          (let [cap (safebase64-decode encoded-cap)]
                            (<!! (execute-cap cap :store store :kdf kdf :scheme scheme))))
                     (DELETE "/" []
-                     (<!! (revoke-cap (safebase64-decode encoded-cap)
-                                             :store store))))))
+                            (let [cap (safebase64-decode encoded-cap)]
+                              (<!! (revoke-cap cap :store store :kdf kdf)))))))
 
 (defn ^:private wrap-components
   "Adds some components to each request map."
