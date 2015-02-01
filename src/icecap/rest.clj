@@ -37,8 +37,8 @@
                  sub-results (execute plan)]
              (async/into {} sub-results)))))
 
-(defn delete-cap
-  "Deletes a capability."
+(defn revoke-cap
+  "Revokes a capability."
   [cap & {store :store}]
   (async/into {} (delete! store cap)))
 
@@ -59,7 +59,7 @@
                          (let [cap (safebase64-decode encoded-cap)]
                            (<!! (execute-cap cap :store store :kdf kdf :scheme scheme))))
                     (DELETE "/" []
-                     (<!! (delete-cap (safebase64-decode encoded-cap)
+                     (<!! (revoke-cap (safebase64-decode encoded-cap)
                                              :store store))))))
 
 (defn ^:private wrap-components
