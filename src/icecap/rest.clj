@@ -27,8 +27,8 @@
         ch (create! store index blob)]
     (async/into {:cap cap} ch)))
 
-(defn get-cap
-  "Gets a capability."
+(defn execute-cap
+  "Executes a capability."
   [cap & {store :store kdf :kdf scheme :scheme}]
   (<!! (go (let [{index :index key :key} (crypto/derive kdf cap)
                  blob (<! (retrieve store index))
@@ -57,7 +57,7 @@
            (context "/:encoded-cap" [encoded-cap]
                     (GET "/" []
                          (let [cap (safebase64-decode encoded-cap)]
-                           (<!! (get-cap cap :store store :kdf kdf :scheme scheme))))
+                           (<!! (execute-cap cap :store store :kdf kdf :scheme scheme))))
                     (DELETE "/" []
                      (<!! (delete-cap (safebase64-decode encoded-cap)
                                              :store store))))))
