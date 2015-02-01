@@ -30,5 +30,7 @@
 
 (defn revoke-cap
   "Revokes a capability."
-  [cap & {store :store}]
-  (async/into {} (delete! store cap)))
+  [cap & {store :store kdf :kdf}]
+  (let [{index :index} (crypto/derive kdf cap)
+        chan (delete! store index)]
+    (async/into {} chan)))
