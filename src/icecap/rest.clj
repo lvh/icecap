@@ -50,12 +50,12 @@
                                                    :store store
                                                    :kdf kdf
                                                    :scheme scheme))
-                       encoded-cap (safebase64-encode cap)
                        netloc (str (:server-name request)
                                    ":" (:server-port request))
                        path (:uri request)
-                       url (str "http://" netloc path "/" encoded-cap)]
-                   {:body {:cap encoded-cap :url url}}))
+                       encoded-cap (safebase64-encode cap)
+                       url (str "http://" netloc path netloc "/" encoded-cap)]
+                   {:body url}))
            (context "/:encoded-cap" [encoded-cap]
                     (GET "/" []
                          (<!! (get-cap (safebase64-decode encoded-cap)

@@ -5,7 +5,10 @@
             [icecap.codec :refer [safebase64-encode]]))
 
 (defn mem-store
-  "Create an in-memory store."
+  "Create an in-memory store.
+
+  Internally, this base64-encodes indices. This is necessary because
+  Java byte arrays don't have equality semantics."
   []
   (let [store (atom {})]
     (reify Store
