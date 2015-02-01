@@ -42,25 +42,24 @@
   [cap & {store :store}]
   (async/into {} (delete! store cap)))
 
+(defn ^:private cap-url
+  [request cap]
+  (let [netloc (str (:server-name request) ":" (:server-port request))
+        path (:uri request)
+        encoded-cap (safebase64-encode cap)]
+    (str "http://" netloc path "/" encoded-cap)))
+
 (defroutes routes
   (context "/v0/caps" {store :store kdf :kdf scheme :scheme}
            (POST "/" {plan :body-params :as request}
-                 (let [{cap :cap} (<!! (create-cap plan
-                                                   :store store
-                                                   :kdf kdf
-                                                   :scheme scheme))
-                       netloc (str (:server-name request)
-                                   ":" (:server-port request))
-                       path (:uri request)
-                       encoded-cap (safebase64-encode cap)
-                       url (str "http://" netloc path netloc "/" encoded-cap)]
-                   {:body url}))
+                 (let [{cap :cap} (<!! (create-cap plan :store store :kdf kdf :scheme scheme))]
+                   {:body (cap-url request cap)}))
            (context "/:encoded-cap" [encoded-cap]
                     (GET "/" []
-                         (<!! (get-cap (safebase64-decode encoded-cap)
-                                       :store store :kdf kdf :scheme scheme)))
+                         (let [cap (safebase64-decode encoded-cap)]
+                           (<!! (get-cap cap :store store :kdf kdf :scheme scheme))))
                     (DELETE "/" []
-                            (<!! (delete-cap (safebase64-decode encoded-cap)
+                     (<!! (delete-cap (safebase64-decode encoded-cap)
                                              :store store))))))
 
 (defn ^:private wrap-components
