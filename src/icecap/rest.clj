@@ -3,44 +3,14 @@
   (:require [clojure.core.async :refer [<!! <! go] :as async]
             [compojure.core :refer [defroutes context GET POST DELETE]]
             [icecap.codec :refer [safebase64-encode safebase64-decode]]
-            [icecap.crypto :as crypto]
-            [icecap.handlers.core :refer [execute]]
-            [icecap.store.api :refer [create! retrieve delete!]]
-            [icecap.handlers.http]
-            [icecap.handlers.delay]
             [taoensso.timbre :refer [info spy]]
-            [taoensso.nippy :as nippy]
+            [icecap.api :refer :all]
             [prone.middleware :refer [wrap-exceptions]]
             [ring.middleware.defaults :refer [wrap-defaults
                                               api-defaults
                                               secure-api-defaults]]
             [ring.middleware.format :refer [wrap-restful-format]]
             [ring.middleware.reload :refer [wrap-reload]]))
-
-(defn create-cap
-  "Creates a capability."
-  [plan & {store :store kdf :kdf scheme :scheme}]
-  (let [cap (crypto/make-cap)
-        {index :index key :key} (crypto/derive kdf cap)
-        encoded-plan (nippy/freeze plan)
-        blob (crypto/encrypt scheme key encoded-plan)
-        ch (create! store index blob)]
-    (async/into {:cap cap} ch)))
-
-(defn execute-cap
-  "Executes a capability."
-  [cap & {store :store kdf :kdf scheme :scheme}]
-  (<!! (go (let [{index :index key :key} (crypto/derive kdf cap)
-                 blob (<! (retrieve store index))
-                 encoded-plan (crypto/decrypt scheme key blob)
-                 plan (spy (nippy/thaw encoded-plan))
-                 sub-results (execute plan)]
-             (async/into {} sub-results)))))
-
-(defn revoke-cap
-  "Revokes a capability."
-  [cap & {store :store}]
-  (async/into {} (delete! store cap)))
 
 (defn ^:private cap-url
   [request cap]
