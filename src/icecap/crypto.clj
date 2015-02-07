@@ -75,7 +75,7 @@
   "See cap-key-bits."
   (/ cap-key-bits 8))
 
-(defn ^:private nul-byte-array
+(defn nul-byte-array
   [n]
   (byte-array (repeat n 0)))
 
@@ -86,16 +86,6 @@
   generic KDF interface.
   "
   (derive [kdf cap]))
-
-(defn bogus-kdf
-  "A totally bogus KDF that consistently returns all-NUL keys.
-
-  Clearly only suitable for development."
-  []
-  (reify KDF
-    (derive [_ _]
-      {:index (nul-byte-array index-bytes)
-       :cap-key (nul-byte-array cap-key-bytes)})))
 
 (def ^:private personal
   "A personalization parameter."
@@ -117,15 +107,6 @@
   "An authenticated encryption scheme."
   (encrypt [scheme key plaintext])
   (decrypt [scheme key ciphertext]))
-
-(defn bogus-scheme
-  "An encryption scheme that doesn't actually do anything.
-
-  Clearly only suitable for development."
-  []
-  (reify EncryptionScheme
-    (encrypt [_ _ plaintext] plaintext)
-    (decrypt [_ _ ciphertext] ciphertext)))
 
 (defn secretbox-scheme
   "An encryption scheme based on NaCl's `secretbox`.
