@@ -111,8 +111,8 @@
 (defn secretbox-scheme
   "An encryption scheme based on NaCl's `secretbox`.
 
-  Please note that this uses a fixed nonce, and that's *perfectly
-  fine*. This is the only message ever encrypted with that key!"
+  This uses a fixed nonce, because this is the only message ever
+  encrypted with that key."
   []
   (let [nonce (secretbox/int->nonce 1)]
     (reify EncryptionScheme
