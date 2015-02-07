@@ -17,7 +17,7 @@
                  [http-kit "2.1.19"]
 
                  ;; Schemata
-                 [prismatic/schema "0.3.4"]
+                 [prismatic/schema "0.3.7"]
                  [schema-contrib "0.1.5"
                   :exclusions [instaparse]]
                  [cddr/integrity "0.2.0-20140823.193326-1"
@@ -52,6 +52,6 @@
                                         ["bikeshed"]
                                         ["eastwood"]]}
                    :plugins [[jonase/eastwood "0.1.4"]
-                             [lein-ancient "0.6.1"]
+                             [lein-ancient "0.6.2"]
                              [lein-bikeshed "0.1.8"]
                              [lein-kibit "0.0.8"]]}})
