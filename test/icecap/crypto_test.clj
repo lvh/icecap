@@ -19,5 +19,3 @@
 
 (defspec secretbox-scheme-roundtrip
   (scheme-roundtrip-prop (secretbox-scheme) 32))
-(defspec bogus-scheme-roundtrip
-  (scheme-roundtrip-prop (bogus-scheme) 16))
