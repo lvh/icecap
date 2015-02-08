@@ -15,6 +15,7 @@
                  ;; Handlers
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [http-kit "2.1.19"]
+                 [aleph "0.4.0-beta2"]
 
                  ;; Schemata
                  [prismatic/schema "0.3.7"]
