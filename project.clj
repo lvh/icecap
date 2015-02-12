@@ -33,7 +33,7 @@
                  ;; REST API
                  ;; http-kit already required as part of handlers
                  [compojure "1.3.1"]
-                 [ring/ring-defaults "0.1.3"]
+                 [ring/ring-defaults "0.1.4"]
                  [ring-middleware-format "0.4.0"]
                  [prone "0.8.0"]]
   :test-selectors {:default (complement (some-fn :riak))
