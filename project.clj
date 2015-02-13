@@ -17,7 +17,6 @@
 
                  ;; Handlers
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
-                 [http-kit "2.1.19"]
                  [aleph "0.4.0-beta2"]
 
                  ;; Schemata
@@ -35,7 +34,6 @@
                  [com.taoensso/timbre "3.3.1" :exclusions [org.clojure/clojure]]
 
                  ;; REST API
-                 ;; http-kit already required as part of handlers
                  [compojure "1.3.1"]
                  [ring/ring-defaults "0.1.4"]
                  [ring-middleware-format "0.4.0"]]

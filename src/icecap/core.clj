@@ -3,7 +3,7 @@
             [icecap.crypto :as crypto]
             [icecap.rest :as rest]
             [icecap.store.mem :refer [mem-store]]
-            [org.httpkit.server :refer [run-server]]
+            [aleph.http :refer [start-server]]
             [taoensso.timbre :refer [info]]
             [environ.core :refer [env]]
             [icecap.codec :refer [safebase64-decode]])
@@ -19,7 +19,7 @@
     (info "Initializing libsodium")
     (sodium-init)
     (info "Running icecap")
-    (run-server handler {:port 42327})))
+    (start-server handler {:port 42327})))
 
 (defn -main
   "Run the (development) server."
