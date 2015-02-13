@@ -19,7 +19,7 @@
     (info "Initializing libsodium")
     (sodium-init)
     (info "Running icecap")
-    (run-server handler {:port 8080})))
+    (run-server handler {:port 42327})))
 
 (defn -main
   "Run the (development) server."
