@@ -5,12 +5,10 @@
             [icecap.codec :refer [safebase64-encode safebase64-decode]]
             [taoensso.timbre :refer [info spy]]
             [icecap.api :refer :all]
-            [prone.middleware :refer [wrap-exceptions]]
             [ring.middleware.defaults :refer [wrap-defaults
                                               api-defaults
                                               secure-api-defaults]]
-            [ring.middleware.format :refer [wrap-restful-format]]
-            [ring.middleware.reload :refer [wrap-reload]]))
+            [ring.middleware.format :refer [wrap-restful-format]]))
 
 (defn ^:private cap-url
   [request cap]
@@ -50,14 +48,8 @@
   redirecting to HTTPS) are disabled. Additionally, the server will
   automatically reload code.
   "
-  [components & {:keys [dev-mode] :or {dev-mode false}}]
-  (let [defaults (if dev-mode api-defaults secure-api-defaults)
-        site (-> routes
-                 (wrap-defaults defaults)
-                 (wrap-restful-format :formats [:edn])
-                 (wrap-components components))]
-    (if dev-mode
-      (-> site
-          (wrap-reload)
-          (wrap-exceptions))
-      site)))
+  [components]
+  (-> routes
+      (wrap-defaults secure-api-defaults)
+      (wrap-restful-format :formats [:edn])
+      (wrap-components components)))

@@ -5,6 +5,9 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0-alpha5"]
 
+                 ;; Configuration
+                 [environ "1.0.0"]
+
                  ;; Stores
                  [com.novemberain/welle "3.0.0"]
 
@@ -35,8 +38,7 @@
                  ;; http-kit already required as part of handlers
                  [compojure "1.3.1"]
                  [ring/ring-defaults "0.1.4"]
-                 [ring-middleware-format "0.4.0"]
-                 [prone "0.8.0"]]
+                 [ring-middleware-format "0.4.0"]]
   :test-selectors {:default (complement (some-fn :riak))
                    :riak :riak}
   :main ^:skip-aot icecap.core
