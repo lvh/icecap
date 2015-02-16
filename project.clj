@@ -13,7 +13,7 @@
 
                  ;; Serialization
                  [com.taoensso/nippy "2.7.1"
-                  :exclusions [org.clojure/clojure]]
+                  :exclusions [org.clojure/clojure com.taoensso/encore]]
 
                  ;; Handlers
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
@@ -31,7 +31,8 @@
                  [caesium "0.3.0"]
 
                  ;; Logging
-                 [com.taoensso/timbre "3.3.1" :exclusions [org.clojure/clojure]]
+                 [com.taoensso/timbre "3.4.0"
+                  :exclusions [org.clojure/clojure]]
 
                  ;; REST API
                  [compojure "1.3.1"]
