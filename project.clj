@@ -29,7 +29,7 @@
                  [caesium "0.3.0"]
 
                  ;; Logging
-                 [com.taoensso/timbre "3.3.1" :exclusions [org.clojure/clojure]]
+                 [com.taoensso/timbre "3.4.0" :exclusions [org.clojure/clojure]]
 
                  ;; REST API
                  ;; http-kit already required as part of handlers
