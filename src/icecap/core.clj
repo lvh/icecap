@@ -9,6 +9,9 @@
             [taoensso.timbre :refer [info]])
   (:gen-class))
 
+(def port
+  42327)
+
 (defn run
   []
   (let [[seed-key salt] (map (comp safebase64-decode
@@ -21,9 +24,10 @@
         handler (rest/build-site components)]
     (info "Initializing libsodium")
     (sodium-init)
-    (info "Running icecap")
-    (start-server handler {:port 42327
-                           :ssl-context (self-signed-ssl-context)})))
+    (info (str "Running icecap on port " port))
+    (start-server handler {:port port
+                           ;; :ssl-context (self-signed-ssl-context)
+                           })))
 
 (defn -main
   "Run the (development) server."

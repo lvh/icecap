@@ -58,6 +58,6 @@
   "
   [components]
   (-> routes
-      (wrap-defaults secure-api-defaults)
+      (wrap-defaults api-defaults)
       (wrap-restful-format :formats [:edn])
       (wrap-components components)))
