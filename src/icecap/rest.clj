@@ -20,15 +20,23 @@
 (defroutes routes
   (context "/v0/caps" {store :store kdf :kdf scheme :scheme}
            (POST "/" {plan :body-params :as request}
-                 (let [{cap :cap} (<!! (create-cap plan :store store :kdf kdf :scheme scheme))]
+                 (let [{cap :cap} (<!! (create-cap plan
+                                                   :store store
+                                                   :kdf kdf
+                                                   :scheme scheme))]
                    {:body (cap-url request cap)}))
            (context "/:encoded-cap" [encoded-cap]
                     (GET "/" []
                          (let [cap (safebase64-decode encoded-cap)]
-                           (<!! (execute-cap cap :store store :kdf kdf :scheme scheme))))
+                           (<!! (execute-cap cap
+                                             :store store
+                                             :kdf kdf
+                                             :scheme scheme))))
                     (DELETE "/" []
                             (let [cap (safebase64-decode encoded-cap)]
-                              (<!! (revoke-cap cap :store store :kdf kdf)))))))
+                              (<!! (revoke-cap cap
+                                               :store store
+                                               :kdf kdf)))))))
 
 (defn ^:private wrap-components
   "Adds some components to each request map."
