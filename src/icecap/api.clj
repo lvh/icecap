@@ -6,7 +6,8 @@
             [clojure.core.async :refer [<!! <! go] :as async]
             [icecap.handlers.core :refer [execute]]
             [icecap.crypto :as crypto]
-            [icecap.store.api :refer [create! retrieve delete!]]))
+            [icecap.store.api :refer [create! retrieve delete!]]
+            [taoensso.timbre :refer [info spy]]))
 
 (defn create-cap
   "Creates a capability."
