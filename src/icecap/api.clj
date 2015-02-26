@@ -13,18 +13,17 @@
 (defn create-cap
   "Creates a capability."
   [plan & {store :store kdf :kdf scheme :scheme}]
-  (let [validation (spy (check-plan plan))]
-    (if (nil? validation)
+  (let [error (spy (check-plan plan))]
+    (if (nil? error)
       (let [cap (crypto/make-cap)
             {index :index cap-key :cap-key} (crypto/derive kdf cap)
             encoded-plan (nippy/freeze plan)
             blob (crypto/encrypt scheme cap-key encoded-plan)
             ch (create! store index blob)]
         (async/into {:cap cap} ch))
-      (let [ch (async/chan)]
-        (>!! ch validation)
-        (async/close! ch)
-        ch))))
+      (do
+        (info "every day im errorin")
+        (async/to-chan [(spy {:error error})])))))
 
 (defn execute-cap
   "Executes a capability."
