@@ -20,7 +20,7 @@
                  [prismatic/schema "0.3.7"]
                  [schema-contrib "0.1.5"
                   :exclusions [instaparse]]
-                 [cddr/integrity "0.2.0-20140823.193326-1"
+                 [cddr/integrity "0.3.0-SNAPSHOT"
                   :exclusions [org.clojure/clojure]]
                  [org.clojure/core.typed "0.2.83"]
 
