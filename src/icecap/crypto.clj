@@ -106,8 +106,8 @@
 
 (defprotocol EncryptionScheme
   "An authenticated encryption scheme."
-  (encrypt [scheme key plaintext])
-  (decrypt [scheme key ciphertext]))
+  (encrypt [scheme cap-key plaintext])
+  (decrypt [scheme cap-key ciphertext]))
 
 (defn secretbox-scheme
   "An encryption scheme based on NaCl's `secretbox`.
@@ -117,7 +117,7 @@
   []
   (let [nonce (secretbox/int->nonce 1)]
     (reify EncryptionScheme
-      (encrypt [_ key plaintext]
-        (secretbox/encrypt key nonce plaintext))
-      (decrypt [_ key ciphertext]
-        (secretbox/decrypt key nonce ciphertext)))))
+      (encrypt [_ cap-key plaintext]
+        (secretbox/encrypt cap-key nonce plaintext))
+      (decrypt [_ cap-key ciphertext]
+        (secretbox/decrypt cap-key nonce ciphertext)))))
