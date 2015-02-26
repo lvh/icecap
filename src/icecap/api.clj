@@ -28,11 +28,11 @@
 (defn execute-cap
   "Executes a capability."
   [cap & {store :store kdf :kdf scheme :scheme}]
-  (let [{index :index key :key} (crypto/derive kdf cap)
+  (let [{index :index cap-key :cap-key} (crypto/derive kdf cap)
         blob (<!! (retrieve store index))
-        encoded-plan (crypto/decrypt scheme key blob)
-        plan (nippy/thaw encoded-plan)
-        sub-results (execute plan)]
+        encoded-plan (crypto/decrypt scheme cap-key blob)
+        plan (spy (nippy/thaw encoded-plan))
+        sub-results (spy (execute plan))]
     (async/into {} sub-results)))
 
 (defn revoke-cap
