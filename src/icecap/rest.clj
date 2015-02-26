@@ -26,9 +26,9 @@
                                              :store store
                                              :kdf kdf
                                              :scheme scheme)))]
-                   (if cap
-                     {:body (cap-url request cap)}
-                     {:error (str error)})))
+                   {:body (if cap
+                            (cap-url request cap)
+                            (str error))}))
            (context "/:encoded-cap" [encoded-cap]
                     (GET "/" []
                          (let [cap (spy (safebase64-decode encoded-cap))]
