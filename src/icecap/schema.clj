@@ -46,3 +46,7 @@
      map? Step
      vector? (with-two-or-more [Plan])
      set? (with-two-or-more #{Plan}))))
+
+(defn validate-plan
+  [maybe-plan]
+  (s/validate Plan maybe-plan))
