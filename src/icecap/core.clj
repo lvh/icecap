@@ -1,12 +1,12 @@
 (ns icecap.core
   (:require [caesium.core :refer [sodium-init]]
-            [icecap.codec :refer [safebase64-decode]]
+            [icecap.codec :refer [safebase64-encode]]
             [icecap.crypto :as crypto]
             [icecap.rest :as rest]
             [icecap.store.mem :refer [mem-store]]
             [aleph.http :refer [start-server]]
             [aleph.netty :refer [self-signed-ssl-context]]
-            [taoensso.timbre :refer [info]])
+            [taoensso.timbre :refer [info spy]])
   (:gen-class))
 
 (def port
@@ -14,10 +14,8 @@
 
 (defn run
   []
-  (let [[seed-key salt] (map (comp safebase64-decode
-                                   crypto/nul-byte-array)
-                             [crypto/seed-key-bytes
-                              crypto/salt-bytes])
+  (let [[seed-key salt] (map crypto/nul-byte-array
+                             [crypto/seed-key-bytes crypto/salt-bytes])
         components {:store (mem-store)
                     :kdf (crypto/blake2b-kdf seed-key salt)
                     :scheme (crypto/secretbox-scheme)}
