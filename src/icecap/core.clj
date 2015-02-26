@@ -1,5 +1,6 @@
 (ns icecap.core
   (:require [caesium.core :refer [sodium-init]]
+            [icecap.codec :refer [safebase64-decode]]
             [icecap.crypto :as crypto]
             [icecap.rest :as rest]
             [icecap.store.mem :refer [mem-store]]
@@ -10,7 +11,10 @@
 
 (defn run
   []
-  (let [[seed-key salt] (map safebase64-decode [(env :seed-key) (env :salt)])
+  (let [[seed-key salt] (map (comp safebase64-decode
+                                   crypto/nul-byte-array)
+                             [crypto/seed-key-bytes
+                              crypto/salt-bytes])
         components {:store (mem-store)
                     :kdf (crypto/blake2b-kdf seed-key salt)
                     :scheme (crypto/secretbox-scheme)}
