@@ -12,9 +12,9 @@
   "Creates a capability."
   [plan & {store :store kdf :kdf scheme :scheme}]
   (let [cap (crypto/make-cap)
-        {index :index key :key} (crypto/derive kdf cap)
+        {index :index cap-key :cap-key} (crypto/derive kdf cap)
         encoded-plan (nippy/freeze plan)
-        blob (crypto/encrypt scheme key encoded-plan)
+        blob (crypto/encrypt scheme cap-key encoded-plan)
         ch (create! store index blob)]
     (async/into {:cap cap} ch)))
 
