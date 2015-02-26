@@ -4,9 +4,8 @@
             [icecap.rest :as rest]
             [icecap.store.mem :refer [mem-store]]
             [aleph.http :refer [start-server]]
-            [taoensso.timbre :refer [info]]
-            [environ.core :refer [env]]
-            [icecap.codec :refer [safebase64-decode]])
+            [aleph.netty :refer [self-signed-ssl-context]]
+            [taoensso.timbre :refer [info]])
   (:gen-class))
 
 (defn run
@@ -19,7 +18,8 @@
     (info "Initializing libsodium")
     (sodium-init)
     (info "Running icecap")
-    (start-server handler {:port 42327})))
+    (start-server handler {:port 42327
+                           :ssl-context (self-signed-ssl-context)})))
 
 (defn -main
   "Run the (development) server."
