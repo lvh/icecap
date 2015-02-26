@@ -20,11 +20,15 @@
 (defroutes routes
   (context "/v0/caps" {store :store kdf :kdf scheme :scheme}
            (POST "/" {plan :body-params :as request}
-                 (let [{cap :cap} (spy (<!! (create-cap plan
-                                                        :store store
-                                                        :kdf kdf
-                                                        :scheme scheme)))]
-                   {:body (cap-url request cap)}))
+                 (info request)
+                 (let [{cap :cap error :error}
+                       (spy (<!! (create-cap (spy plan)
+                                             :store store
+                                             :kdf kdf
+                                             :scheme scheme)))]
+                   (if cap
+                     {:body (cap-url request cap)}
+                     {:error (str error)})))
            (context "/:encoded-cap" [encoded-cap]
                     (GET "/" []
                          (let [cap (spy (safebase64-decode encoded-cap))]
