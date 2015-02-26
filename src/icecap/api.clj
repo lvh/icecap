@@ -3,7 +3,7 @@
   (:require [taoensso.nippy :as nippy]
             [icecap.handlers.http]
             [icecap.handlers.delay]
-            [icecap.schema :refer [validate-plan]]
+            [icecap.schema :refer [check-plan]]
             [clojure.core.async :refer [<!! <! >!! go] :as async]
             [icecap.handlers.core :refer [execute]]
             [icecap.crypto :as crypto]
@@ -13,13 +13,18 @@
 (defn create-cap
   "Creates a capability."
   [plan & {store :store kdf :kdf scheme :scheme}]
-  (validate-plan plan)
-  (let [cap (crypto/make-cap)
-        {index :index cap-key :cap-key} (crypto/derive kdf cap)
-        encoded-plan (nippy/freeze plan)
-        blob (crypto/encrypt scheme cap-key encoded-plan)
-        ch (create! store index blob)]
-    (async/into {:cap cap} ch)))
+  (let [validation (spy (check-plan plan))]
+    (if (nil? validation)
+      (let [cap (crypto/make-cap)
+            {index :index cap-key :cap-key} (crypto/derive kdf cap)
+            encoded-plan (nippy/freeze plan)
+            blob (crypto/encrypt scheme cap-key encoded-plan)
+            ch (create! store index blob)]
+        (async/into {:cap cap} ch))
+      (let [ch (async/chan)]
+        (>!! ch validation)
+        (async/close! ch)
+        ch))))
 
 (defn execute-cap
   "Executes a capability."
