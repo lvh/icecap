@@ -13,6 +13,7 @@
 (defn create-cap
   "Creates a capability."
   [plan & {store :store kdf :kdf scheme :scheme}]
+  (validate-plan plan)
   (let [cap (crypto/make-cap)
         {index :index cap-key :cap-key} (crypto/derive kdf cap)
         encoded-plan (nippy/freeze plan)
