@@ -18,8 +18,8 @@
   and then closes.
   "
   (fn [x] (cond (set? x) ::unordered-plans
-               (vector? x) ::ordered-plans
-               :else (:type x))))
+                (vector? x) ::ordered-plans
+                :else (:type x))))
 
 (defmethod execute ::unordered-plans
   [plans]
