@@ -30,13 +30,13 @@
                             (cap-url request cap)
                             (str error))}))
            (context "/:encoded-cap" [encoded-cap]
-                    (GET "/" []
+                    (GET "/" request
                          (let [cap (spy (safebase64-decode encoded-cap))]
                            (spy (<!! (execute-cap cap
                                                   :store store
                                                   :kdf kdf
                                                   :scheme scheme)))))
-                    (DELETE "/" []
+                    (DELETE "/" request
                             (let [cap (spy (safebase64-decode encoded-cap))]
                               (spy (<!! (revoke-cap cap
                                                     :store store
