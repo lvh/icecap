@@ -8,28 +8,28 @@
 (deftest bucket-props-test
   (testing "default"
     (is (= (bucket-props)
-            {:n-val 3
-             :r 1
-             :w 2
-             :dw 2
+           {:n-val 3
+            :r 1
+            :w 2
+            :dw 2
 
-             :notfound-ok false
-             :basic-quorum true
+            :notfound-ok false
+            :basic-quorum true
 
-             :allow-mult false
-             :last-write-wins true})))
+            :allow-mult false
+            :last-write-wins true})))
   (testing "custom n"
     (is (= (bucket-props :n 2)
-            {:n-val 2
-             :r 1
-             :w 1
-             :dw 1
+           {:n-val 2
+            :r 1
+            :w 1
+            :dw 1
 
-             :notfound-ok false
-             :basic-quorum true
+            :notfound-ok false
+            :basic-quorum true
 
-             :allow-mult false
-             :last-write-wins true}))))
+            :allow-mult false
+            :last-write-wins true}))))
 
 (def ^:private store-result
   {:vclock nil,
