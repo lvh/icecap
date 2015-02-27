@@ -9,6 +9,6 @@
   {:url URI}
   [step]
   (let [ch (chan)
-        req (request {:url "http://www.rackspace.com"})]
+        req (request step)]
     (do (connect req ch)
         ch)))
