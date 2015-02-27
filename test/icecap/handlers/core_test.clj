@@ -24,22 +24,22 @@
 (deftest match-seq-spec-tests
   (testing "match single matching items"
     (are [spec to-match] (match-seq-spec spec to-match)
-         [[1]] [1]
-         [#{1}] [1]))
+      [[1]] [1]
+      [#{1}] [1]))
   (testing "don't match single nonmatching items"
     (are [spec to-match] (not (match-seq-spec spec to-match))
-         [[1]] [2]
-         [[2]] [1]
-         [#{1}] [2]
-         [#{2}] [1]))
+      [[1]] [2]
+      [[2]] [1]
+      [#{1}] [2]
+      [#{2}] [1]))
   (testing "match empty items"
     (are [spec to-match] (match-seq-spec spec to-match)
-         [[]] []
-         [#{}] []))
+      [[]] []
+      [#{}] []))
   (testing "match complex specs"
     (are [spec to-match] (match-seq-spec spec to-match)
-         [[1 2 3] #{4 5 6} [7 8 9]] [1 2 3 4 5 6 7 8 9]
-         [[1 2 3] #{4 5 6} [7 8 9]] [1 2 3 6 5 4 7 8 9])))
+      [[1 2 3] #{4 5 6} [7 8 9]] [1 2 3 4 5 6 7 8 9]
+      [[1 2 3] #{4 5 6} [7 8 9]] [1 2 3 6 5 4 7 8 9])))
 
 (defn ^:private execution-order
   "Given a plan, returns the names of the steps in the order of which
