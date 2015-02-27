@@ -45,9 +45,9 @@
   (testing "allowable delay ranges"
     (let [schema (get-schema :delay)]
       (are [amount] (nil? (s/check schema {:type :delay :amount amount}))
-           1
-           10
-           30))))
+        1
+        10
+        30))))
 
 (deftest delay-tests
   (testing "delay functions correctly"
