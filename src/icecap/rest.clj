@@ -19,28 +19,28 @@
 
 (defroutes routes
   (context "/v0/caps" {store :store kdf :kdf scheme :scheme}
-           (POST "/" {plan :body-params :as request}
-                 (info request)
-                 (let [{cap :cap error :error}
-                       (spy (<!! (create-cap (spy plan)
-                                             :store store
-                                             :kdf kdf
-                                             :scheme scheme)))]
-                   {:body (if cap
-                            (cap-url request cap)
-                            (str error))}))
-           (context "/:encoded-cap" [encoded-cap]
-                    (GET "/" request
-                         (let [cap (spy (safebase64-decode encoded-cap))]
-                           (spy (<!! (execute-cap cap
-                                                  :store store
-                                                  :kdf kdf
-                                                  :scheme scheme)))))
-                    (DELETE "/" request
-                            (let [cap (spy (safebase64-decode encoded-cap))]
-                              (spy (<!! (revoke-cap cap
-                                                    :store store
-                                                    :kdf kdf))))))))
+    (POST "/" {plan :body-params :as request}
+      (info request)
+      (let [{cap :cap error :error}
+            (spy (<!! (create-cap (spy plan)
+                                  :store store
+                                  :kdf kdf
+                                  :scheme scheme)))]
+        {:body (if cap
+                 (cap-url request cap)
+                 (str error))}))
+    (context "/:encoded-cap" [encoded-cap]
+      (GET "/" request
+        (let [cap (spy (safebase64-decode encoded-cap))]
+          (spy (<!! (execute-cap cap
+                                 :store store
+                                 :kdf kdf
+                                 :scheme scheme)))))
+      (DELETE "/" request
+        (let [cap (spy (safebase64-decode encoded-cap))]
+          (spy (<!! (revoke-cap cap
+                                :store store
+                                :kdf kdf))))))))
 
 (defn ^:private wrap-components
   "Adds some components to each request map."
