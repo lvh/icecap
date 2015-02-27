@@ -8,5 +8,7 @@
 (defstep :http
   {:url URI}
   [step]
-  (let [ch (chan)]
-    (connect (request {:url "http://www.rackspace.com"}) ch)))
+  (let [ch (chan)
+        req (request {:url "http://www.rackspace.com"})]
+    (do (connect req ch)
+        ch)))
