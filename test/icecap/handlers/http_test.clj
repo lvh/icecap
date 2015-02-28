@@ -7,13 +7,22 @@
             [aleph.http :as h]
             [clojure.test :refer :all]))
 
+(def url
+  "http://www.example.com")
+
 (def step
-  {:type :http :url "http://www.example.com"})
+  {:type :http :url url})
 
 (deftest schema-tests
   (testing "valid steps"
-         step)))
     (are [s] (nil? (check-plan s))
+         step))
+  (testing "invalid steps"
+    (are [s expected] (= (check-plan (merge {:type :http} s))
+                         expected)
+         {} '{:url missing-required-key}
+         {:uri url} '{:uri disallowed-key
+                      :url missing-required-key})))
 
 (def fake-response
   {})
