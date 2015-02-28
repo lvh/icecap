@@ -8,7 +8,10 @@ services:
 sudo: false
 install:
   - wget https://b25518159d104e8997f8-d5f47ab458856b6ee0c2780ddf5e291c.ssl.cf5.rackcdn.com/libsodium-1.0.2_amd64.deb
-  - sudo dpkg -i libsodium-1.0.2_amd64.deb
+  - mkdir local
+  - dpkg-deb --vextract libsodium*.deb local
+env:
+  - LD_LIBRARY_PATH=local
 script:
   - lein test :all
   - lein lint || true
