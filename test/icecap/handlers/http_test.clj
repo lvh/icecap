@@ -12,8 +12,8 @@
 
 (deftest schema-tests
   (testing "valid steps"
-    (are [x] (nil? (check-plan x))
          step)))
+    (are [s] (nil? (check-plan s))
 
 (def fake-response
   {})
