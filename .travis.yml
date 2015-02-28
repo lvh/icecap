@@ -11,7 +11,7 @@ install:
   - mkdir local
   - dpkg-deb --vextract libsodium*.deb local
 env:
-  - LD_LIBRARY_PATH=local
+  - LD_LIBRARY_PATH=local/usr/lib
 script:
   - lein test :all
   - lein lint || true
