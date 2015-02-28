@@ -22,7 +22,6 @@
             ch (create! store index blob)]
         (async/into {:cap cap} ch))
       (do
-        (info "every day im errorin")
         (async/to-chan [(spy {:error error})])))))
 
 (defn execute-cap
