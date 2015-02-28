@@ -1,6 +1,6 @@
 (ns icecap.e2e.common
   "Common tools for icecap e2e testing."
-  (:require [icecap.core :refer [run]]
+  (:require [icecap.core :as core]
             [clojure.test :refer :all]
             [taoensso.timbre :refer [info spy]]))
 
@@ -9,9 +9,12 @@
 (defn icecap-fixture
   "Runs an icecap server as a test fixture."
   [f]
-  (with-redefs [icecap-server (run)]
+  (with-redefs [icecap-server (core/run)]
     (f)
     (.close icecap-server)))
+
+(def base-url
+  (str "http://localhost:" core/port))
 
 (defn create-cap
   "Creates a capability with the given plan."
