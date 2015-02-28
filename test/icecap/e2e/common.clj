@@ -22,3 +22,8 @@
   [plan]
   (post (str base-url "/v0/caps")
         {:body (str plan)}))
+
+(defn execute-cap
+  "Executes the capability with the given URL."
+  [cap-url]
+  (get cap-url))
