@@ -27,3 +27,8 @@
   "Executes the capability with the given URL."
   [cap-url]
   (get cap-url))
+
+(defn revoke-cap
+  "Revokes the capability with the given URL."
+  [cap-url]
+  (delete cap-url))
