@@ -2,7 +2,7 @@
   "Common tools for icecap e2e testing."
   (:require [icecap.core :as core]
             [clojure.test :refer :all]
-            [aleph.http :refer [delete get post]]
+            [aleph.http :as http]
             [taoensso.timbre :refer [info spy]]))
 
 (def icecap-server)
@@ -20,15 +20,18 @@
 (defn create-cap
   "Creates a capability with the given plan."
   [plan]
-  (post (str base-url "/v0/caps")
-        {:body (str plan)}))
+  (let [url (str base-url "/v0/caps")
+        req {:body (str plan)}]
+    (info "Creating cap" url req)
+    (http/post url req)))
 
 (defn execute-cap
   "Executes the capability with the given URL."
   [cap-url]
-  (get cap-url))
+  (info "Executing cap" cap-url)
+  (http/get (spy cap-url)))
 
 (defn revoke-cap
   "Revokes the capability with the given URL."
   [cap-url]
-  (delete cap-url))
+  (spy (http/delete cap-url)))
