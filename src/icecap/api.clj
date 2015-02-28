@@ -21,8 +21,7 @@
             blob (crypto/encrypt scheme cap-key encoded-plan)
             ch (create! store index blob)]
         (async/into {:cap cap} ch))
-      (do
-        (async/to-chan [(spy {:error error})])))))
+      (async/to-chan [(spy {:error error})]))))
 
 (defn execute-cap
   "Executes a capability."
