@@ -2,7 +2,9 @@
   "End-to-end tests for making HTTP requests."
   (:require [icecap.e2e.common :refer :all]
             [clojure.test :refer :all]
-            [aleph.http :as http]))
+            [aleph.http :as http]
+            [manifold.deferred :refer [let-flow]]
+            [byte-streams :as bs]))
 
 (def ^:dynamic http-server)
 (def ^:dynamic recvd-reqs)
@@ -29,4 +31,11 @@
 (use-fixtures :each store-reqs-fixture)
 
 (deftest http-tests
-  (is (let [x (create-cap {:type :http})])))
+  (is (let [d (let-flow
+               [create-result (create-cap {:type :http})
+                cap-url (bs/to-string (:body create-result))
+                exercise-result (execute-cap cap-url)]
+               [create-result exercise-result cap-url])
+            [{create-code :code} {} cap-url] @d]
+        (and (= create-code 201)
+             (= cap-url nil)))))
