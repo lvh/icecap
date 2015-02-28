@@ -22,7 +22,8 @@
                          expected)
          {} '{:url missing-required-key}
          {:uri url} '{:uri disallowed-key
-                      :url missing-required-key})))
+                      :url missing-required-key}
+         {:url 1} '{:url (throws? (URI 1))})))
 
 (def fake-response
   {})
