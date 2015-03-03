@@ -34,7 +34,10 @@
                  ;; REST API
                  [compojure "1.3.2"]
                  [ring/ring-defaults "0.1.4"]
-                 [ring-middleware-format "0.4.0"]]
+                 [ring-middleware-format "0.4.0"]
+
+                 ;; REST API testing
+                 [ring/ring-mock "0.2.0"]]
   :test-selectors {:default (complement (some-fn :riak))
                    :riak :riak}
   :main ^:skip-aot icecap.core
