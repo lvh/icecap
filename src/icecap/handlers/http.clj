@@ -10,5 +10,5 @@
   [step]
   (let [ch (chan)
         req (request step)]
-    (do (connect req ch)
-        ch)))
+    (connect req ch)
+    ch))
