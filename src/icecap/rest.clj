@@ -23,9 +23,9 @@
       (info request)
       (let [{cap :cap error :error}
             (spy (<!! (create-cap (spy plan) components)))]
-        {:body (if cap
-                 (cap-url request cap)
-                 (str error))}))
+        (if cap
+          {:body (cap-url request cap)}
+          {:body (str error)})))
     (context "/:encoded-cap" [encoded-cap]
       (GET "/" request
         (let [cap (spy (safebase64-decode encoded-cap))]
