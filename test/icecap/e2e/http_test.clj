@@ -16,9 +16,15 @@
    :headers {"content-type" "text/plain"}
    :body "xyzzy"})
 
+(def http-server-port
+  8378) ;; 8378 => TEST
+(def http-server-base-url
+  (str "http://localhost:" http-server-port))
+
 (defn ^:private http-server-fixture
   [f]
-  (binding [http-server (http/start-server handler {:port 0})]
+  (binding [http-server (http/start-server handler
+                                           {:port http-server-port})]
     (f)
     (.close http-server)))
 
