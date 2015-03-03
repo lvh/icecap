@@ -4,7 +4,8 @@
             [clojure.test :refer :all]
             [aleph.http :as http]
             [manifold.deferred :refer [let-flow]]
-            [byte-streams :as bs]))
+            [byte-streams :as bs]
+            [taoensso.timbre :refer [info spy]]))
 
 (def ^:dynamic http-server)
 (def ^:dynamic recvd-reqs)
@@ -37,11 +38,17 @@
 (use-fixtures :each store-reqs-fixture)
 
 (deftest http-tests
-  (is (let [d (let-flow
-               [create-result (create-cap {:type :http})
-                cap-url (bs/to-string (:body create-result))
-                exercise-result (execute-cap cap-url)]
-               [create-result exercise-result cap-url])
-            [{create-code :code} {} cap-url] @d]
-        (and (= create-code 201)
+  (is (let [create-result @(create-cap {:type :http
+                                        :url (spy (str http-server-base-url
+                                                       "/test/example"))})
+            cap-url (spy (bs/to-string (:body create-result)))
+            exercise-result @(execute-cap cap-url)]
+        (and (= (select-keys create-result [:code])
+                {:code 201})
              (= cap-url nil)))))
+
+(deftest invalid-http-step-tests
+  (are [step expected] (let [create-result @(create-cap step)
+                             message (bs/to-string (:body create-result))]
+                         (apply = (map pr-str expected)))
+       {:type :http} '{:url missing-required-key}))
