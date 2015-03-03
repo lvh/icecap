@@ -12,7 +12,7 @@
 
 (defn create-cap
   "Creates a capability."
-  [plan & {store :store kdf :kdf scheme :scheme}]
+  [plan {store :store kdf :kdf scheme :scheme}]
   (let [error (spy (check-plan plan))]
     (if (nil? error)
       (let [cap (crypto/make-cap)
@@ -25,7 +25,7 @@
 
 (defn execute-cap
   "Executes a capability."
-  [cap & {store :store kdf :kdf scheme :scheme}]
+  [cap {store :store kdf :kdf scheme :scheme}]
   (let [{index :index cap-key :cap-key} (crypto/derive kdf cap)
         blob (<!! (retrieve store index))
         encoded-plan (crypto/decrypt scheme cap-key blob)
@@ -35,7 +35,7 @@
 
 (defn revoke-cap
   "Revokes a capability."
-  [cap & {store :store kdf :kdf}]
+  [cap {store :store kdf :kdf}]
   (let [{index :index} (crypto/derive kdf cap)
         chan (delete! store index)]
     (async/into {} chan)))

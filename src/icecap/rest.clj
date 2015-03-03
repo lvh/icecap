@@ -18,35 +18,27 @@
     (str "http://" netloc path "/" encoded-cap)))
 
 (defroutes routes
-  (context "/v0/caps" {store :store kdf :kdf scheme :scheme}
+  (context "/v0/caps" {components :components}
     (POST "/" {plan :body-params :as request}
       (info request)
       (let [{cap :cap error :error}
-            (spy (<!! (create-cap (spy plan)
-                                  :store store
-                                  :kdf kdf
-                                  :scheme scheme)))]
+            (spy (<!! (create-cap (spy plan) components)))]
         {:body (if cap
                  (cap-url request cap)
                  (str error))}))
     (context "/:encoded-cap" [encoded-cap]
       (GET "/" request
         (let [cap (spy (safebase64-decode encoded-cap))]
-          (spy (<!! (execute-cap cap
-                                 :store store
-                                 :kdf kdf
-                                 :scheme scheme)))))
+          (spy (<!! (execute-cap cap components)))))
       (DELETE "/" request
         (let [cap (spy (safebase64-decode encoded-cap))]
-          (spy (<!! (revoke-cap cap
-                                :store store
-                                :kdf kdf))))))))
+          (spy (<!! (revoke-cap cap components))))))))
 
 (defn ^:private wrap-components
   "Adds some components to each request map."
   [handler components]
   (fn [request]
-    (handler (merge request components))))
+    (handler (assoc request :components components))))
 
 (defn build-site
   "Builds a site.
