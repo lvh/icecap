@@ -47,10 +47,7 @@
   EDN data will be parsed. Outgoing data structures will be serialized
   as EDN.
 
-  The site's behavior will have some sane defaults. If it is running
-  in dev mode, secure defaults (which include automatically
-  redirecting to HTTPS) are disabled. Additionally, the server will
-  automatically reload code.
+  The site's behavior will have some sane defaults.
   "
   [components]
   (-> routes
