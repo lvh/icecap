@@ -4,7 +4,8 @@
             [icecap.crypto :as crypto]
             [icecap.rest :as rest]
             [icecap.store.mem :refer [mem-store]]
-            [ring.mock.request :as mock]))
+            [ring.mock.request :as mock]
+            [clojure.tools.reader.edn :as edn]))
 
 (def handler
   (let [[seed-key salt] (map crypto/nul-byte-array
