@@ -17,12 +17,17 @@
 
 (defn create-cap-req
   [plan]
-  )
+  (-> (mock/request :post "/v0/caps")
+      (mock/body (str plan))))
 
 (deftest handler-tests
   (testing "creating cap with valid plan succeeds"
-    (is (= handler (-> (mock/request :post "/v0")))))
+    (is (= (handler (create-cap-req {:type :succeed}))
+           {:status 201})))
   (testing "creating cap with bogus plan results in useful errors"
-    (is (= (handler (-> (mock/request :post "/v0/caps")
-                        (mock/body (str {:type :bogus}))))
-           {:status 400}))))
+    (is (let [response (handler (create-cap-req {:type :bogus}))
+              response (update response :body edn/read-string)]
+          (= response
+             {:status 400
+              :headers {"Content-Type" "application/edn"}
+              :message "Test"})))))
