@@ -17,7 +17,7 @@
                  [aleph "0.4.0-beta3"]
 
                  ;; Schemata
-                 [prismatic/schema "0.3.7"]
+                 [prismatic/schema "0.4.0"]
                  [schema-contrib "0.1.5"
                   :exclusions [instaparse]]
                  [cddr/integrity "0.3.0-SNAPSHOT"
