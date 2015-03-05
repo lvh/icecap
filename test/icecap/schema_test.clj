@@ -7,32 +7,30 @@
 
 (deftest plan-tests
   (testing "correct plans validate"
-    (are [example] (s/validate Plan example)
+    (are [example] (nil? (check-plan example))
       simple-http-step
       simple-https-step
       #{simple-http-step simple-https-step}))
   (testing "empty plans don't validate"
-    (are [example reason] (= (pr-str (s/check Plan example))
-                             (pr-str reason))
+    (are [example reason] (= (check-plan example)
+                             reason)
       [] '(not ("collection of two or more plans" []))
       #{} '(not ("collection of two or more plans" #{}))))
   (testing "plans with one step in them don't validate"
-    (are [example reason] (= (pr-str (s/check Plan example))
-                             (pr-str reason))
+    (are [example reason] (= (check-plan example)
+                             reason)
       [simple-http-step] '(not ("collection of two or more plans"
                                 a-clojure.lang.PersistentVector))
       #{simple-http-step} '(not ("collection of two or more plans"
                                  a-clojure.lang.PersistentHashSet))))
   (testing "plans with empty steps in them don't validate"
-    (are [example reason] (= (pr-str (s/check Plan example))
-                             (pr-str reason))
+    (are [example reason] (= (check-plan example)
+                             reason)
       [#{} simple-http-step] ['(not ("collection of two or more plans" #{}))
                               nil]))
   (testing "plans with unsupported steps don't validate, with useful error"
     (let [supported-types (into #{} (keys (methods get-schema)))]
-      (are [example] (let [e (:type (s/check Plan example))
-                           bad-type-in-error (.value e)
-                           suggested-types (.vs (.schema e))]
-                       (and (= bad-type-in-error (:type example))
-                            (= suggested-types supported-types)))
+      (are [example] (let [[_ [suggested actual]] (:type (check-plan example))]
+                       (and (= actual (:type example))
+                            (= suggested supported-types)))
         simple-ftp-step))))
