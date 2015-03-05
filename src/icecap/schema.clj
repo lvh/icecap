@@ -1,9 +1,10 @@
 (ns icecap.schema
   "The schemata for icecap plans."
   (:require [schema.core :as s]
+            [schema.utils :refer [validation-error-explain]]
             [icecap.handlers.http]
             [icecap.handlers.delay]
-            [icecap.handlers.core :refer [get-schema]]))
+            [icecap.handlers.core :refer [get-schema]]            ))
 
 (def Step
   "The schema for the description of a single step.
@@ -48,4 +49,6 @@
      set? (with-two-or-more #{Plan}))))
 
 (def check-plan
-  (s/checker Plan))
+  "Checks a plan for errors. Returns nil if the plan is valid, or a
+  descriptive data structure if it isn't."
+  (comp edn/read-string pr-str (s/checker Plan)))
