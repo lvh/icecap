@@ -17,7 +17,7 @@
                  [aleph "0.4.0-beta3"]
 
                  ;; Schemata
-                 [prismatic/schema "0.3.7"]
+                 [prismatic/schema "0.4.0"]
                  [schema-contrib "0.1.5"
                   :exclusions [instaparse]]
                  [cddr/integrity "0.3.0-SNAPSHOT"
@@ -54,7 +54,7 @@
                                         ["bikeshed"]
                                         ["eastwood"]]}
                    :plugins [[jonase/eastwood "0.1.4"]
-                             [lein-ancient "0.6.2"
+                             [lein-ancient "0.6.5"
                               :exclusions [rewrite-clj]]
                              [lein-bikeshed "0.1.8"]
                              [lein-cljfmt "0.1.10"]
