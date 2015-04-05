@@ -3,7 +3,7 @@
   :url "https://github.com/lvh/icecap"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.7.0-alpha5"]
+  :dependencies [[org.clojure/clojure "1.7.0-alpha6"]
 
                  ;; Stores
                  [com.novemberain/welle "3.0.0"]
@@ -22,7 +22,7 @@
                   :exclusions [instaparse]]
                  [cddr/integrity "0.3.0-SNAPSHOT"
                   :exclusions [org.clojure/clojure]]
-                 [org.clojure/core.typed "0.2.83"]
+                 [org.clojure/core.typed "0.2.86"]
 
                  ;; Crypto
                  [caesium "0.3.0"]
@@ -32,9 +32,9 @@
                   :exclusions [org.clojure/clojure]]
 
                  ;; REST API
-                 [compojure "1.3.2"]
+                 [compojure "1.3.3"]
                  [ring/ring-defaults "0.1.4"]
-                 [ring-middleware-format "0.4.0"]
+                 [ring-middleware-format "0.5.0"]
 
                  ;; REST API testing
                  [ring/ring-mock "0.2.0"]]
