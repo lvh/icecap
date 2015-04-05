@@ -4,7 +4,8 @@
             [schema.utils :refer [validation-error-explain]]
             [icecap.handlers.http]
             [icecap.handlers.delay]
-            [icecap.handlers.core :refer [get-schema]]            ))
+            [icecap.handlers.core :refer [get-schema]]
+            [clojure.tools.reader.edn :as edn]))
 
 (def Step
   "The schema for the description of a single step.
