@@ -16,6 +16,7 @@
     (rest/build-site components)))
 
 (defn create-cap-req
+  "A request for creating a cap, given a plan."
   [plan]
   (-> (mock/request :post "/v0/caps")
       (mock/body (str plan))))
