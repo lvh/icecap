@@ -24,8 +24,9 @@
 
 (deftest handler-tests
   (testing "creating cap with valid plan succeeds"
-    (is (= (handler (create-cap-req {:type :succeed}))
-           {:status 201})))
+    (let-flow [req (create-cap-req {:type :succeed})
+               res (handler req)]
+              (is (= (:status res) 201))))
   (testing "creating cap with bogus plan results in useful errors"
     (is (let [response (handler (create-cap-req {:type :bogus}))
               response (update response :body edn/read-string)]
