@@ -34,7 +34,7 @@
   "The schema for a plan.
 
   Consists of either a single step, a set of plans, or a vector of
-  plans. (This schema is recursive.)
+  plans. This schema is recursive.
 
   This uses prismatic/schema's `conditional` with type dispatch,
   rather than the (perhaps more obvious) `either`. If you give it a
