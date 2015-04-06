@@ -1,5 +1,6 @@
 (ns icecap.rest-test
-  (:require [icecap.rest :refer :all]
+  (:require [manifold.deferred :refer [let-flow]]
+            [icecap.rest :refer :all]
             [clojure.test :refer :all]
             [icecap.crypto :as crypto]
             [icecap.rest :as rest]
@@ -28,9 +29,7 @@
                res (handler req)]
               (is (= (:status res) 201))))
   (testing "creating cap with bogus plan results in useful errors"
-    (is (let [response (handler (create-cap-req {:type :bogus}))
-              response (update response :body edn/read-string)]
-          (= response
-             {:status 400
-              :headers {"Content-Type" "application/edn"}
-              :message "Test"})))))
+    (let-flow [req (create-cap-req {:type :bogus})
+               {status :status headers :headers} (handler req)]
+              (is (= status 400))
+              (is (= headers {})))))
