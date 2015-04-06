@@ -19,6 +19,7 @@
   "A request for creating a cap, given a plan."
   [plan]
   (-> (mock/request :post "/v0/caps")
+      (mock/content-type "application/edn")
       (mock/body (str plan))))
 
 (deftest handler-tests
