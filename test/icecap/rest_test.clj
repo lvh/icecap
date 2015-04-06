@@ -21,6 +21,7 @@
   [plan]
   (-> (mock/request :post "/v0/caps")
       (mock/content-type "application/edn")
+      (mock/header "Accept" "application/edn")
       (mock/body (str plan))))
 
 (deftest handler-tests
