@@ -21,16 +21,24 @@
   [plan]
   (-> (mock/request :post "/v0/caps")
       (mock/content-type "application/edn")
-      (mock/header "Accept" "application/edn")
       (mock/body (str plan))))
+
+(defn valid-headers?
+  "Does the response have valid headers?"
+  [{clength "Content-Length" ctype "Content-Type"}]
+  (and (some? clength) (= ctype "application/edn; charset=utf-8")))
 
 (deftest handler-tests
   (testing "creating cap with valid plan succeeds"
     (let-flow [req (create-cap-req {:type :succeed})
-               res (handler req)]
-              (is (= (:status res) 201))))
+               {status :status headers :headers} (handler req)]
+              (is (= status 201))
+              (is (valid-headers? headers))))
   (testing "creating cap with bogus plan results in useful errors"
     (let-flow [req (create-cap-req {:type :bogus})
                {status :status headers :headers} (handler req)]
               (is (= status 400))
-              (is (= headers {})))))
+              (is (valid-headers? headers)))))
+
+(def r (create-cap-req {:type :succeed}))
+(def f (handler r))
