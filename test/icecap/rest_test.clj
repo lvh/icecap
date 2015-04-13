@@ -39,6 +39,3 @@
                {status :status headers :headers} (handler req)]
               (is (= status 400))
               (is (valid-headers? headers)))))
-
-(def r (create-cap-req {:type :succeed}))
-(def f (handler r))
