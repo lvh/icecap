@@ -3,7 +3,7 @@
   :url "https://github.com/lvh/icecap"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.7.0-alpha6"]
+  :dependencies [[org.clojure/clojure "1.7.0-beta1"]
 
                  ;; Stores
                  [com.novemberain/welle "3.0.0"]
@@ -54,7 +54,7 @@
                                         ["bikeshed"]
                                         ["eastwood"]]}
                    :plugins [[jonase/eastwood "0.1.4"]
-                             [lein-ancient "0.6.5"
+                             [lein-ancient "0.6.6"
                               :exclusions [rewrite-clj]]
                              [lein-bikeshed "0.1.8"]
                              [lein-cljfmt "0.1.10"]
