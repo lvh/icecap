@@ -30,7 +30,7 @@
         blob (<!! (retrieve store index))
         encoded-plan (crypto/decrypt scheme cap-key blob)
         plan (spy (nippy/thaw encoded-plan))
-        sub-results (spy (execute plan))]
+        sub-results (execute plan)]
     (async/into {} sub-results)))
 
 (defn revoke-cap
