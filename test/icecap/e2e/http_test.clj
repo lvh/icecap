@@ -38,14 +38,14 @@
 (use-fixtures :each store-reqs-fixture)
 
 (deftest http-tests
-  (is (let [create-result @(create-cap {:type :http
-                                        :url (str http-server-base-url
-                                                  "/test/example")})
-            cap-url (spy (bs/to-string (:body create-result)))
-            exercise-result @(execute-cap cap-url)]
-        (and (= (select-keys create-result [:code])
-                {:code 201})
-             (= cap-url nil)))))
+  (let [create-result @(create-cap {:type :http
+                                    :url (str http-server-base-url
+                                              "/test/example")})
+        cap-url (spy (bs/to-string (:body create-result)))
+        exercise-result @(execute-cap cap-url)]
+    (is (= (select-keys create-result [:code])
+           {:code 201}))
+    (is (= cap-url nil))))
 
 (deftest invalid-http-step-tests
   (are [step expected] (let [create-result @(create-cap step)
