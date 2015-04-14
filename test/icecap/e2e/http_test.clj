@@ -50,5 +50,5 @@
 (deftest invalid-http-step-tests
   (are [step expected] (let [create-result @(create-cap step)
                              message (bs/to-string (:body create-result))]
-                         (apply = (map pr-str expected)))
+                         (= message expected))
        {:type :http} '{:url missing-required-key}))
