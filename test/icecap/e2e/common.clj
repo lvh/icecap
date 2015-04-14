@@ -21,6 +21,8 @@
   "Creates a capability with the given plan."
   [plan]
   (let [url (str base-url "/v0/caps")
+        req {:body (str plan)
+             :headers {"Content-Type" "application/edn"}
              :throw-exceptions false}]
     (info "Creating cap" url req)
     (http/post url req)))
