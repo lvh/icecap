@@ -29,7 +29,7 @@
   "Executes the capability with the given URL."
   [cap-url]
   (info "Executing cap" cap-url)
-  (http/get (spy cap-url)))
+  (http/get (spy cap-url) {:throw-exceptions false}))
 
 (defn revoke-cap
   "Revokes the capability with the given URL."
