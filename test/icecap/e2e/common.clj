@@ -3,7 +3,9 @@
   (:require [icecap.core :as core]
             [clojure.test :refer :all]
             [aleph.http :as http]
-            [taoensso.timbre :refer [info spy]]))
+            [taoensso.timbre :refer [info spy]]
+            [byte-streams :as bs]
+            [clojure.tools.reader.edn :as edn]))
 
 (def icecap-server)
 
@@ -38,3 +40,10 @@
   [cap-url]
   (info "Revoking cap" cap-url)
   (http/delete cap-url {:throw-exceptions false}))
+
+(defn get-body
+  "Given a request, extracts its body."
+  [req]
+  (-> (:body req)
+      (bs/to-string)
+      (edn/read-string)))
