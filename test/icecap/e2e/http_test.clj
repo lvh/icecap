@@ -39,8 +39,8 @@
 
 (deftest http-tests
   (is (let [create-result @(create-cap {:type :http
-                                        :url (spy (str http-server-base-url
-                                                       "/test/example"))})
+                                        :url (str http-server-base-url
+                                                  "/test/example")})
             cap-url (spy (bs/to-string (:body create-result)))
             exercise-result @(execute-cap cap-url)]
         (and (= (select-keys create-result [:code])
