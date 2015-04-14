@@ -18,9 +18,8 @@
     (are [s] (nil? (check-plan s))
          step))
   (testing "invalid steps"
-    (are [s expected] (let [step (merge {:type :http} s)
-                            reprs (map pr-str [(check-plan step) expected])]
-                        (apply = reprs))
+    (are [s expected] (let [step (merge {:type :http} s)]
+                        (= (check-plan step) expected))
          {} '{:url missing-required-key}
          {:uri url} '{:uri disallowed-key
                       :url missing-required-key}
