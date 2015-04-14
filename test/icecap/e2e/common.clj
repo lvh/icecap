@@ -34,5 +34,5 @@
 (defn revoke-cap
   "Revokes the capability with the given URL."
   [cap-url]
-  (spy (http/delete cap-url)))
   (info "Revoking cap" cap-url)
+  (http/delete cap-url {:throw-exceptions false}))
