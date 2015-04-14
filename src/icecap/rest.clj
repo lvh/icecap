@@ -21,8 +21,8 @@
   (context "/v0/caps" {components :components}
     (POST "/" {plan :body-params :as request}
       (info request)
-      (let [{cap :cap error :error}
-            (spy (<!! (create-cap (spy plan) components)))]
+      (let [ch (create-cap (spy plan) components)
+            {cap :cap error :error} (<!! ch)]
         (if cap
           {:status 201
            :body {:cap (cap-url request cap)}}
@@ -30,11 +30,11 @@
            :body {:error (str error)}})))
     (context "/:encoded-cap" [encoded-cap]
       (GET "/" request
-        (let [cap (spy (safebase64-decode encoded-cap))]
-          (spy (<!! (execute-cap cap components)))))
+           (let [cap (safebase64-decode encoded-cap)]
+             (spy (<!! (execute-cap cap components)))))
       (DELETE "/" request
-        (let [cap (spy (safebase64-decode encoded-cap))]
-          (spy (<!! (revoke-cap cap components))))))))
+              (let [cap (safebase64-decode encoded-cap)]
+                (spy (<!! (revoke-cap cap components))))))))
 
 (defn ^:private wrap-components
   "Adds some components to each request map."
