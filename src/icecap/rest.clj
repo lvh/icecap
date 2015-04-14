@@ -54,5 +54,5 @@
   [components]
   (-> routes
       (wrap-defaults api-defaults)
-      (wrap-restful-format :formats [:edn])
-      (wrap-components components)))
+      (wrap-components components)
+      (wrap-restful-format :formats [:edn])))
