@@ -41,7 +41,7 @@
   (let [create-result @(create-cap {:type :http
                                     :url (str http-server-base-url
                                               "/test/example")})
-        cap-url (spy (:cap (get-body create-result)))
+        cap-url (:cap (get-body create-result))
         exercise-result @(execute-cap cap-url)]
     (is (= (select-keys create-result [:code])
            {:code 201}))
