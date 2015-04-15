@@ -26,7 +26,7 @@
          {:url 1} '{:url (throws? (URI 1))})))
 
 (def fake-response
-  {})
+  ::my-fake-response)
 
 (defn fake-request
   [_]
