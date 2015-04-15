@@ -13,8 +13,9 @@
   "Runs an icecap server as a test fixture."
   [f]
   (with-redefs [icecap-server (core/run)]
-    (f)
-    (.close icecap-server)))
+    (try
+      (f)
+      (finally (.close icecap-server)))))
 
 (def base-url
   (str "http://localhost:" core/port))
