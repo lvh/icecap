@@ -8,13 +8,20 @@
             [taoensso.timbre :refer [info spy]])
   (:import [java.net URI]))
 
+
+(defn scheme
+  "Get the scheme of a URL."
+  [^String url]
+  (.getScheme (URI. url)))
+
 (defn valid-scheme?
   "Checks if the given URL has a valid scheme."
   [^String url]
-  (#{"http" "https"} (.getScheme (URI. url))))
+  (#{"http" "https"} (scheme url)))
 
 (defstep :http
-  {:url sc/URI
+  {:url (s/both sc/URI
+                (s/pred valid-scheme? 'valid-scheme?))
    :method (s/enum :GET :POST :DELETE :PUT :PATCH :HEAD)}
   [step]
   (let [req (spy (request step))]
