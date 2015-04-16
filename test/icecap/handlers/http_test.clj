@@ -11,19 +11,44 @@
   "http://www.example.com")
 
 (def step
-  {:type :http :url url})
+  {:type :http
+   :url url
+   :method :GET})
 
 (deftest schema-tests
   (testing "valid steps"
     (are [s] (nil? (check-plan s))
-         step))
+         (merge step {:method :GET})
+         (merge step {:method :HEAD})
+         (merge step {:method :POST})
+         (merge step {:method :DELETE})
+         (merge step {:method :PUT})))
   (testing "invalid steps"
-    (are [s expected] (let [step (merge {:type :http} s)]
-                        (= (check-plan step) expected))
-         {} '{:url missing-required-key}
-         {:uri url} '{:uri disallowed-key
-                      :url missing-required-key}
-         {:url 1} '{:url (throws? (URI 1))})))
+    (are [s expected]  (= (check-plan (merge {:type :http} s))
+                          expected)
+
+         {}
+         '{:url missing-required-key
+           :method missing-required-key}
+
+         {:uri url}
+         '{:uri disallowed-key
+           :url missing-required-key
+           :method missing-required-key}
+
+         {:url 1}
+         '{:url (throws? (URI 1))
+           :method missing-required-key}
+
+         {:url url
+          :method :BOGUS}
+         '{:method (not (#{:DELETE
+                           :HEAD
+                           :GET
+                           :PATCH
+                           :POST
+                           :PUT}
+                         :BOGUS))})))
 
 (def fake-response
   ::my-fake-response)
