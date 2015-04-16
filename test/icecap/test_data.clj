@@ -2,7 +2,8 @@
 
 (defn success-step
   [name]
-  {:type :succeed :name name})
+  {:type :succeed
+   :name name})
 
 (def simple-http-step
   {:type :http :url "http://example.test"})
