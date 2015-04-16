@@ -1,5 +1,6 @@
 (ns icecap.handlers.http
-  (:require [aleph.http :refer [request]]
+  (:require [schema.core :as s]
+            [aleph.http :refer [request]]
             [clojure.core.async :refer [to-chan]]
             [icecap.handlers.core :refer [defstep]]
             [manifold.stream :refer [connect]]
@@ -7,9 +8,8 @@
             [taoensso.timbre :refer [info spy]]))
 
 (defstep :http
-  {:url URI}
+  {:url URI
+   :method (s/enum :GET :POST :DELETE :PUT :PATCH :HEAD)}
   [step]
-  (let [args (spy (select-keys step [:url]))
-        req (spy (request args))
-        res (spy @req)]
-    (to-chan [res])))
+  (let [req (spy (request step))]
+    (to-chan [(spy @req)])))
