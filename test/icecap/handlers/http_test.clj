@@ -8,14 +8,6 @@
             [aleph.http :as h]
             [clojure.test :refer :all]))
 
-(def http-methods
-  #{:DELETE
-    :HEAD
-    :GET
-    :PATCH
-    :POST
-    :PUT})
-
 (deftest schema-tests
   (testing "valid steps"
     (are [s] (nil? (check-plan s))
@@ -48,7 +40,13 @@
 
          {:url (:url simple-http-step)
           :method :BOGUS}
-         '{:method (not (http-methods :BOGUS))}
+         '{:method (not (#{:DELETE
+                           :HEAD
+                           :GET
+                           :PATCH
+                           :POST
+                           :PUT}
+                         :BOGUS))}
 
          {:url "bogus://example.test"
           :method :GET}
