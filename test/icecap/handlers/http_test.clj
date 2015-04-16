@@ -63,6 +63,6 @@
 (deftest execute-tests
   (with-redefs
     [h/request fake-request]
-    (is (let [ch (execute step)
+    (is (let [ch (execute simple-http-step)
               [result] (a/<!! (a/into [] ch))]
           (= result fake-response)))))
