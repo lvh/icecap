@@ -50,6 +50,11 @@
           :method :BOGUS}
          '{:method (not (http-methods :BOGUS))}
 
+         {:url "bogus://example.test"
+          :method :GET}
+         '{:url (invalid-scheme
+                 (not (#{:http :https} :bogus)))})))
+
 (def fake-response
   ::my-fake-response)
 
