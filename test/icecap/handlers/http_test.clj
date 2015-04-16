@@ -3,7 +3,7 @@
             [manifold.deferred :as d]
             [icecap.handlers.core :refer [execute]]
             [icecap.schema :refer [check-plan]]
-            [icecap.handlers.http]
+            [icecap.handlers.http :refer [valid-scheme?]]
             [icecap.test-data :refer [simple-http-step simple-https-step]]
             [aleph.http :as h]
             [clojure.test :refer :all]))
@@ -52,6 +52,16 @@
           :method :GET}
          '{:url (invalid-scheme
                  (not (#{:http :https} :bogus)))})))
+
+(deftest valid-scheme?-tests
+  (testing "valid schemes"
+    (are [url] (valid-scheme? url)
+         "http://example.test"
+         "https://example.test"))
+  (testing "invalid schemes"
+    (are [url] (not (valid-scheme? url))
+         "bogus://example.test"
+         "ftp://example.test")))
 
 (def fake-response
   ::my-fake-response)
