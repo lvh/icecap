@@ -15,7 +15,12 @@
          (merge simple-http-step {:method :HEAD})
          (merge simple-http-step {:method :POST})
          (merge simple-http-step {:method :DELETE})
-         (merge simple-http-step {:method :PUT})))
+         (merge simple-http-step {:method :PUT})
+         simple-https-step
+         (merge simple-https-step {:method :HEAD})
+         (merge simple-https-step {:method :POST})
+         (merge simple-https-step {:method :DELETE})
+         (merge simple-https-step {:method :PUT})))
   (testing "invalid steps"
     (are [s expected]  (= (check-plan (merge {:type :http} s))
                           expected)
