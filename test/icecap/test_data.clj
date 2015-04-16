@@ -6,10 +6,14 @@
    :name name})
 
 (def simple-http-step
-  {:type :http :url "http://example.test"})
+  {:type :http
+   :method :GET
+   :url "http://example.test"})
 
 (def simple-https-step
-  {:type :http :url "https://example.test"})
+  {:type :http
+   :method :GET
+   :url "https://example.test"})
 
 (def simple-ftp-step
   {:type :ftp
