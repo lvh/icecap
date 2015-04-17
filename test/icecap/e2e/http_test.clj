@@ -27,8 +27,7 @@
   (let [server (http/start-server handler {:port http-server-port})]
     (with-redefs [http-server server]
       (try (f)
-           (finally
-             (.close http-server))))))
+           (finally (.close http-server))))))
 
 (defn ^:private store-reqs-fixture
   [f]
