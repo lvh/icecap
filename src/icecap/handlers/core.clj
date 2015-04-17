@@ -3,7 +3,10 @@
   (:require [schema.core :as s]
             [clojure.core.async :as async :refer [go chan <! >!]]))
 
+(def get-schema nil) ;; anti-defonce behaavior of get-schema
 (defmulti get-schema identity)
+
+(def execute nil) ;; anti-defonce behaavior of get-schema
 (defmulti execute
   "Executes a plan.
 
