@@ -45,8 +45,7 @@
         create-result (spy @(create-cap plan))
         cap-url (:cap (get-body create-result))
         exercise-result @(execute-cap cap-url)]
-    (is (= (select-keys create-result [:code])
-           {:code 201}))
+    (is (= (:status create-result) 201))
     (is (some? cap-url))))
 
 (deftest invalid-http-step-tests
