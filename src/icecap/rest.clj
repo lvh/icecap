@@ -30,11 +30,11 @@
            :body {:error error}})))
     (context "/:encoded-cap" [encoded-cap]
       (GET "/" request
-           (let [cap (safebase64-decode encoded-cap)]
-             (spy (<!! (execute-cap cap components)))))
+        (let [cap (safebase64-decode encoded-cap)]
+          (spy (<!! (execute-cap cap components)))))
       (DELETE "/" request
-              (let [cap (safebase64-decode encoded-cap)]
-                (spy (<!! (revoke-cap cap components))))))))
+        (let [cap (safebase64-decode encoded-cap)]
+          (spy (<!! (revoke-cap cap components))))))))
 
 (defn ^:private wrap-components
   "Adds some components to each request map."
