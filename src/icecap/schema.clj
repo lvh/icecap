@@ -10,8 +10,8 @@
 (def Step
   "The schema for the description of a single step.
 
-  An step is a small, atomic part of a capability. It includes things
-  like HTTP requests or delays."
+  An step is a small, atomic part of a capability. Examples include
+  HTTP requests or delays."
   (let [all-methods (methods get-schema)
         all-types (keys all-methods)
         preds-and-schemas (for [[type schema-fn] all-methods]
