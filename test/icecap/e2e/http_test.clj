@@ -82,5 +82,5 @@
 
 (deftest invalid-http-step-tests
   (are [step expected] (= (get-body @(create-cap step)) {:error expected})
-       {:type :http} '{:url missing-required-key
-                       :method missing-required-key}))
+    {:type :http} '{:url missing-required-key
+                    :method missing-required-key}))
