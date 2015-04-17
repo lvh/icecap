@@ -27,7 +27,7 @@
           {:status 201
            :body {:cap (cap-url request cap)}}
           {:status 400
-           :body {:error (str error)}})))
+           :body {:error error}})))
     (context "/:encoded-cap" [encoded-cap]
       (GET "/" request
            (let [cap (safebase64-decode encoded-cap)]
