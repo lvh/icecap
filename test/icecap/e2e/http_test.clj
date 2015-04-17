@@ -49,7 +49,6 @@
     (is (= cap-url nil))))
 
 (deftest invalid-http-step-tests
-  (are [step expected] (let [create-result @(create-cap step)
-                             message (get-body create-result)]
-                         (= message {:error expected}))
-       {:type :http} '{:url missing-required-key}))
+  (are [step expected] (= (get-body @(create-cap step)) {:error expected})
+       {:type :http} '{:url missing-required-key
+                       :method missing-required-key}))
