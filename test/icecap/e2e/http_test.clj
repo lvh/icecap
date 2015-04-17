@@ -39,9 +39,10 @@
 (use-fixtures :each store-reqs-fixture)
 
 (deftest http-tests
-  (let [create-result @(create-cap {:type :http
-                                    :url (str http-server-base-url
-                                              "/test/example")})
+  (let [plan {:type :http
+              :method :GET
+              :url (str http-server-base-url "/test/example")}
+        create-result (spy @(create-cap plan))
         cap-url (:cap (get-body create-result))
         exercise-result @(execute-cap cap-url)]
     (is (= (select-keys create-result [:code])
