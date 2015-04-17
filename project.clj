@@ -9,7 +9,7 @@
                  [com.novemberain/welle "3.0.0"]
 
                  ;; Serialization
-                 [com.taoensso/nippy "2.8.0"
+                 [com.taoensso/nippy "2.9.0-beta1"
                   :exclusions [org.clojure/clojure com.taoensso/encore]]
 
                  ;; Handlers
