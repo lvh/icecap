@@ -46,7 +46,7 @@
         exercise-result @(execute-cap cap-url)]
     (is (= (select-keys create-result [:code])
            {:code 201}))
-    (is (= cap-url nil))))
+    (is (some? cap-url))))
 
 (deftest invalid-http-step-tests
   (are [step expected] (= (get-body @(create-cap step)) {:error expected})
