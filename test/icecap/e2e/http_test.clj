@@ -6,8 +6,8 @@
             [manifold.deferred :refer [let-flow]]
             [taoensso.timbre :refer [info spy]]))
 
-(def ^:dynamic recvd-reqs)
 (def http-server)
+(def recvd-reqs)
 
 (defn handler
   [req]
@@ -31,7 +31,7 @@
 
 (defn ^:private store-reqs-fixture
   [f]
-  (binding [recvd-reqs (atom [])]
+  (with-redefs [recvd-reqs (atom [])]
     (f)))
 
 (use-fixtures :once icecap-fixture http-server-fixture)
