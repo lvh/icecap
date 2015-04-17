@@ -74,3 +74,22 @@
                      ordered-tail)
           spec [[1 2 3] #{4 5 6} [7 8 9]]]
       (is (match-seq-spec spec (execution-order plan))))))
+
+(deftest defstep-tests
+  (testing "literal schema"
+    (try
+      (defstep ::defstep-tests {} [step] nil)
+      (is (::defstep-tests (methods get-schema)))
+      (is (::defstep-tests (methods execute)))
+      (finally
+        (remove-method get-schema ::defstep-tests)
+        (remove-method execute ::defstep-tests))))
+  (testing "symbol schema"
+    (try
+      (let [schema {}]
+        (defstep ::defstep-tests schema [step] nil))
+      (is (::defstep-tests (methods get-schema)))
+      (is (::defstep-tests (methods execute)))
+      (finally
+        (remove-method get-schema ::defstep-tests)
+        (remove-method execute ::defstep-tests)))))
