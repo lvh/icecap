@@ -50,7 +50,7 @@
 
          {:url "bogus://example.test"
           :method :GET}
-         '{:url {:url (not (valid-scheme? a-java.lang.String))}})))
+         '{:url (not (valid-scheme? a-java.lang.String))})))
 
 (deftest valid-scheme?-tests
   (testing "valid schemes"
