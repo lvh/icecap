@@ -47,7 +47,12 @@
         exercise-result @(execute-cap cap-url)]
     ;; Was the cap successfully created?
     (is (= (:status create-result) 201))
-    (is (some? cap-url))))
+    (is (some? cap-url))
+
+    ;; Was the cap successfully executed?
+    (is (= (:status exercise-result) 200))
+    (let [[{}] (spy @recvd-reqs)]
+      (is (= 1 1)))))
 
 (deftest invalid-http-step-tests
   (are [step expected] (= (get-body @(create-cap step)) {:error expected})
