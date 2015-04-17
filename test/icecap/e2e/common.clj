@@ -43,7 +43,7 @@
   (http/delete cap-url {:throw-exceptions false}))
 
 (defn get-body
-  "Given a request, extracts its body."
+  "Given a request, extracts and parses its body as EDN."
   [req]
   (-> (:body req)
       (bs/to-string)
