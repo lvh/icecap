@@ -6,10 +6,22 @@
             [manifold.deferred :refer [let-flow]]
             [taoensso.timbre :refer [info spy]]))
 
-(def http-server)
-(def recvd-reqs)
+(def http-server
+  "A test HTTP server, serving requests.
+
+  This var gets assigned in a test fixture, so that we can clean up
+  when the test is over.")
+
+(def recvd-reqs
+  "The requests received by the test HTTP server.
+
+  This var gets reset in an :each test fixture, so that we can clean
+  up between tests.")
 
 (defn handler
+  "The implementation of the test HTTP server.
+
+  Keeps track of all requests, and always returns a simple 200 OK."
   [req]
   (swap! recvd-reqs conj req)
   {:status 200
@@ -17,12 +29,15 @@
    :body "xyzzy"})
 
 (def http-server-port
+  "The port the test HTTP server will listen on."
   8378) ;; 8378 => TEST
 
 (def http-server-base-url
+  "The base URL of the test HTTP server."
   (str "http://localhost:" http-server-port))
 
 (defn ^:private http-server-fixture
+  "A fixture that listens on `http-server-port` and cleans up afterwards."
   [f]
   (let [server (http/start-server handler {:port http-server-port})]
     (with-redefs [http-server server]
@@ -30,6 +45,7 @@
            (finally (.close http-server))))))
 
 (defn ^:private store-reqs-fixture
+  "A fixture that resets the request store."
   [f]
   (with-redefs [recvd-reqs (atom [])]
     (f)))
