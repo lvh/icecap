@@ -45,6 +45,7 @@
         create-result (spy @(create-cap plan))
         cap-url (:cap (get-body create-result))
         exercise-result @(execute-cap cap-url)]
+    ;; Was the cap successfully created?
     (is (= (:status create-result) 201))
     (is (some? cap-url))))
 
