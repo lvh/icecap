@@ -6,7 +6,8 @@
             [icecap.rest :as rest]
             [icecap.store.mem :refer [mem-store]]
             [ring.mock.request :as mock]
-            [clojure.tools.reader.edn :as edn]))
+            [clojure.tools.reader.edn :as edn]
+            [icecap.e2e.common :refer [get-body]]))
 
 (def handler
   (let [[seed-key salt] (map crypto/nul-byte-array
@@ -36,6 +37,9 @@
               (is (valid-headers? headers))))
   (testing "creating cap with bogus plan results in useful errors"
     (let-flow [req (create-cap-req {:type :bogus})
-               {status :status headers :headers} (handler req)]
+               {status :status headers :headers :as res} (handler req)
+               body (get-body res)]
               (is (= status 400))
-              (is (valid-headers? headers)))))
+              (is (valid-headers? headers))
+              (is (= body
+                     '{:error {:type (not (#{:http :succeed :delay} :bogus))}})))))
