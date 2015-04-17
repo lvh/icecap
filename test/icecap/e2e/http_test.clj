@@ -50,8 +50,19 @@
 
     ;; Was the cap successfully executed?
     (is (= (:status exercise-result) 200))
-    (let [[{}] (spy @recvd-reqs)]
-      (is (= 1 1)))))
+    (let [[request] @recvd-reqs]
+      (is (= request
+             {:remote-addr "127.0.0.1"
+              :request-method :get
+              :scheme :http
+              :server-name "localhost"
+              :server-port 8378
+              :uri "/test/example"
+              :headers {"host" "localhost"
+                        "content-length" "0"}
+              :keep-alive? true
+              :query-string nil
+              :body nil})))))
 
 (deftest invalid-http-step-tests
   (are [step expected] (= (get-body @(create-cap step)) {:error expected})
