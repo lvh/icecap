@@ -6,8 +6,8 @@
             [manifold.deferred :refer [let-flow]]
             [taoensso.timbre :refer [info spy]]))
 
-(def ^:dynamic http-server)
 (def ^:dynamic recvd-reqs)
+(def http-server)
 
 (defn handler
   [req]
@@ -25,7 +25,7 @@
 (defn ^:private http-server-fixture
   [f]
   (let [server (http/start-server handler {:port http-server-port})]
-    (binding [http-server server]
+    (with-redefs [http-server server]
       (try (f)
            (finally
              (.close http-server))))))
