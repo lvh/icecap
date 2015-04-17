@@ -24,11 +24,11 @@
 
 (defn ^:private http-server-fixture
   [f]
-  (binding [http-server (http/start-server handler
-                                           {:port http-server-port})]
-    (try (f)
-         (finally
-           (.close http-server)))))
+  (let [server (http/start-server handler {:port http-server-port})]
+    (binding [http-server server]
+      (try (f)
+           (finally
+             (.close http-server))))))
 
 (defn ^:private store-reqs-fixture
   [f]
