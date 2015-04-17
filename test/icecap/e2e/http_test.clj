@@ -26,8 +26,9 @@
   [f]
   (binding [http-server (http/start-server handler
                                            {:port http-server-port})]
-    (f)
-    (.close http-server)))
+    (try (f)
+         (finally
+           (.close http-server)))))
 
 (defn ^:private store-reqs-fixture
   [f]
