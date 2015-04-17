@@ -51,13 +51,12 @@
   implicitly added.
   "
   [type schema & fn-tail]
-  (let [full-schema (assoc schema :type (s/eq type))]
-    `(do
-       (defmethod get-schema ~type
-         [type#]
-         ~full-schema)
-       (defmethod execute ~type
-         ~@fn-tail))))
+  `(let [full-schema# (assoc ~schema :type (s/eq type))]
+     (defmethod get-schema ~type
+       [type#]
+       full-schema#)
+     (defmethod execute ~type
+       ~@fn-tail)))
 
 (defstep :succeed
   {(s/optional-key :name) s/Str}
