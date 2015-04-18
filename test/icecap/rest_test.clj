@@ -42,4 +42,5 @@
               (is (= status 400))
               (is (valid-headers? headers))
               (is (= body
-                     '{:error {:type (not (#{:http :succeed :delay} :bogus))}})))))
+                     '{:error
+                       {:type (not (#{:http :succeed :delay} :bogus))}})))))
