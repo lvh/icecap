@@ -32,7 +32,7 @@
                   :exclusions [org.clojure/clojure]]
 
                  ;; REST API
-                 [compojure "1.3.3"]
+                 [compojure "1.3.4"]
                  [ring/ring-defaults "0.1.4"]
                  [ring-middleware-format "0.5.0"]
 
