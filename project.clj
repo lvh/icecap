@@ -22,7 +22,7 @@
                   :exclusions [instaparse]]
                  [cddr/integrity "0.3.0-SNAPSHOT"
                   :exclusions [org.clojure/clojure]]
-                 [org.clojure/core.typed "0.2.91"]
+                 [org.clojure/core.typed "0.2.92"]
 
                  ;; Crypto
                  [caesium "0.3.0"]
