@@ -43,7 +43,7 @@
   :main ^:skip-aot icecap.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
-             :dev {:dependencies [[org.clojure/test.check "0.8.0-alpha2"]]
+             :dev {:dependencies [[org.clojure/test.check "0.8.0-alpha3"]]
                    :aliases ^:replace {"lint"
                                        ["do"
                                         ["clean"]
