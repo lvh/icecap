@@ -57,5 +57,5 @@
                              [lein-ancient "0.6.7"
                               :exclusions [rewrite-clj]]
                              [lein-bikeshed "0.1.8"]
-                             [lein-cljfmt "0.1.10"]
+                             [lein-cljfmt "0.1.11"]
                              [lein-kibit "0.1.0"]]}})
