@@ -28,7 +28,7 @@
                  [caesium "0.3.0"]
 
                  ;; Logging
-                 [com.taoensso/timbre "4.0.2"
+                 [com.taoensso/timbre "4.1.0-alpha1"
                   :exclusions [org.clojure/clojure]]
 
                  ;; REST API
