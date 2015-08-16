@@ -15,7 +15,7 @@
                       "region" "ORD"
                       "tenantId" tenant}]}
        {"name" "cloudMonitoring"
-        "type" "rax: monitor"
+        "type" "rax:monitor"
         "endpoints" [{"publicURL" (url "/MaasApi-c4f28a/ORD/v1.0/" tenant)
                       "region" "ORD"
                       "tenantId" tenant}]}
