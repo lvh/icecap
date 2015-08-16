@@ -58,4 +58,4 @@
                               :exclusions [rewrite-clj]]
                              [lein-bikeshed "0.1.8"]
                              [lein-cljfmt "0.1.10"]
-                             [lein-kibit "0.1.0"]]}})
+                             [lein-kibit "0.1.2"]]}})
