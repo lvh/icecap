@@ -57,10 +57,5 @@
                              [lein-ancient "0.6.7"
                               :exclusions [rewrite-clj]]
                              [lein-bikeshed "0.1.8"]
-<<<<<<< HEAD
-                             [lein-cljfmt "0.1.10"]
-                             [lein-kibit "0.1.2"]]}})
-=======
                              [lein-cljfmt "0.3.0"]
                              [lein-kibit "0.1.0"]]}})
->>>>>>> bbf34b8c18601c3c9e85fc6d0037d267ea1cc77f
