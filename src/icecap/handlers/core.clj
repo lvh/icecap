@@ -4,7 +4,9 @@
             [clojure.core.async :as async :refer [go chan <! >!]]))
 
 (def get-schema nil) ;; anti-defonce behaavior of get-schema
-(defmulti get-schema identity)
+(defmulti get-schema
+  "Return the schema for a plan type."
+  identity)
 
 (def execute nil) ;; anti-defonce behaavior of execute
 (defmulti execute
