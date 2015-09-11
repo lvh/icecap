@@ -43,4 +43,9 @@
               (is (valid-headers? headers))
               (is (= body
                      '{:error
-                       {:type (not (#{:http :succeed :delay} :bogus))}})))))
+                       {:type (not (#{:create-nova-server
+                                      :delete-nova-server
+                                      :http
+                                      :succeed
+                                      :delay}
+                                    :bogus))}})))))
