@@ -2,7 +2,7 @@
   (:require [icecap.schema :as is]
             [icecap.test-data :refer :all]
             [clojure.test :refer :all]
-            [schema.core :as s]
+            [schema.core :as sc]
             [icecap.handlers.core :refer [get-schema]]))
 
 (deftest plan-tests
