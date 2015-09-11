@@ -35,7 +35,7 @@
         :method missing-required-key}
 
       {:url 1}
-      '{:url (throws? (URI 1))
+      '{:url (not (valid-url? 1))
         :method missing-required-key}
 
       {:url (:url simple-http-step)
