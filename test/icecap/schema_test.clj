@@ -30,7 +30,7 @@
                               nil]))
   (testing "plans with unsupported steps don't validate, with useful error"
     (let [supported-types (into #{} (keys (methods get-schema)))]
-      (are [example] (let [[_ [suggested actual]] (:type (check-plan example))]
-                       (and (= actual (:type example))
-                            (= suggested supported-types)))
-        simple-ftp-step))))
+      (doseq [step [simple-ftp-step]]
+        (let [[_ [suggested actual]] (:type (is/check-plan step))]
+          (is (= actual (:type step)))
+          (is (= suggested supported-types)))))))
