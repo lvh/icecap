@@ -51,7 +51,7 @@
   implicitly added.
   "
   [type schema & fn-tail]
-  `(let [full-schema# (assoc ~schema :type (s/eq type))]
+  `(let [full-schema# (assoc ~schema :type (s/eq ~type))]
      (defmethod get-schema ~type
        [type#]
        full-schema#)
