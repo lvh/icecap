@@ -20,8 +20,7 @@
   (#{"http" "https"} (scheme url)))
 
 (defstep :http
-  {:url (s/both sc/URI
-                (s/pred valid-scheme? 'valid-scheme?))
+  {:url (s/conditional valid-scheme? sc/URI)
    :method (s/enum :GET :POST :DELETE :PUT :PATCH :HEAD)}
   [step]
   (let [req (spy (request step))]
