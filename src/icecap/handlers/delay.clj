@@ -4,6 +4,6 @@
             [schema.core :as sc]))
 
 (defstep :delay
-  {:amount (sc/both sc/Int (sc/pred #(< 0 % 60)'(< 0 delay 60)))}
+  {:amount (sc/conditional #(< 0 % 60) sc/Int)}
   [step]
   (timeout (:amount step)))
