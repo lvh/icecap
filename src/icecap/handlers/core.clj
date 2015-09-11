@@ -6,7 +6,7 @@
 (def get-schema nil) ;; anti-defonce behaavior of get-schema
 (defmulti get-schema identity)
 
-(def execute nil) ;; anti-defonce behaavior of get-schema
+(def execute nil) ;; anti-defonce behaavior of execute
 (defmulti execute
   "Executes a plan.
 
