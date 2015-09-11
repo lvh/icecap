@@ -15,9 +15,9 @@
   (.getScheme (URI. s)))
 
 (defn valid-scheme?
-  "Checks if the given URL has a valid scheme."
-  [^String url]
-  (#{"http" "https"} (scheme url)))
+  "Checks if the (string) URL has a valid scheme."
+  [^String s]
+  (#{"http" "https"} (scheme s)))
 
 (defstep :http
   {:url (s/conditional valid-scheme? sc/URI)
