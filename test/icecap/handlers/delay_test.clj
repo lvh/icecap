@@ -33,7 +33,7 @@
 (defn fake-timeout
   "Create a test double for core.async/timeout."
   []
-  (let [{advance :advance add-waiter :add-waiter} (fake-clock)
+  (let [{:keys [advance add-waiter]} (fake-clock)
         timeout (fn [^long ms]
                   (let [c (chan)]
                     (add-waiter ms false (fn []
