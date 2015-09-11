@@ -12,19 +12,19 @@
       simple-https-step
       #{simple-http-step simple-https-step}))
   (testing "empty plans don't validate"
-    (are [example reason] (= (check-plan example)
+    (are [example reason] (= (is/check-plan example)
                              reason)
       [] '(not ("collection of two or more plans" []))
       #{} '(not ("collection of two or more plans" #{}))))
   (testing "plans with one step in them don't validate"
-    (are [example reason] (= (check-plan example)
+    (are [example reason] (= (is/check-plan example)
                              reason)
       [simple-http-step] '(not ("collection of two or more plans"
                                 a-clojure.lang.PersistentVector))
       #{simple-http-step} '(not ("collection of two or more plans"
                                  a-clojure.lang.PersistentHashSet))))
   (testing "plans with empty steps in them don't validate"
-    (are [example reason] (= (check-plan example)
+    (are [example reason] (= (is/check-plan example)
                              reason)
       [#{} simple-http-step] ['(not ("collection of two or more plans" #{}))
                               nil]))
