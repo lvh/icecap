@@ -1,5 +1,5 @@
 (ns icecap.schema-test
-  (:require [icecap.schema :refer :all]
+  (:require [icecap.schema :as is]
             [icecap.test-data :refer :all]
             [clojure.test :refer :all]
             [schema.core :as s]
@@ -7,7 +7,7 @@
 
 (deftest plan-tests
   (testing "correct plans validate"
-    (are [example] (nil? (check-plan example))
+    (are [example] (nil? (is/check-plan example))
       simple-http-step
       simple-https-step
       #{simple-http-step simple-https-step}))
