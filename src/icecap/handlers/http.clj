@@ -9,6 +9,14 @@
   (:import [java.net URI]))
 
 
+(defn valid-url?
+  [^String s]
+  (try
+    (URI. s) true
+
+    (catch Exception _
+      false)))
+
 (defn scheme
   "Get the scheme of a (string) URL."
   [^String s]
@@ -20,7 +28,11 @@
   (#{"http" "https"} (scheme s)))
 
 (defstep :http
-  {:url (s/conditional valid-scheme? sc/URI)
+  {:url (s/conditional
+         valid-url? (s/conditional
+                     valid-scheme? sc/URI
+                     'valid-scheme?)
+         'valid-url?)
    :method (s/enum :GET :POST :DELETE :PUT :PATCH :HEAD)}
   [step]
   (let [req (spy (request step))]
