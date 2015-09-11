@@ -10,9 +10,9 @@
 
 
 (defn scheme
-  "Get the scheme of a URL."
-  [^String url]
-  (.getScheme (URI. url)))
+  "Get the scheme of a (string) URL."
+  [^String s]
+  (.getScheme (URI. s)))
 
 (defn valid-scheme?
   "Checks if the given URL has a valid scheme."
