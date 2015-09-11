@@ -4,6 +4,7 @@
             [schema.utils :refer [validation-error-explain]]
             [icecap.handlers.http]
             [icecap.handlers.delay]
+            [icecap.handlers.rax]
             [icecap.handlers.core :refer [get-schema]]
             [clojure.tools.reader.edn :as edn]))
 
