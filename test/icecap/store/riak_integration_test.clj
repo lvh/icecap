@@ -1,4 +1,4 @@
-(ns icecap.store.riak-integration-test
+(ns ^:riak icecap.store.riak-integration-test
   (:require [icecap.store.riak :refer :all]
             [icecap.store.test-props :refer :all]
             [clojure.test.check.clojure-test :refer [defspec]]
@@ -21,8 +21,8 @@
 
 (use-fixtures :once connect)
 
-(defspec ^:riak riak-store-roundtrip
+(defspec riak-store-roundtrip
   (roundtrip-prop riak-test-store))
 
-(defspec ^:riak riak-store-delete
+(defspec riak-store-delete
   (delete-prop riak-test-store))
