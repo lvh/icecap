@@ -17,7 +17,7 @@
                  [aleph "0.4.1-beta1"]
 
                  ;; Schemata
-                 [prismatic/schema "1.0.1"]
+                 [prismatic/schema "1.0.2"]
                  [schema-contrib "0.1.5"
                   :exclusions [instaparse]]
                  [org.clojure/core.typed "0.3.11"]
