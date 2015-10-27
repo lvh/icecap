@@ -20,7 +20,7 @@
                  [prismatic/schema "1.0.2"]
                  [schema-contrib "0.1.5"
                   :exclusions [instaparse]]
-                 [org.clojure/core.typed "0.3.12"]
+                 [org.clojure/core.typed "0.3.14"]
 
                  ;; Crypto
                  [caesium "0.3.0"]
