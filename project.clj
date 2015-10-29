@@ -13,7 +13,7 @@
                   :exclusions [org.clojure/clojure com.taoensso/encore]]
 
                  ;; Handlers
-                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
+                 [org.clojure/core.async "0.2.371"]
                  [aleph "0.4.1-beta1"]
 
                  ;; Schemata
