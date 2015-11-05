@@ -3,36 +3,36 @@
   :url "https://github.com/lvh/icecap"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.8.0-alpha4"]
+  :dependencies [[org.clojure/clojure "1.8.0-beta2"]
 
                  ;; Stores
                  [com.novemberain/welle "3.0.0"]
 
                  ;; Serialization
-                 [com.taoensso/nippy "2.10.0-alpha5"
+                 [com.taoensso/nippy "2.11.0-alpha5"
                   :exclusions [org.clojure/clojure com.taoensso/encore]]
 
                  ;; Handlers
-                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
-                 [aleph "0.4.1-alpha2"]
+                 [org.clojure/core.async "0.2.371"]
+                 [aleph "0.4.1-beta1"]
 
                  ;; Schemata
-                 [prismatic/schema "1.0.1"]
+                 [prismatic/schema "1.0.3"]
                  [schema-contrib "0.1.5"
                   :exclusions [instaparse]]
-                 [org.clojure/core.typed "0.3.11"]
+                 [org.clojure/core.typed "0.3.15"]
 
                  ;; Crypto
                  [caesium "0.3.0"]
 
                  ;; Logging
-                 [com.taoensso/timbre "4.1.1"
+                 [com.taoensso/timbre "4.1.4"
                   :exclusions [org.clojure/clojure]]
 
                  ;; REST API
                  [compojure "1.4.0"]
                  [ring/ring-defaults "0.1.5"]
-                 [ring-middleware-format "0.6.0"]
+                 [ring-middleware-format "0.7.0"]
 
                  ;; REST API testing
                  [ring/ring-mock "0.3.0"]]
@@ -53,7 +53,7 @@
                                         ["bikeshed"]
                                         ["eastwood"]]}
                    :plugins [[jonase/eastwood "0.1.4"]
-                             [lein-ancient "0.6.7"
+                             [lein-ancient "0.6.8"
                               :exclusions [rewrite-clj]]
                              [lein-bikeshed "0.1.8"]
                              [lein-cljfmt "0.3.0"]
