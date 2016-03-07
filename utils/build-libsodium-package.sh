@@ -41,6 +41,6 @@ RUN fpm -s dir -t deb \
     usr/lib
 EOF
 
-PKG_NAME="libsodium-$LIBSODIUM_VERSION_amd64.deb"
+PKG_NAME="libsodium-${LIBSODIUM_VERSION}_amd64.deb"
 docker run -i build-libsodium-deb cat $PKG_NAME > $PKG_NAME
 docker rmi build-libsodium-deb
