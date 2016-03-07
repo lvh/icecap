@@ -5,7 +5,7 @@ set -x
 
 LIBSODIUM_VERSION="1.0.8"
 
-docker build -t build-libsodium-deb - <<"EOF"
+docker build -t build-libsodium-deb - <<EOF
 FROM debian
 
 MAINTAINER Laurens Van Houtven <_@lvh.io>
