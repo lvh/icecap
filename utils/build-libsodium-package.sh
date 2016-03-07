@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+set -e
+set -x
 docker build -t build-libsodium-deb - <<"EOF"
 FROM dockerfile/java:oracle-java8
 
