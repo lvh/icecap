@@ -2,6 +2,9 @@
 
 set -e
 set -x
+
+LIBSODIUM_VERSION="1.0.8"
+
 docker build -t build-libsodium-deb - <<"EOF"
 FROM debian
 
@@ -13,7 +16,7 @@ RUN apt-get -y upgrade
 
 RUN apt-get -y install ruby-dev gcc build-essential libtool autotools-dev automake checkinstall check git yasm
 
-ENV LIBSODIUM_VERSION 1.0.2
+ENV LIBSODIUM_VERSION $LIBSODIUM_VERSION
 
 RUN gem install fpm
 
@@ -37,4 +40,7 @@ RUN fpm -s dir -t deb \
     -p libsodium-VERSION_ARCH.deb \
     usr/lib
 EOF
-docker run -i build-libsodium-deb cat libsodium-1.0.2_amd64.deb > libsodium-1.0.2_amd64.deb
+
+PKG_NAME="libsodium-$LIBSODIUM_VERSION_amd64.deb"
+docker run -i build-libsodium-deb cat $PKG_NAME > $PKG_NAME
+docker rmi build-libsodium-deb
