@@ -31,7 +31,7 @@ RUN ./configure --prefix=/usr
 RUN make check
 
 RUN mkdir sodium-install
-RUN make install DESTDIR=`readlink -e sodium-install`
+RUN make install DESTDIR=\$(readlink -e sodium-install)
 
 RUN fpm -s dir -t deb \
     -n libsodium -v $LIBSODIUM_VERSION \
