@@ -12,8 +12,6 @@ MAINTAINER Laurens Van Houtven <_@lvh.io>
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
-RUN apt-get -y upgrade
-
 RUN apt-get -y install ruby-dev gcc build-essential libtool autotools-dev automake checkinstall check git yasm
 
 ENV LIBSODIUM_VERSION $LIBSODIUM_VERSION
