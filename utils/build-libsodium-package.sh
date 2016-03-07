@@ -3,7 +3,7 @@
 set -e
 set -x
 docker build -t build-libsodium-deb - <<"EOF"
-FROM dockerfile/java:oracle-java8
+FROM debian
 
 MAINTAINER Laurens Van Houtven <_@lvh.io>
 
