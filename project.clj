@@ -3,13 +3,13 @@
   :url "https://github.com/lvh/icecap"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.8.0-RC2"]
+  :dependencies [[org.clojure/clojure "1.8.0-RC3"]
 
                  ;; Stores
                  [com.novemberain/welle "3.0.0"]
 
                  ;; Serialization
-                 [com.taoensso/nippy "2.11.0-alpha5"
+                 [com.taoensso/nippy "2.11.0-alpha6"
                   :exclusions [org.clojure/clojure com.taoensso/encore]]
 
                  ;; Handlers
@@ -17,7 +17,7 @@
                  [aleph "0.4.1-beta3"]
 
                  ;; Schemata
-                 [prismatic/schema "1.0.3"]
+                 [prismatic/schema "1.0.4"]
                  [schema-contrib "0.1.5"
                   :exclusions [instaparse]]
                  [org.clojure/core.typed "0.3.19"]
