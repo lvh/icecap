@@ -22,7 +22,7 @@
     (POST "/" {plan :body-params :as request}
       (info request)
       (let [ch (create-cap (spy plan) components)
-            {cap :cap error :error} (<!! ch)]
+            {:keys [cap error]} (<!! ch)]
         (if cap
           {:status 201
            :body {:cap (cap-url request cap)}}
