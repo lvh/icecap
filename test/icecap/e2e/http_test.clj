@@ -3,7 +3,6 @@
   (:require [icecap.e2e.common :refer :all]
             [clojure.test :refer :all]
             [aleph.http :as http]
-            [manifold.deferred :refer [let-flow]]
             [taoensso.timbre :refer [info spy]]))
 
 (def http-server
