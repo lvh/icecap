@@ -23,7 +23,7 @@
                  [org.clojure/core.typed "0.3.22"]
 
                  ;; Crypto
-                 [caesium "0.3.0"]
+                 [caesium "0.4.0"]
 
                  ;; Logging
                  [com.taoensso/timbre "4.1.4"
