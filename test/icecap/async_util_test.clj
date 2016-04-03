@@ -31,8 +31,7 @@
 
 (deftest <!!?-tests
   (testing "take a value"
-    (is (= (<!!? (go 1 2 3))
-           3)))
+    (is (= 3 (<!!? (go 1 2 3)))))
   (testing "raise an exc"
     (is (thrown-with-msg? AssertionError #"Assert failed: false"
                           (<!!? (go-catch (assert false)))))))
@@ -41,8 +40,7 @@
   (testing "take a value"
     (let [inner-chan (a/to-chan [1 2 3])
           outer-chan (go (<!? inner-chan))]
-      (is (= (<!! outer-chan)
-             1))))
+      (is (= 1 (<!! outer-chan)))))
   (testing "raise an exc"
     (let [err-chan (go-catch (assert false))
           <!?-chan (go-catch (<!? err-chan))]
