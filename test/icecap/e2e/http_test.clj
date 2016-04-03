@@ -66,8 +66,7 @@
     ;; Was the cap successfully executed?
     (is (= (:status exercise-result) 200))
     (let [[request] @recvd-reqs]
-      (is (= request
-             {:remote-addr "127.0.0.1"
+      (is (= {:remote-addr "127.0.0.1"
               :request-method :get
               :scheme :http
               :server-name "localhost"
@@ -77,9 +76,10 @@
                         "content-length" "0"}
               :keep-alive? true
               :query-string nil
-              :body nil})))))
+              :body nil}
+             request)))))
 
 (deftest invalid-http-step-tests
-  (are [step expected] (= (get-body @(create-cap step)) {:error expected})
+  (are [step expected] (= {:error expected} (get-body @(create-cap step)))
     {:type :http} '{:url missing-required-key
                     :method missing-required-key}))
