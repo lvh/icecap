@@ -30,8 +30,8 @@
                   :exclusions [org.clojure/clojure]]
 
                  ;; REST API
-                 [compojure "1.4.0"]
-                 [ring/ring-defaults "0.1.5"]
+                 [compojure "1.5.0"]
+                 [ring/ring-defaults "0.2.0"]
                  [ring-middleware-format "0.7.0"]
 
                  ;; REST API testing
