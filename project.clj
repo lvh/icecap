@@ -14,7 +14,7 @@
 
                  ;; Handlers
                  [org.clojure/core.async "0.2.374"]
-                 [aleph "0.4.1-beta3"]
+                 [aleph "0.4.1"]
 
                  ;; Schemata
                  [prismatic/schema "1.1.0"]
