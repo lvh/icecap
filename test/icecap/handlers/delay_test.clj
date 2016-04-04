@@ -36,8 +36,7 @@
   (let [{:keys [advance add-waiter]} (fake-clock)
         timeout (fn [^long ms]
                   (let [c (chan)]
-                    (add-waiter ms false (fn []
-                                           (close! c)))
+                    (add-waiter ms false (fn [] (close! c)))
                     c))]
     [advance {#'clojure.core.async/timeout timeout}]))
 
