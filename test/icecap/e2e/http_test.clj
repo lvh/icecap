@@ -72,7 +72,7 @@
               :server-name "localhost"
               :server-port 8378
               :uri "/test/example"
-              :headers {"host" "localhost"
+              :headers {"host" "localhost:8378"
                         "content-length" "0"}
               :keep-alive? true
               :query-string nil
