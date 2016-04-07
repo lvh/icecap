@@ -1,7 +1,9 @@
 (ns icecap.handlers.core
   "The core handler API and behavior."
   (:require [schema.core :as s]
-            [clojure.core.async :as async :refer [go chan <! >!]]))
+            [manifold.stream :as ms]
+            [manifold.deferred :as md]
+            [manifold.deferred :as d]))
 
 (def get-schema nil) ;; anti-defonce behaavior of get-schema
 (defmulti get-schema
@@ -28,17 +30,28 @@
 
 (defmethod execute ::unordered-plans
   [plans]
-  (async/merge (map execute plans)))
+  (ms/concat (ms/map execute plans)))
+
+(defn drain-to
+  "Drains stream in into out; returning a deferred when done."
+  [in out]
+  (md/loop [d (ms/take! in)]
+    (md/chain' d
+               (fn [v]
+                 (when v (ms/put! out v)))
+               (fn [success?]
+                 (when success? (md/recur (ms/take! in)))))))
 
 (defmethod execute ::ordered-plans
   [plans]
-  (let [out (chan)]
-    (go (loop [plans plans]
-          (let [results (<! (async/into [] (execute (first plans))))]
-            (<! (async/onto-chan out results false)))
-          (if (seq (rest plans))
-            (recur (rest plans))
-            (async/close! out))))
+  (let [out (ms/stream)]
+    (ms/connect-via
+     (ms/->source plans)
+     (fn [plan]
+       (-> (execute plan)
+           (ms/->source)
+           (drain-to out)))
+     out)
     out))
 
 (defmacro defstep
@@ -46,8 +59,8 @@
 
   A step implementation is defined by its schema (a map), and a
   handler (a sequence of forms). The handler forms will have the step
-  being handled injected into it, and should evaluate to a core.async
-  chan.
+  being handled injected into it, and should evaluate to something
+  that can be converted to a manifold stream.
 
   The schema does not have to include the step's `:type`; it is
   implicitly added.
@@ -63,4 +76,4 @@
 (defstep :succeed
   {(s/optional-key :name) s/Str}
   [step]
-  (async/to-chan [step]))
+  (ms/->source [step]))
