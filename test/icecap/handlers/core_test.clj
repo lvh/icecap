@@ -51,8 +51,9 @@
 
 (deftest execute-tests
   (testing "execute single step"
-    (is (= (execution-order (td/success-step 1))
-           [1])))
+    (let [plan (td/success-step 1)
+          order (execution-order plan)]
+      (is (= order [1]))))
   (testing "execute some plans consisting of ordered steps"
     (let [names (vec (range 10))
           plan (success-steps names)
@@ -68,8 +69,7 @@
     (let [ordered-head (success-steps [1 2 3])
           unordered-middle (success-steps #{4 5 6})
           ordered-tail (success-steps [7 8 9])
-          plan (into (conj ordered-head unordered-middle)
-                     ordered-tail)
+          plan (vec (concat ordered-head [unordered-middle] ordered-tail))
           spec [[1 2 3] #{4 5 6} [7 8 9]]]
       (is (match-seq-spec spec (execution-order plan))))))
 
