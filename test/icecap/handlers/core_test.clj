@@ -11,15 +11,13 @@
   takes as many elements as that coll has off of the thing to match
   into a coll of the same type, and compares it to that coll.
   "
-  [spec to-match]
-  (loop [spec spec
-         to-match to-match]
-    (let [spec-part (first spec)
-          [candidate to-match] (split-at (count spec-part) to-match)
-          candidate (into (empty spec-part) candidate)]
-      (cond (not= candidate spec-part) false
-            (seq spec) (recur (rest spec) to-match)
-            :else (not (seq to-match))))))
+  [[part & parts] to-match]
+  (let [[candidate to-match] (split-at (count part) to-match)
+        candidate (into (empty part) candidate)]
+    (cond (not= candidate part) false
+          (seq parts) (recur parts to-match)
+          :else (not (seq to-match)))))
+
 
 (deftest match-seq-spec-tests
   (testing "match single matching items"
