@@ -53,12 +53,12 @@
   (testing "execute single step"
     (let [plan (td/success-step 1)
           order (execution-order plan)]
-      (is (= order [1]))))
+      (is (match-seq-spec [[1]] order))))
   (testing "execute some plans consisting of ordered steps"
     (let [names (vec (range 10))
           plan (success-steps names)
           order (execution-order plan)]
-      (is (= order names))))
+      (is (match-seq-spec [names] order))))
   (testing "execute some plans consisting of unordered steps"
     (let [names (set (range 10))
           plan (success-steps names)
