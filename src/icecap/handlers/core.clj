@@ -32,16 +32,6 @@
   [plans]
   (ms/concat (ms/map execute plans)))
 
-(defn drain-to
-  "Drains stream in into out; returning a deferred when done."
-  [in out]
-  (md/loop [d (ms/take! in)]
-    (md/chain' d
-               (fn [v]
-                 (when v (ms/put! out v)))
-               (fn [success?]
-                 (when success? (md/recur (ms/take! in)))))))
-
 (defmethod execute ::ordered-plans
   [plans]
   (let [out (ms/stream)]
