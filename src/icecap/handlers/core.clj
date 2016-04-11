@@ -2,8 +2,7 @@
   "The core handler API and behavior."
   (:require [schema.core :as s]
             [manifold.stream :as ms]
-            [manifold.deferred :as md]
-            [manifold.deferred :as d]))
+            [manifold.deferred :as md]))
 
 (def get-schema nil) ;; anti-defonce behaavior of get-schema
 (defmulti get-schema
