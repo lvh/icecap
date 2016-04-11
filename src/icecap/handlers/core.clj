@@ -46,10 +46,9 @@
   [plans]
   (let [out (ms/stream)]
     (ms/connect-via
-     (ms/->source plans)
+     plans
      (fn [plan]
        (-> (execute plan)
-           (ms/->source)
            (drain-to out)))
      out)
     out))
