@@ -45,12 +45,7 @@
 (defmethod execute ::ordered-plans
   [plans]
   (let [out (ms/stream)]
-    (ms/connect-via
-     plans
-     (fn [plan]
-       (-> (execute plan)
-           (drain-to out)))
-     out)
+    (ms/connect-via plans #(ms/drain-into (execute %) out) out)
     out))
 
 (defmacro defstep
