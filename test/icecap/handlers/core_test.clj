@@ -11,7 +11,6 @@
   takes as many elements as that coll has off of the thing to match
   into a coll of the same type, and compares it to that coll.
   "
-
   [[part & parts] to-match]
   (let [[candidate to-match] (split-at (count part) to-match)
         candidate (into (empty part) candidate)]
