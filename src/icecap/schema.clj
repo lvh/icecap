@@ -1,12 +1,13 @@
 (ns icecap.schema
   "The schemata for icecap plans."
-  (:require [schema.core :as s]
-            [schema.utils :refer [validation-error-explain]]
-            [icecap.handlers.http]
-            [icecap.handlers.delay]
-            [icecap.handlers.rax]
+  (:require [clojure.tools.reader.edn :as edn]
             [icecap.handlers.core :refer [get-schema]]
-            [clojure.tools.reader.edn :as edn]))
+            [schema.core :as s]))
+
+;; require for multimethod-defining side effect
+(require 'icecap.handlers.http
+         'icecap.handlers.delay
+         'icecap.handlers.rax)
 
 (def Step
   "The schema for the description of a single step.

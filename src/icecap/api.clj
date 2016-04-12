@@ -1,15 +1,17 @@
 (ns icecap.api
   "Externally visible API functionality."
-  (:require [taoensso.nippy :as nippy]
-            [icecap.handlers.http]
-            [icecap.handlers.delay]
-            [icecap.schema :refer [check-plan]]
+  (:require [icecap.crypto :as crypto]
             [icecap.handlers.core :as h]
-            [icecap.crypto :as crypto]
+            [icecap.schema :refer [check-plan]]
             [icecap.store.api :as store]
-            [taoensso.timbre :refer [info spy]]
             [manifold.deferred :as md]
-            [manifold.stream :as ms]))
+            [manifold.stream :as ms]
+            [taoensso.nippy :as nippy]))
+
+;; require for multimethod-defining side effect
+(require 'icecap.handlers.http
+         'icecap.handlers.delay
+         'icecap.handlers.rax)
 
 (defn create-cap
   "Creates a capability."
