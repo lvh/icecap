@@ -53,9 +53,9 @@
                                         ["kibit"]
                                         ["bikeshed"]
                                         ["eastwood"]]}
-                   :plugins [[jonase/eastwood "0.2.2"]
-                             [lein-ancient "0.6.8"
+                   :plugins [[jonase/eastwood "0.2.3"]
+                             [lein-ancient "0.6.10"
                               :exclusions [rewrite-clj]]
-                             [lein-bikeshed "0.1.8"]
-                             [lein-cljfmt "0.3.0"]
-                             [lein-kibit "0.1.0"]]}})
+                             [lein-bikeshed "0.3.0"]
+                             [lein-cljfmt "0.5.1"]
+                             [lein-kibit "0.1.2"]]}})
