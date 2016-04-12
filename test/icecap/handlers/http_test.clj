@@ -1,12 +1,12 @@
 (ns icecap.handlers.http-test
-  (:require [clojure.core.async :as a]
-            [manifold.deferred :as d]
+  (:require [manifold.deferred :as md]
             [icecap.handlers.core :refer [execute]]
             [icecap.schema :refer [check-plan]]
             [icecap.handlers.http :refer [valid-scheme?]]
             [icecap.test-data :refer [simple-http-step simple-https-step]]
             [aleph.http :as h]
-            [clojure.test :refer :all]))
+            [clojure.test :refer :all]
+            [manifold.stream :as ms]))
 
 (deftest schema-tests
   (testing "valid steps"
@@ -67,11 +67,9 @@
 
 (defn fake-request
   [_]
-  (d/success-deferred fake-response))
+  (md/success-deferred fake-response))
 
 (deftest execute-tests
-  (with-redefs
-   [h/request fake-request]
-    (is (let [ch (execute simple-http-step)
-              [result] (a/<!! (a/into [] ch))]
-          (= result fake-response)))))
+  (with-redefs [h/request fake-request]
+    (let [result (ms/stream->seq (execute simple-http-step))]
+      (= result [fake-response]))))
