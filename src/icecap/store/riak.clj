@@ -1,5 +1,5 @@
 (ns icecap.store.riak
-  (:require [clojure.core.async :as a :refer [thread]]
+  (:require [manifold.deferred :as md]
             [clojurewerkz.welle.kv :as kv]
             [icecap.codec :refer [safebase64-encode]]
             [icecap.store.api :refer [Store]]))
@@ -8,7 +8,7 @@
   "Runs `body` in a thread, and encodes the index as urlsafe base64."
   [& body]
   `(let [~'index (safebase64-encode ~'index)]
-     (thread ~@body)))
+     (md/future ~@body)))
 
 (defn riak-store
   "Creates a Riak-backed store."
