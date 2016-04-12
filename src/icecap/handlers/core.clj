@@ -8,8 +8,26 @@
   "Return the schema for a plan type."
   identity)
 
-(def execute nil) ;; anti-defonce behaavior of execute
-(defmulti execute
+(def execute* nil) ;; anti-defonce behaavior of execute
+(defmulti execute*
+  "Executes a plan.
+
+  See execute for details."
+  (fn [x] (cond (set? x) ::unordered-plans
+                (vector? x) ::ordered-plans
+                :else (:type x))))
+
+(defmethod execute* ::unordered-plans
+  [plans]
+  (ms/concat (ms/map execute* plans)))
+
+(defmethod execute* ::ordered-plans
+  [plans]
+  (let [out (ms/stream)]
+    (ms/connect-via plans #(ms/drain-into (execute* %) out) out)
+    out))
+
+(def execute
   "Executes a plan.
 
   If the plan is a single step, executes it with the appropriate step
@@ -19,22 +37,16 @@
 
   For more details on the structure of plans, see `icecap.schema`.
 
-  Returns a channel that will produce all of the individual results,
-  and then closes.
-  "
-  (fn [x] (cond (set? x) ::unordered-plans
-                (vector? x) ::ordered-plans
-                :else (:type x))))
+  Returns a manifold stream that will produce all of the individual
+  results, and then closes.
 
-(defmethod execute ::unordered-plans
-  [plans]
-  (ms/concat (ms/map execute plans)))
-
-(defmethod execute ::ordered-plans
-  [plans]
-  (let [out (ms/stream)]
-    (ms/connect-via plans #(ms/drain-into (execute %) out) out)
-    out))
+  This is different from `execute*`: for a single step, that just
+  defers to the implementation defined by `defstep`, which is allowed
+  to return anything that can be coerced to a `manifold`
+  source. Therefore, `execute*` might return a source, or a seq, or a
+  core.async stream. This function will coerce the result to a
+  `manifold` stream."
+  (comp ms/->source execute*))
 
 (defmacro defstep
   "Define a step implementation.
@@ -52,7 +64,7 @@
      (defmethod get-schema ~type
        [type#]
        full-schema#)
-     (defmethod execute ~type
+     (defmethod execute* ~type
        ~@fn-tail)))
 
 (defstep :succeed

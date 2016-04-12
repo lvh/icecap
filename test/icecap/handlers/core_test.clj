@@ -42,7 +42,7 @@
   "Given a plan, returns the names of the steps in the order of which
   they would be executed."
   [plan]
-  (->> (hc/execute plan) (ms/stream->seq) (map :name)))
+  (->> (hc/execute* plan) (ms/stream->seq) (map :name)))
 
 (defn ^:private success-steps
   [names]
@@ -77,16 +77,16 @@
     (try
       (hc/defstep ::defstep-tests {} [step] nil)
       (is (::defstep-tests (methods hc/get-schema)))
-      (is (::defstep-tests (methods hc/execute)))
+      (is (::defstep-tests (methods hc/execute*)))
       (finally
         (remove-method hc/get-schema ::defstep-tests)
-        (remove-method hc/execute ::defstep-tests))))
+        (remove-method hc/execute* ::defstep-tests))))
   (testing "symbol schema"
     (try
       (let [schema {}]
         (hc/defstep ::defstep-tests schema [step] nil))
       (is (::defstep-tests (methods hc/get-schema)))
-      (is (::defstep-tests (methods hc/execute)))
+      (is (::defstep-tests (methods hc/execute*)))
       (finally
         (remove-method hc/get-schema ::defstep-tests)
-        (remove-method hc/execute ::defstep-tests)))))
+        (remove-method hc/execute* ::defstep-tests)))))
