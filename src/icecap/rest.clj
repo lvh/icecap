@@ -11,11 +11,8 @@
             [ring.middleware.format :refer [wrap-restful-format]]))
 
 (defn ^:private cap-url
-  [request cap]
-  (let [netloc (str (:server-name request) ":" (:server-port request))
-        path (:uri request)
-        encoded-cap (safebase64-encode cap)]
-    (str "http://" netloc path "/" encoded-cap)))
+  [{:keys [server-name server-port uri]} cap]
+  (str "http://" server-name ":" server-port uri "/" (safebase64-encode cap)))
 
 (defroutes routes
   (context "/v0/caps" {components :components}
