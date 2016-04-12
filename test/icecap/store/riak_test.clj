@@ -1,7 +1,7 @@
 (ns icecap.store.riak-test
   (:require [icecap.store.riak :as riak]
             [icecap.store.test-props :as props]
-            [clojure.test :refer [deftest is]]
+            [clojure.test :refer [deftest is testing use-fixtures]]
             [clojure.test.check.clojure-test :refer [defspec]]
             [clojurewerkz.welle.kv :as kv]))
 
@@ -84,7 +84,7 @@
   (partial with-redefs-fn (fake-riak-redefs)))
 
 (def ^:private riak-test-store
-  (riak-store fake-riak-conn "test-bucket"))
+  (riak/riak-store fake-riak-conn "test-bucket"))
 
 (defspec ^:riak riak-store-roundtrip
   (props/roundtrip-prop riak-test-store))
