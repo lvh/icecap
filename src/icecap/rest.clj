@@ -1,13 +1,12 @@
 (ns icecap.rest
   "The REST API for icecap."
-  (:require [compojure.core :refer [defroutes context GET POST DELETE]]
-            [icecap.codec :refer [safebase64-encode safebase64-decode]]
-            [taoensso.timbre :refer [info spy]]
+  (:require [compojure.core :refer [DELETE GET POST context defroutes]]
             [icecap.api :refer :all]
-            [ring.middleware.defaults :refer [wrap-defaults
-                                              api-defaults
-                                              secure-api-defaults]]
-            [ring.middleware.format :refer [wrap-restful-format]]))
+            [icecap.codec :refer [safebase64-decode safebase64-encode]]
+            [ring.middleware.defaults :refer [api-defaults
+                                              wrap-defaults]]
+            [ring.middleware.format :refer [wrap-restful-format]]
+            [taoensso.timbre :refer [spy]]))
 
 (defn ^:private cap-url
   [{:keys [server-name server-port uri]} cap]

@@ -1,12 +1,10 @@
 (ns icecap.core
-  (:require [caesium.core :refer [sodium-init]]
-            [icecap.codec :refer [safebase64-encode]]
+  (:require [aleph.http :refer [start-server]]
+            [caesium.core :refer [sodium-init]]
             [icecap.crypto :as crypto]
             [icecap.rest :as rest]
             [icecap.store.mem :refer [mem-store]]
-            [aleph.http :refer [start-server]]
-            [aleph.netty :refer [self-signed-ssl-context]]
-            [taoensso.timbre :refer [info spy]])
+            [taoensso.timbre :refer [info]])
   (:gen-class))
 
 (def port

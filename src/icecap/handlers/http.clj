@@ -1,11 +1,9 @@
 (ns icecap.handlers.http
-  (:require [schema.core :as s]
-            [aleph.http :refer [request]]
+  (:require [aleph.http :refer [request]]
             [icecap.handlers.core :refer [defstep]]
-            [manifold.stream :refer [connect]]
             [schema-contrib.core :as sc]
-            [taoensso.timbre :refer [info spy]])
-  (:import [java.net URI]))
+            [schema.core :as s])
+  (:import (java.net URI)))
 
 
 (defn valid-url?

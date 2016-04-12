@@ -1,9 +1,7 @@
 (ns icecap.handlers.rax
-  (:require [schema.core :as s]
-            [aleph.http :as http]
-            [aleph.http.client-middleware :as cm]
+  (:require [aleph.http :as http]
             [icecap.handlers.core :refer [defstep]]
-            [cheshire.generate :as c]))
+            [schema.core :as s]))
 
 (defn api-key-creds
   "Creates auth-params as supported by `authenticate`."

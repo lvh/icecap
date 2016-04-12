@@ -1,8 +1,8 @@
 (ns icecap.store.mem
   "An in-memory store."
-  (:require [manifold.deferred :as md]
+  (:require [icecap.codec :refer [safebase64-encode]]
             [icecap.store.api :as api]
-            [icecap.codec :refer [safebase64-encode]]))
+            [manifold.deferred :as md]))
 
 (defn mem-store
   "Create an in-memory store.

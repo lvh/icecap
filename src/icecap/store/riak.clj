@@ -1,14 +1,12 @@
 (ns icecap.store.riak
-  (:require [manifold.deferred :as md]
-            [clojurewerkz.welle.kv :as kv]
-            [icecap.codec :refer [safebase64-encode]]
+  (:require [clojurewerkz.welle.kv :as kv]
             [icecap.store.api :refer [Store]]))
 
 (defmacro ^:private riak-op
   "Runs `body` in a thread, and encodes the index as urlsafe base64."
   [& body]
-  `(let [~'index (safebase64-encode ~'index)]
-     (md/future ~@body)))
+  `(let [~'index (icecap.codec/safebase64-encode ~'index)]
+     (manifold.deferred/future ~@body)))
 
 (defn riak-store
   "Creates a Riak-backed store."

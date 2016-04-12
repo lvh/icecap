@@ -12,8 +12,7 @@
   This namespace defines those components."
   (:require [caesium.crypto.generichash :refer [blake2b]]
             [caesium.crypto.secretbox :as secretbox]
-            [caesium.randombytes :refer [randombytes]]
-            [taoensso.timbre :refer [info spy]])
+            [caesium.randombytes :refer [randombytes]])
   (:import (java.util Arrays))
   (:refer-clojure :exclude [derive]))
 

@@ -1,7 +1,7 @@
 (ns icecap.handlers.core
   "The core handler API and behavior."
-  (:require [schema.core :as s]
-            [manifold.stream :as ms]))
+  (:require [manifold.stream :as ms]
+            [schema.core :as s]))
 
 (def get-schema nil) ;; anti-defonce behaavior of get-schema
 (defmulti get-schema
