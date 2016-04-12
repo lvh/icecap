@@ -4,11 +4,12 @@
             [icecap.handlers.http]
             [icecap.handlers.delay]
             [icecap.schema :refer [check-plan]]
-            [clojure.core.async :refer [<!! <! >!! go] :as async]
-            [icecap.handlers.core :refer [execute]]
+            [icecap.handlers.core :as h]
             [icecap.crypto :as crypto]
             [icecap.store.api :refer [create! retrieve delete!]]
-            [taoensso.timbre :refer [info spy]]))
+            [taoensso.timbre :refer [info spy]]
+            [manifold.deferred :as md]
+            [manifold.stream :as ms]))
 
 (defn create-cap
   "Creates a capability."
@@ -17,25 +18,24 @@
     (if (nil? error)
       (let [cap (crypto/make-cap)
             {:keys [index cap-key]} (crypto/derive kdf cap)
-            encoded-plan (nippy/freeze plan)
-            blob (crypto/encrypt scheme cap-key encoded-plan)
-            ch (create! store index blob)]
-        (async/into {:cap cap} ch))
-      (async/to-chan [(spy {:error error})]))))
+            blob (crypto/encrypt scheme cap-key (nippy/freeze plan))]
+        (md/chain (create! store index blob)
+                  (constantly {:cap cap})))
+      (md/success-deferred {:error error}))))
 
 (defn execute-cap
   "Executes a capability."
   [cap {:keys [store kdf scheme]}]
-  (let [{:keys [index cap-key]} (crypto/derive kdf cap)
-        blob (<!! (retrieve store index))
-        encoded-plan (crypto/decrypt scheme cap-key blob)
-        plan (spy (nippy/thaw encoded-plan))
-        sub-results (execute plan)]
-    (async/into {} sub-results)))
+  (let [{:keys [index cap-key]} (crypto/derive kdf cap)]
+    (md/chain (retrieve store index)
+              (fn [blob]
+                (->> (crypto/decrypt scheme cap-key blob)
+                     (nippy/thaw)
+                     (h/execute)
+                     (ms/reduce merge {}))))))
 
 (defn revoke-cap
   "Revokes a capability."
   [cap {:keys [store kdf]}]
-  (let [{index :index} (crypto/derive kdf cap)
-        chan (delete! store index)]
-    (async/into {} chan)))
+  (let [{index :index} (crypto/derive kdf cap)]
+    (md/chain (delete! store index) (constantly {}))))
