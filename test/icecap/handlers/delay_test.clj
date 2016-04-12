@@ -1,9 +1,11 @@
 (ns icecap.handlers.delay-test
   (:require [schema.core :as s]
             [icecap.handlers.core :refer [execute get-schema]]
-            [clojure.core.async :refer [take! chan close!]]
-            [icecap.handlers.delay :refer :all]
-            [clojure.test :refer :all])
+            [icecap.handlers.delay :as hd]
+            [clojure.test :refer :all]
+            [manifold.stream :as ms]
+            [manifold.deferred :as md]
+            [clojure.core.async :as async])
   (:import (java.lang Thread)))
 
 (defn fake-clock
@@ -35,8 +37,8 @@
   []
   (let [{:keys [advance add-waiter]} (fake-clock)
         timeout (fn [^long ms]
-                  (let [c (chan)]
-                    (add-waiter ms false (fn [] (close! c)))
+                  (let [c (async/chan)]
+                    (add-waiter ms false #(async/close! c))
                     c))]
     [advance {#'clojure.core.async/timeout timeout}]))
 
@@ -56,9 +58,9 @@
                     [advance redefs] (fake-timeout)]
                 (with-redefs-fn redefs
                   (fn []
-                    (let [c (execute step)]
+                    (let [s (execute step)]
                       (assert (still-open?) "before adding callback")
-                      (take! c (fn [_] (reset! state false)))
+                      (md/chain (ms/take! s) (fn [_] (reset! state false)))
                       (assert (still-open?) "after adding callback")
                       (advance 5)
                       (assert (still-open?) "before trigger")
