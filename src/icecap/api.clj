@@ -14,14 +14,13 @@
 (defn create-cap
   "Creates a capability."
   [plan {:keys [store kdf scheme]}]
-  (let [error (spy (check-plan plan))]
-    (if (nil? error)
-      (let [cap (crypto/make-cap)
-            {:keys [index cap-key]} (crypto/derive kdf cap)
-            blob (crypto/encrypt scheme cap-key (nippy/freeze plan))]
-        (md/chain (store/create! store index blob)
-                  (constantly {:cap cap})))
-      (md/success-deferred {:error error}))))
+  (if-let [error (check-plan plan)]
+    (md/success-deferred {:error error})
+    (let [cap (crypto/make-cap)
+          {:keys [index cap-key]} (crypto/derive kdf cap)
+          blob (crypto/encrypt scheme cap-key (nippy/freeze plan))]
+      (md/chain (store/create! store index blob)
+                (constantly {:cap cap})))))
 
 (defn execute-cap
   "Executes a capability."
