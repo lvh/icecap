@@ -6,7 +6,7 @@
             [icecap.schema :refer [check-plan]]
             [icecap.handlers.core :as h]
             [icecap.crypto :as crypto]
-            [icecap.store.api :refer [create! retrieve delete!]]
+            [icecap.store.api :as store]
             [taoensso.timbre :refer [info spy]]
             [manifold.deferred :as md]
             [manifold.stream :as ms]))
@@ -19,7 +19,7 @@
       (let [cap (crypto/make-cap)
             {:keys [index cap-key]} (crypto/derive kdf cap)
             blob (crypto/encrypt scheme cap-key (nippy/freeze plan))]
-        (md/chain (create! store index blob)
+        (md/chain (store/create! store index blob)
                   (constantly {:cap cap})))
       (md/success-deferred {:error error}))))
 
@@ -27,7 +27,7 @@
   "Executes a capability."
   [cap {:keys [store kdf scheme]}]
   (let [{:keys [index cap-key]} (crypto/derive kdf cap)]
-    (md/chain (retrieve store index)
+    (md/chain (store/retrieve store index)
               (fn [blob]
                 (->> (crypto/decrypt scheme cap-key blob)
                      (nippy/thaw)
@@ -38,4 +38,4 @@
   "Revokes a capability."
   [cap {:keys [store kdf]}]
   (let [{index :index} (crypto/derive kdf cap)]
-    (md/chain (delete! store index) (constantly {}))))
+    (md/chain (store/delete! store index) (constantly {}))))
