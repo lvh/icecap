@@ -1,11 +1,10 @@
 (ns icecap.store.mem-test
-  (:require [icecap.store.mem :refer [mem-store]]
-            [icecap.store.test-props :refer :all]
-            [clojure.test :refer :all]
+  (:require [icecap.store.mem :as mem]
+            [icecap.store.test-props :as props]
             [clojure.test.check.clojure-test :refer [defspec]]))
 
 (defspec mem-store-roundtrip
-  (roundtrip-prop (mem-store)))
+  (props/roundtrip-prop (mem/mem-store)))
 
 (defspec mem-store-delete
-  (delete-prop (mem-store)))
+  (props/delete-prop (mem/mem-store)))
