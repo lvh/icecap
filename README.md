@@ -15,7 +15,7 @@ the [introduction][intro] or go to the [documentation][docs].
 
 ## License
 
-Copyright © 2014-2015 the icecap authors (see AUTHORS)
+Copyright © the icecap authors (see AUTHORS)
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
