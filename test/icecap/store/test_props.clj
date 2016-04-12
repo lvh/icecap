@@ -3,7 +3,6 @@
             [icecap.store.api :refer [create! delete! retrieve]]
             [icecap.crypto :refer [index-bytes]]
             [icecap.test-props :refer [n-bytes]]
-            [clojure.core.async :refer [<!!]]
             [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop]))
 
@@ -11,14 +10,13 @@
   [store]
   (prop/for-all [index (n-bytes index-bytes)
                  blob gen/bytes]
-                (do (<!! (create! store index blob))
-                    (array-eq (<!! (retrieve store index))
-                              blob))))
+                (do @(create! store index blob)
+                    (array-eq @(retrieve store index) blob))))
 
 (defn delete-prop
   [store]
   (prop/for-all [index (n-bytes index-bytes)
                  blob gen/bytes]
-                (do (<!! (create! store index blob))
-                    (<!! (delete! store index))
-                    (nil? (<!! (retrieve store index))))))
+                (do @(create! store index blob)
+                    @(delete! store index)
+                    (nil? @(retrieve store index)))))

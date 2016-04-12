@@ -1,7 +1,7 @@
 (ns icecap.store.mem
   "An in-memory store."
-  (:require [clojure.core.async :as a]
-            [icecap.store.api :refer :all]
+  (:require [manifold.deferred :as md]
+            [icecap.store.api :as api]
             [icecap.codec :refer [safebase64-encode]]))
 
 (defn mem-store
@@ -11,17 +11,12 @@
   Java byte arrays don't have equality semantics."
   []
   (let [store (atom {})]
-    (reify Store
+    (reify api/Store
       (create! [_ index blob]
-        (let [index (safebase64-encode index)]
-          (swap! store assoc index blob)
-          (a/to-chan [])))
+        (swap! store assoc (safebase64-encode index) blob)
+        (md/success-deferred nil))
       (retrieve [_ index]
-        (let [index (safebase64-encode index)
-              v (@store index)
-              vs (if (nil? v) [] [v])]
-          (a/to-chan vs)))
+        (md/success-deferred (@store (safebase64-encode index))))
       (delete! [_ index]
-        (let [index (safebase64-encode index)]
-          (swap! store dissoc index)
-          (a/to-chan []))))))
+        (swap! store dissoc (safebase64-encode index))
+        (md/success-deferred nil)))))

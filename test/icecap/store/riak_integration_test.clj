@@ -1,8 +1,8 @@
 (ns ^:riak icecap.store.riak-integration-test
-  (:require [icecap.store.riak :refer :all]
-            [icecap.store.test-props :refer :all]
+  (:require [icecap.store.riak :as riak]
+            [icecap.store.test-props :as props]
             [clojure.test.check.clojure-test :refer [defspec]]
-            [clojure.test :refer :all]
+            [clojure.test :refer [use-fixtures]]
             [clojurewerkz.welle.buckets :as wb]
             [clojurewerkz.welle.core :as wc]))
 
@@ -12,9 +12,9 @@
 (defn connect
   [f]
   (let [conn (wc/connect riak-test-url)
-        store (riak-store conn "test-bucket")]
+        store (riak/riak-store conn "test-bucket")]
     (try
-      (wb/update conn "test-bucket" (bucket-props))
+      (wb/update conn "test-bucket" (riak/bucket-props))
       (with-redefs-fn {#'riak-test-store store} f)
       (finally
         (wc/shutdown conn)))))
@@ -22,7 +22,7 @@
 (use-fixtures :once connect)
 
 (defspec riak-store-roundtrip
-  (roundtrip-prop riak-test-store))
+  (props/roundtrip-prop riak-test-store))
 
 (defspec riak-store-delete
-  (delete-prop riak-test-store))
+  (props/delete-prop riak-test-store))

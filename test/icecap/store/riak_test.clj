@@ -1,13 +1,13 @@
 (ns icecap.store.riak-test
-  (:require [icecap.store.riak :refer :all]
-            [icecap.store.test-props :refer :all]
-            [clojure.test :refer :all]
+  (:require [icecap.store.riak :as riak]
+            [icecap.store.test-props :as props]
+            [clojure.test :refer [deftest is testing use-fixtures]]
             [clojure.test.check.clojure-test :refer [defspec]]
             [clojurewerkz.welle.kv :as kv]))
 
 (deftest bucket-props-test
   (testing "default"
-    (is (= (bucket-props)
+    (is (= (riak/bucket-props)
            {:n-val 3
             :r 1
             :w 2
@@ -19,7 +19,7 @@
             :allow-mult false
             :last-write-wins true})))
   (testing "custom n"
-    (is (= (bucket-props :n 2)
+    (is (= (riak/bucket-props :n 2)
            {:n-val 2
             :r 1
             :w 1
@@ -32,29 +32,29 @@
             :last-write-wins true}))))
 
 (def ^:private store-result
-  {:vclock nil,
-   :has-siblings? false,
-   :has-value? false,
-   :deleted? false,
-   :modified? true,
+  {:vclock nil
+   :has-siblings? false
+   :has-value? false
+   :deleted? false
+   :modified? true
    :result ()})
 
 (defn ^:private fetch-one-result
   [v]
   {:vclock nil
-   :has-siblings? false,
-   :has-value? true,
-   :deleted? false,
-   :modified? true,
+   :has-siblings? false
+   :has-value? true
+   :deleted? false
+   :modified? true
    :result (when v
              {:vtag "\"AAAAAAAAAAAAAAAAAAAAAA\""
-              :value v,
-              :deleted? false,
-              :last-modified #inst "1989-02-07T02:37:29.000-00:00",
+              :value v
+              :deleted? false
+              :last-modified #inst "1989-02-07T02:37:29.000-00:00"
               :vclock nil
-              :content-type "application/octet-stream",
-              :indexes {},
-              :metadata {},
+              :content-type "application/octet-stream"
+              :indexes {}
+              :metadata {}
               :links ()})})
 
 (def ^:private fake-riak-conn
@@ -84,10 +84,10 @@
   (partial with-redefs-fn (fake-riak-redefs)))
 
 (def ^:private riak-test-store
-  (riak-store fake-riak-conn "test-bucket"))
+  (riak/riak-store fake-riak-conn "test-bucket"))
 
 (defspec ^:riak riak-store-roundtrip
-  (roundtrip-prop riak-test-store))
+  (props/roundtrip-prop riak-test-store))
 
 (defspec ^:riak riak-store-delete
-  (delete-prop riak-test-store))
+  (props/delete-prop riak-test-store))
