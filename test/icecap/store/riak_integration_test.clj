@@ -14,7 +14,7 @@
   (let [conn (wc/connect riak-test-url)
         store (riak/riak-store conn "test-bucket")]
     (try
-      (wb/update conn "test-bucket" (bucket-props))
+      (wb/update conn "test-bucket" (riak/bucket-props))
       (with-redefs-fn {#'riak-test-store store} f)
       (finally
         (wc/shutdown conn)))))
