@@ -1,6 +1,6 @@
-version: "2"
-services:
-  icecap:
-    build: .
-  mimic:
-    image: mimic
+icecap:
+  build: .
+  links:
+    - riak
+riak:
+  image: hectcastro/riak

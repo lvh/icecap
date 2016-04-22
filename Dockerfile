@@ -14,7 +14,7 @@ WORKDIR /usr/src/icecap
 RUN ./utils/get-lein.sh
 
 ENV CDN b25518159d104e8997f8-d5f47ab458856b6ee0c2780ddf5e291c.ssl.cf5.rackcdn.com
-ENV LIBSODIUM_DEB libsodium-1.0.2_amd64.deb
+ENV LIBSODIUM_DEB libsodium-1.0.10_amd64.deb
 RUN wget https://$CDN/$LIBSODIUM_DEB
 RUN dpkg -i $LIBSODIUM_DEB
 
