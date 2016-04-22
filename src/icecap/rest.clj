@@ -1,6 +1,7 @@
 (ns icecap.rest
   "The REST API for icecap."
   (:require [compojure.core :refer [DELETE GET POST context defroutes]]
+            [compojure.route :refer [not-found]]
             [icecap.api :refer :all]
             [icecap.codec :refer [safebase64-decode safebase64-encode]]
             [ring.middleware.defaults :refer [api-defaults
@@ -27,7 +28,8 @@
           (spy @(execute-cap cap components))))
       (DELETE "/" request
         (let [cap (safebase64-decode encoded-cap)]
-          (spy @(revoke-cap cap components)))))))
+          (spy @(revoke-cap cap components))))))
+  (not-found nil))
 
 (defn ^:private wrap-components
   "Adds some components to each request map."
