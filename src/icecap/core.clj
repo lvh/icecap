@@ -18,7 +18,6 @@
                     :kdf (crypto/blake2b-kdf seed-key salt)
                     :scheme (crypto/secretbox-scheme)}
         handler (rest/build-site components)]
-    (info "Initializing libsodium")
     (sodium-init)
     (info (str "Running icecap on port " port))
     (start-server handler {:port port
