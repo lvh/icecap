@@ -32,6 +32,9 @@
 (deftest handler-tests
   (testing "root is handled"
     (is (some? (handler (mock/request :get "/")))))
+  (testing "random 404s are handled"
+    (let [{:keys status} (handler (mock/request :get "/bogus/xyzzy"))]
+      (is (= status 404))))
   (testing "creating cap with valid plan succeeds"
     (let-flow [req (create-cap-req {:type :succeed})
                {:keys [status headers]} (handler req)]
