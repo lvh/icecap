@@ -1,4 +1,4 @@
-FROM dockerfile/java:oracle-java8
+FROM java:8
 
 MAINTAINER Laurens Van Houtven <_@lvh.io>
 
