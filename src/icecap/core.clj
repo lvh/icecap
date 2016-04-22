@@ -27,4 +27,6 @@
 (defn -main
   "Run the (development) server."
   [& args]
-  (run))
+  (run)
+  ;; block forever:
+  @(future))
