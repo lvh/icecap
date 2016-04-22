@@ -30,6 +30,8 @@
   (and (some? clength) (= ctype "application/edn; charset=utf-8")))
 
 (deftest handler-tests
+  (testing "root is handled"
+    (is (some? (handler (mock/request :get "/")))))
   (testing "creating cap with valid plan succeeds"
     (let-flow [req (create-cap-req {:type :succeed})
                {status :status headers :headers} (handler req)]
