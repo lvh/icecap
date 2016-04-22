@@ -3,7 +3,7 @@
 set -e
 set -x
 
-LIBSODIUM_VERSION="1.0.8"
+LIBSODIUM_VERSION="1.0.10"
 
 docker build -t build-libsodium-deb - <<EOF
 FROM debian
