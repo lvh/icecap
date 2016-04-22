@@ -34,12 +34,12 @@
     (is (some? (handler (mock/request :get "/")))))
   (testing "creating cap with valid plan succeeds"
     (let-flow [req (create-cap-req {:type :succeed})
-               {status :status headers :headers} (handler req)]
+               {:keys [status headers]} (handler req)]
               (is (= status 201))
               (is (valid-headers? headers))))
   (testing "creating cap with bogus plan results in useful errors"
     (let-flow [req (create-cap-req {:type :bogus})
-               {status :status headers :headers :as res} (handler req)
+               {:keys [status headers] :as res} (handler req)
                body (get-body res)]
               (is (= status 400))
               (is (valid-headers? headers))
