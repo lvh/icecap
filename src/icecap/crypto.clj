@@ -96,7 +96,7 @@
   [seed-key salt]
   (reify KDF
     (derive [_ cap]
-      (let [output (blake2b cap :salt salt :key seed-key :personal personal)
+      (let [output (blake2b cap {:salt salt :key seed-key :personal personal})
             index-start-byte (inc cap-key-bytes)
             index-end-byte (+ index-start-byte index-bytes)
             index (Arrays/copyOfRange output index-start-byte index-end-byte)

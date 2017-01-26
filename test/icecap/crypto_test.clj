@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [derive])
   (:require [icecap.crypto :refer :all]
             [icecap.test-props :refer [n-bytes]]
-            [caesium.util :refer [array-eq]]
+            [caesium.byte-bufs :as bb]
             [clojure.test :refer :all]
             [clojure.test.check.properties :as prop]
             [clojure.test.check.generators :as gen]
@@ -15,7 +15,7 @@
                 (->> message
                      (encrypt scheme key)
                      (decrypt scheme key)
-                     (array-eq message))))
+                     (bb/bytes= message))))
 
 (defspec secretbox-scheme-roundtrip
   (scheme-roundtrip-prop (secretbox-scheme) 32))

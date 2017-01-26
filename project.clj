@@ -9,30 +9,30 @@
                  [com.novemberain/welle "3.0.0"]
 
                  ;; Serialization
-                 [com.taoensso/nippy "2.11.1"
+                 [com.taoensso/nippy "2.12.2"
                   :exclusions [org.clojure/clojure com.taoensso/encore]]
 
                  ;; Handlers
-                 [org.clojure/core.async "0.2.374"]
+                 [org.clojure/core.async "0.2.395"]
                  [aleph "0.4.1"]
-                 [manifold "0.1.5-alpha1"]
+                 [manifold "0.1.5"]
 
                  ;; Schemata
-                 [prismatic/schema "1.1.0"]
+                 [prismatic/schema "1.1.3"]
                  [schema-contrib "0.1.5"
                   :exclusions [instaparse]]
-                 [org.clojure/core.typed "0.3.22"]
+                 [org.clojure/core.typed "0.3.32"]
 
                  ;; Crypto
-                 [caesium "0.4.0"]
+                 [caesium "0.9.0"]
 
                  ;; Logging
-                 [com.taoensso/timbre "4.3.1"
+                 [com.taoensso/timbre "4.8.0"
                   :exclusions [org.clojure/clojure]]
 
                  ;; REST API
-                 [compojure "1.5.0"]
-                 [ring/ring-defaults "0.2.0"]
+                 [compojure "1.5.2"]
+                 [ring/ring-defaults "0.2.2"]
                  [ring-middleware-format "0.7.0"]
 
                  ;; REST API testing
