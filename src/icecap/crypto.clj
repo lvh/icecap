@@ -10,7 +10,7 @@
   - An authenticated encryption scheme.
 
   This namespace defines those components."
-  (:require [caesium.crypto.generichash :refer [blake2b]]
+  (:require [caesium.crypto.generichash :as gh]
             [caesium.crypto.secretbox :as secretbox]
             [caesium.randombytes :refer [randombytes]])
   (:import (java.util Arrays))
@@ -96,7 +96,10 @@
   [seed-key salt]
   (reify KDF
     (derive [_ cap]
-      (let [output (blake2b cap {:salt salt :key seed-key :personal personal})
+      (let [output (gh/blake2b cap {:size (+ cap-key-bytes index-bytes)
+                                    :salt salt
+                                    :key seed-key
+                                    :personal personal})
             index-start-byte (inc cap-key-bytes)
             index-end-byte (+ index-start-byte index-bytes)
             index (Arrays/copyOfRange output index-start-byte index-end-byte)
