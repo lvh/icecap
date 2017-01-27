@@ -1,6 +1,6 @@
 (ns icecap.e2e.http-test
   "End-to-end tests for making HTTP requests."
-  (:require [icecap.e2e.common :refer :all]
+  (:require [icecap.e2e.common :as e2e]
             [clojure.test :refer :all]
             [aleph.http :as http]
             [taoensso.timbre :refer [info spy]]))
@@ -40,8 +40,7 @@
   [f]
   (let [server (http/start-server handler {:port http-server-port})]
     (with-redefs [http-server server]
-      (try (f)
-           (finally (.close http-server))))))
+      (try (f) (finally (.close http-server))))))
 
 (defn ^:private store-reqs-fixture
   "A fixture that resets the request store."
@@ -49,16 +48,16 @@
   (with-redefs [recvd-reqs (atom [])]
     (f)))
 
-(use-fixtures :once icecap-fixture http-server-fixture)
+(use-fixtures :once e2e/icecap-fixture http-server-fixture)
 (use-fixtures :each store-reqs-fixture)
 
 (deftest http-tests
   (let [plan {:type :http
               :method :GET
               :url (str http-server-base-url "/test/example")}
-        create-result (spy @(create-cap plan))
-        cap-url (:cap (get-body create-result))
-        exercise-result @(execute-cap cap-url)]
+        create-result @(e2e/create-cap plan)
+        cap-url (:cap (spy (e2e/get-body create-result)))
+        exercise-result @(e2e/execute-cap cap-url)]
     ;; Was the cap successfully created?
     (is (= (:status create-result) 201))
     (is (some? cap-url))
@@ -80,6 +79,6 @@
              request)))))
 
 (deftest invalid-http-step-tests
-  (are [step expected] (= {:error expected} (get-body @(create-cap step)))
+  (are [step expected] (= {:error expected} (e2e/get-body @(e2e/create-cap step)))
     {:type :http} '{:url missing-required-key
                     :method missing-required-key}))
